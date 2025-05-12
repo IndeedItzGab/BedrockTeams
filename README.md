@@ -18,7 +18,7 @@ This add-on is for Minecraft: Bedrock Edition inspired by [BetterTeams](). It en
 - Custom slash commands. See [Commands List](docs/COMMANDS.md)
 
 ## Contributions
-- **Reporting Bugs** - If you encounter any bugs while using LandLocker, please open an [issue](https://github.com/IndeedItzGab/LandLocker/issues/new) in our github repository. Ensure to include a detailed description of the issue and steps to reproduce it.
+- **Reporting Bugs** - If you encounter any bugs while using LandLocker, please open an [issue](https://github.com/IndeedItzGab/BedrockTeams/issues/new) in our github repository. Ensure to include a detailed description of the issue and steps to reproduce it.
 - **Submitting a Pull Request** -We appreciate code contribution for this project. Especially if you have fixed a bug or implemented a new feature, you may submit a pull request.
 
 Please ensure your code follows our coding standard and includes tests where possible.

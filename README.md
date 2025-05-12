@@ -5,9 +5,11 @@
 
 This add-on is for Minecraft: Bedrock Edition inspired by [BetterTeams](). It encourage players to team up and providing useful tools for a team.
 
+![example](docs/example.png)
+
 ## Requirements
 - Beta APIs enabled in experimental features section.
-![beta_api](docs/beta_apis.jog)
+![beta_api](docs/beta_apis.jpg)
 
 ## Features
 - Create a team

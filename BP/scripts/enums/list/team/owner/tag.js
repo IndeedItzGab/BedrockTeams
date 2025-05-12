@@ -24,7 +24,8 @@ enumRegistry("tag", (origin, args) => {
   team.members.push({name: team.leader})
   team.members.forEach(member => {
     system.run(() => {
-      world.getPlayers().find(p => p.name.toLowerCase() === member.name).nameTag = `§${color}${team.tag}§r ${member.name}`
+      const targetMember = world.getPlayers().find(p => p.name.toLowerCase() === member.name)
+      targetMember.nameTag = `§${color}${team.tag}§r ${targetMember.name}`
     })
   })
   team.members = team.members.filter(d => d.name !== team.leader)

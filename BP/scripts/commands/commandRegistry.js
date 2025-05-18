@@ -2,7 +2,7 @@ import {
   system
 } from "@minecraft/server";
 import { config } from "../config.js"
-import { enumNames } from "../enums/enumRegistry.js"
+import { enumNames, enumAdminNames } from "../enums/enumRegistry.js"
 
 let commands = []
 export function registerCommand(comInfo, callback) {
@@ -53,7 +53,8 @@ export function registerCommand(comInfo, callback) {
 
 system.beforeEvents.startup.subscribe((init) => {
   init.customCommandRegistry.registerEnum(`team:team`, enumNames)
-
+  init.customCommandRegistry.registerEnum(`team:admin`, enumAdminNames)
+  
   for(const command of commands) {
     init.customCommandRegistry.registerCommand(command.commandInformation, command.callback)
   }

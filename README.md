@@ -3,7 +3,7 @@
 [![TWITTER](https://img.shields.io/twitter/follow/IndeedItzGab)](https://x.com/IndeedItzGab?t=UL3bhR8CksHJSWn89duhuA&s=09)
 [![DISCORD](https://badgen.net/badge/icon/discord?icon=discord&label)](https://discord.gg/23vG3Np6AH)
 
-This add-on is for Minecraft: Bedrock Edition inspired by [BetterTeams](). It encourage players to team up and providing useful tools for a team.
+This add-on is for Minecraft: Bedrock Edition inspired by [BetterTeams](https://www.spigotmc.org/resources/better-teams.17129/). It encourage players to team up and providing useful tools for a team.
 
 ![example](docs/images/example.jpg)
 
@@ -35,5 +35,5 @@ Please ensure your code follows our coding standard and includes tests where pos
 - [Youtube](https://youtube.com/@indeeditzgab?si=aTD1oMnwc6g6NS9L)
 - [GitHub](https://github.com/IndeedItzGab)
 
-## Support
-It took time for me to make this project by myself, so if you want to support me, you can donate in my [PayPal](https://www.paypal.me/GabrielBondoc09)
+## Support Me
+- [PayPal](https://www.paypal.me/GabrielBondoc09)

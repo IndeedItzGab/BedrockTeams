@@ -15,6 +15,7 @@ This add-on is for Minecraft: Bedrock Edition inspired by [BetterTeams](https://
 - Create a team
 - Send a message that only your team members can see.
 - Adding team's tag beside your name in chat or in nametag.
+- No damaging on team members, can be disabled or enabled with a single command.
 - Custom slash commands. See [Commands List](docs/COMMANDS.md)
 
 ## Contributions

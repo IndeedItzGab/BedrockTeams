@@ -26,3 +26,10 @@ These commands are meant to be use by anyone with or without the permission leve
 |team description     |\<string\>                 |Set a description about your team.                                       |
 |team tag             |\<name\>                   |Change the tag of your team.                                             |
 |team color           |\<color-code\>             |Change the color of your team.                                           |
+|team pvp             |                           |Toggle if pvp is enabled between team members                            |
+
+## Operator Commands
+These commands are meant to be use by operators and cannot be accessible by non-operators.
+|NAME                      |PARAMETERS                 |DESCRIPTION                                                              |
+|--------------------------|---------------------------|-------------------------------------------------------------------------|
+|teamadmin update          |                           |Responsible for updating the script to the current latest version.       |

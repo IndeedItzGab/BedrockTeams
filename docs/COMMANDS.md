@@ -1,4 +1,6 @@
 # Available Commands
+Default commands namespace: `team`
+
 ## Non-Operator Commands 
 These commands are meant to be use by anyone with or without the permission level of a operator.
 |NAME                 |PARAMETERS                 |DESCRIPTION                                                              |

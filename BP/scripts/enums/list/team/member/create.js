@@ -20,6 +20,7 @@ enumRegistry("create", (origin, args) => {
   
   teams.push({
     name: args.replace("/§[1234567890abcdefklmnori]/g", ""),
+    id: `team${teams.length + 1}`,
     color: config.BedrockTeams.defaultColor,
     tag: args.replace("/§[1234567890abcdefklmnori]/g", ""),
     description: "",
@@ -27,6 +28,8 @@ enumRegistry("create", (origin, args) => {
     score: 0,
     level: 1,
     leader: player.name.toLowerCase(),
+    pvp: false,
+    version: "1.0.1",
     home: {},
     warp: [],
     banned: [],
@@ -36,6 +39,8 @@ enumRegistry("create", (origin, args) => {
   system.run(() => {
     player.nameTag = `§${config.BedrockTeams.defaultColor}${args.replace("/§[1234567890abcdefklmnori]/g", "")}§r ${player.name}`
   })
+  
+  player.checkPvp()
   player.sendMessage(`${chatName} §6Your team has been created`)
   db.store("team", teams)
 

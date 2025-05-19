@@ -24,6 +24,7 @@ enumRegistry("ban", (origin, args) => {
     name: args?.toLowerCase()
   })
   
+  targetPlayer.checkPvp()
   targetPlayer?.sendMessage(`${chatName} §6You have been banned from team ${player.hasTeam().name}`)
   player.sendMessage(`${chatName} §6That player has been banned`)
   db.store("team", teams)

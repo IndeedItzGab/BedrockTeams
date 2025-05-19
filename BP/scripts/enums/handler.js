@@ -9,6 +9,7 @@ import "./list/team/admin/invite.js"
 import "./list/team/admin/kick.js"
 import "./list/team/admin/unban.js"
 import "./list/team/admin/ban.js"
+import "./list/team/admin/pvp.js"
 
 // Member
 import "./list/team/member/create.js"

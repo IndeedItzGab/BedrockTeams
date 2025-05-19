@@ -4,7 +4,7 @@ import {
 } from "@minecraft/server";
 import { registerCommand }  from "../commandRegistry.js"
 import * as db from "../../utilities/storage.js"
-import { enumFunctions } from "../../enums/enumRegistry.js"
+import { enumAdminFunctions } from "../../enums/enumRegistry.js"
 
 const commandInformation = {
   name: "teamadmin",
@@ -31,7 +31,7 @@ const commandInformation = {
 
 registerCommand(commandInformation, (origin, enumArgs, firstArgs, secondArgs) => {
 
-  enumFunctions[enumArgs](origin, firstArgs, secondArgs)
+  enumAdminFunctions[enumArgs](origin, firstArgs, secondArgs)
   
   return {
     status: 1

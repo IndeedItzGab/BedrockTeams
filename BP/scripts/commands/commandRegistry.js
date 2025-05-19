@@ -53,7 +53,7 @@ export function registerCommand(comInfo, callback) {
 
 system.beforeEvents.startup.subscribe((init) => {
   init.customCommandRegistry.registerEnum(`team:team`, enumNames)
-  init.customCommandRegistry.registerEnum(`team:admin`, enumAdminNames)
+  init.customCommandRegistry.registerEnum(`team:teamadmin`, enumAdminNames)
   
   for(const command of commands) {
     init.customCommandRegistry.registerCommand(command.commandInformation, command.callback)

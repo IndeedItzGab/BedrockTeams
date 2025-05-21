@@ -38,8 +38,9 @@ enumRegistry("join", (origin, args) => {
   system.run(() => {
     player.nameTag = `§${specifiedTeam.color}${specifiedTeam.tag}§r ${player.name}`
   })
-  player.checkPvp()
+  
   player.sendMessage(`${chatName} §6You have joined that team`)
   db.store("team", teams)
+  player.enableTeamPvp(specifiedTeam.id)
   return 0
 })

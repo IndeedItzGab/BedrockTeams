@@ -32,8 +32,8 @@ const commandInformation = {
 registerCommand(commandInformation, (origin, enumArgs, firstArgs, secondArgs) => {
 
   enumFunctions[enumArgs](origin, firstArgs, secondArgs)
-  
-  return {
-    status: 1
-  }
+  //origin.sourceEntity.sendMessage(enumArgs)
+  // return {
+//     status: 1
+//   }
 })

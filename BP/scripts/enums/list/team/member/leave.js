@@ -18,7 +18,7 @@ enumRegistry("leave", (origin, args) => {
     player.nameTag = player.name
   })
   
-  player.checkPvp()
+  player.disableTeamPvp()
   player.sendMessage(`${chatName} §6You have left the team`)
   db.store("team", teams)
   return 0

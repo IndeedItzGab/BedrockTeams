@@ -24,7 +24,7 @@ enumRegistry("kick", (origin, args) => {
     targetPlayer ? targetPlayer.nameTag = targetPlayer.name : null
   })
   
-  targetPlayer.checkPvp()
+  targetPlayer?.disableTeamPvp()
   targetPlayer?.sendMessage(`${chatName} §6You have been kicked from team ${player.hasTeam().name}`)
   player.sendMessage(`${chatName} §6That player has been kicked`)
   db.store("team", teams)

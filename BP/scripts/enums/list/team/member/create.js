@@ -40,9 +40,9 @@ enumRegistry("create", (origin, args) => {
     player.nameTag = `§${config.BedrockTeams.defaultColor}${args.replace("/§[1234567890abcdefklmnori]/g", "")}§r ${player.name}`
   })
   
-  player.checkPvp()
+  player.enableTeamPvp(`team${teams.length}`)
   player.sendMessage(`${chatName} §6Your team has been created`)
   db.store("team", teams)
-
+  
   //return 0
 })

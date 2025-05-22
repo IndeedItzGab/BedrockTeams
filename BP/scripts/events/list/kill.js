@@ -1,8 +1,9 @@
-import { world, system } from "@minecraft/server"
+import { world, system, Player } from "@minecraft/server"
+import * as db from "../../utilities/storage.js"
 import { config } from "../../config.js"
 
 world.afterEvents.entityDie.subscribe((event) => {
-  if(event.damageSource.damagingEntity.typeId !== "minecraft:player" || event.deadEntity.typeId !== "minecraft:player") return;
+  if(!(event.damageSource.damagingEntity instanceof Player) || !(event.deadEntity instanceof Player)) return;
 
   const suspect = event.damageSource.damagingEntity
   const victim = event.deadEntity
@@ -14,41 +15,43 @@ world.afterEvents.entityDie.subscribe((event) => {
   let victimTeam = teams.find(d => d.name === victim.hasTeam().name)
   
   // Responsible for scoring
-  if(suspectTeam.name === victimTeam.name) return; // Avoid score farming if both are in the same team
-  suspectTeam.score += config.BedrockTeams.events.kill.score
-  victimTeam.score += confif.BedrockTeams.events.death.score
+  if(suspectTeam?.name === victimTeam?.name) return; // Avoid score farming if both are in the same team
+  suspectTeam ? suspectTeam.score = Math.max(0, suspectTeam.score + config.BedrockTeams.events.kill.score) : null
+  victimTeam ? victimTeam.score = Math.max(0, victimTeam.score + config.BedrockTeams.events.death.score) : null
   
   // Check victim death time status if they have.
   if(deathTag) {
     // Spam Death-Detector
-    if(parseInt(deathTag.split(":")[1]) >= system.currentTick) {
-      victimTeam.score += config.BedrockTeams.events.death.spam
+    if(parseInt(deathTag.split(":")[2]) >= system.currentTick) {
+      victimTeam ? victimTeam.score = Math.max(0, victimTeam.score + config.BedrockTeams.events.death.spam) : null
     }
     
     system.run(() => {
       victim.removeTag(deathTag)
-      victim.addTag(`death:${system.currentTick + (60*20)}`)
+      victim.addTag(`bedrockteams:death:${system.currentTick + (60*20)}`)
     })
   } else {
     system.run(() => {
-      victim.addTag(`death:${system.currentTick + (60*20)}`)
+      victim.addTag(`bedrockteams:death:${system.currentTick + (60*20)}`)
     })
   }
   
   // Check suspect kill time status if they have.
   if(killTag) {
-    // Spam Death-Detector
-    if(parseInt(killTag.split(":")[1]) >= system.currentTick) {
-      suspectTeam.score += config.BedrockTeams.events.kill.spam
+    // Spam Kill-Detector
+    if(parseInt(killTag.split(":")[2]) >= system.currentTick) {
+      suspectTeam ? suspectTeam.score = Math.max(0, suspectTeam.score + config.BedrockTeams.events.kill.spam) : null
     }
     
     system.run(() => {
       suspect.removeTag(killTag)
-      suspect.addTag(`kill:${system.currentTick + (60*20)}`)
+      suspect.addTag(`bedrockteams:kill:${system.currentTick + (60*20)}`)
     })
   } else {
     system.run(() => {
-      suspect.addTag(`kill:${system.currentTick + (60*20)}`)
+      suspect.addTag(`bedrockteams:kill:${system.currentTick + (60*20)}`)
     })
   }
+  
+  db.store("team", teams)
 })

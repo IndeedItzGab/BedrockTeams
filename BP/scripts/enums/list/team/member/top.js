@@ -10,6 +10,7 @@ enumRegistry("top", (origin, args) => {
 
   let message = `${chatName} §6Leaderboard:`
   let count = 1
+  teams.sort((a, b) => b.score - a.score)
   teams.forEach(team => {
     message += `\n§b${count}. §${team.color}${team.name} §i(${team.score})`
     count++

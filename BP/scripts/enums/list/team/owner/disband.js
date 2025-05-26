@@ -18,12 +18,13 @@ enumRegistry("disband", (origin, args) => {
     system.run(() => {
       player.nameTag = player.name
       player.removeTag(`deleteTeamQuery`)
-      const team = teams.find(d => d.leader === player.hasTeam().leader)
-      team.members.push({ name: team.leader})
-      team.members.forEach(member => {
-        world.getPlayers().find(p => p.name.toLowerCase() === member.name.toLowerCase())?.disableTeamPvp()
+      const team = teams.find(d => d.leader.some(l => l.name === player.name.toLowerCase()))
+      const allMembers = team.members.concat(team.leader).forEach(member => {
+        const p = world.getPlayers().find(p => p.name.toLowerCase() === member.name.toLowerCase())
+        p ? p.disableTeamPvp() : null
+        p ? p.nameTag = p.name : null
       })
-      db.store("team", db.fetch("team", true).filter(data => data.leader !== player.name.toLowerCase()));
+      db.store("team", teams.filter(t => t.name !== player.hasTeam().name))
       player.sendMessage(`${chatName} §6You have disbanded the team`)
     })
   } else {

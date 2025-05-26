@@ -10,6 +10,8 @@ import "./list/team/admin/kick.js"
 import "./list/team/admin/unban.js"
 import "./list/team/admin/ban.js"
 import "./list/team/admin/pvp.js"
+import "./list/team/admin/delhome.js"
+
 
 // Member
 import "./list/team/member/create.js"
@@ -20,6 +22,8 @@ import "./list/team/member/warp.js"
 import "./list/team/member/top.js"
 import "./list/team/member/join.js"
 import "./list/team/member/leave.js"
+import "./list/team/member/rank.js"
+import "./list/team/member/list.js"
 
 // Owner
 import "./list/team/owner/disband.js"
@@ -27,8 +31,8 @@ import "./list/team/owner/color.js"
 import "./list/team/owner/open.js"
 import "./list/team/owner/description.js"
 import "./list/team/owner/tag.js"
-import "./list/team/admin/delhome.js"
 import "./list/team/owner/promote.js"
 import "./list/team/owner/demote.js"
+import "./list/team/owner/setowner.js"
 
-
+// Progrws

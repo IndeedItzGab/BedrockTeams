@@ -10,10 +10,15 @@ enumRegistry("leave", (origin, args) => {
   const teams = db.fetch("team", true)
   
   if(!player.hasTeam()) return player.sendMessagr(`${chatName} §4You must be in a team to do that`)
-  if(player.isLeader()) return player.sendMessage(`${chatName} §6You are the only owner rank within the team, Either promote someone else or use §b/team disband §6to disband command. the team'`)
-  
   let team = teams.find(team => team.name === player.hasTeam().name)
-  team.members = team.members.filter(member => member.name !== player.name.toLowerCase())
+  if(player.isLeader() && team.leader.length === 1) return player.sendMessage(`${chatName} §6You are the only owner rank within the team, Either promote someone else or use §b/team disband §6to disband the team'`)
+  
+  if(player.isLeader()) {
+    team.leader = team.leader.filter(l => l.name !== player.name.toLowerCase())
+  } else {
+    team.members = team.members.filter(member => member.name !== player.name.toLowerCase())
+  }
+  
   system.run(() => {
     player.nameTag = player.name
   })

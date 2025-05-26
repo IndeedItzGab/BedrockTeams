@@ -10,7 +10,7 @@ enumRegistry("sethome", (origin, args) => {
   let teams = db.fetch("team", true)
   
   if(!player.hasTeam()) return player.sendMessage(`${chatName} §4You must be in a team to do that`)
-  if(!player.isAdmin) return player.sendMessage(`${chatName} §6Your are not a high enough rank to set your team home`) // Not finished message
+  if(!player.isAdmin()) return player.sendMessage(`${chatName} §6Your are not a high enough rank to set your team home`) // Not finished message
 
   let team = teams.find(t => t.name === player.hasTeam().name)
   team.home = {

@@ -12,14 +12,13 @@ world.beforeEvents.chatSend.subscribe((event) => {
   } 
   
   if(player.hasTag("chat:team")) {
-    team.members.push({name: team.leader}) // Makes sure owner is included
-    team.members.forEach(member => {
-      world.getPlayers().find(player => player.name.toLowerCase() === member.name.toLowerCase()).sendMessage(`§b[Team]§r **${player.name}: ${message}`)
+    const allMembers = team.members.concat(team.leader) // Makes sure owner is included
+    allMembers.forEach(member => {
+      world.getPlayers().find(p => p.name.toLowerCase() === member.name.toLowerCase())?.sendMessage(`§b[Team]§r **${player.name}: ${message}`)
     })
-    event.cancel = true
   } else {
     const color = !config.BedrockTeams.colorTeamName ? "" : team?.color
     world.sendMessage(`§i[§r§${color}${team?.name}§i]§r <${player.name}> ${message}`)
-    event.cancel = true
   }
+  event.cancel = true
 })

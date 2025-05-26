@@ -21,11 +21,10 @@ enumRegistry("chat", (origin, args) => {
     })
     player.sendMessage(`${chatName} §6${tag ? "Your messages now go to the global chat" : "Your messages now go to the team chat"}`)
   } else {
-    team.members.push({name: team.leader}) // Makes sure owner is included
-    team.members.forEach(member => {
-      world.getPlayers().find(p => p.name.toLowerCase() === member.name).sendMessage(`§b[Team]§r **${player.name}: ${args}`)
+    team.members.concat(team.leader).forEach(member => {
+      world.getPlayers().find(p => p.name.toLowerCase() === member.name)?.sendMessage(`§b[Team]§r **${player.name}: ${args}`)
     })
   }
-
+  
   return 0
 })

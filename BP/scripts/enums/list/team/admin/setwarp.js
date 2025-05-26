@@ -12,7 +12,7 @@ enumRegistry("setwarp", (origin, argsFirst, argsSecond) => {
   let teams = db.fetch("team", true)
 
   if(!player.hasTeam()) return player.sendMessage(`${chatName} §4You must be in a team to do that`)
-  if(!player.isAdmin) return player.sendMessage(`${chatName} §4You must be admin or owner of the team to do that`) // Not finished message
+  if(!player.isAdmin()) return player.sendMessage(`${chatName} §4You must be admin or owner of the team to do that`) // Not finished message
   if(config.BedrockTeams.bannedChars.split('').some(char => argsFirst?.includes(char)) || ![...argsFirst].every(char => config.BedrockTeams.allowedChars?.includes(char))) return player.sendMessage(`${chatName} §4A character you tried to use is banned`)
 
   let team = teams.find(t => t.name === player.hasTeam().name)

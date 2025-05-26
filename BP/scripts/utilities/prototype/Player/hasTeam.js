@@ -7,5 +7,5 @@ import * as db from "../../storage.js"
  */
 Player.prototype.hasTeam = function () {
   const teams = db.fetch("team", true)
-  return teams.find(data => data.leader === this?.name.toLowerCase() || data?.members?.some(member => member.name === this?.name.toLowerCase()))
+  return teams.find(data => data.leader.some(d => d.name === this.name.toLowerCase()) || data?.members?.some(member => member.name === this?.name.toLowerCase()))
 };

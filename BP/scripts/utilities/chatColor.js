@@ -13,11 +13,5 @@ globalThis.chatColor = {
   RED: "c",
   LIGHT_PURPLE: "d",
   YELLOW: "e",
-  WHITE: "f",
-  MAGIC: "k",
-  BOLD: "l",
-  STRIKETHROUGH: "m",
-  UNDERLINE: "n",
-  ITALIC: "o",
-  RESET: "r"
+  WHITE: "f"
 };

@@ -14,21 +14,19 @@ enumRegistry("tag", (origin, args) => {
   
   if(!player.hasTeam()) return player.sendMessage(`${chatName} §4You must be in a team to do that`)
   if(!player.isLeader()) return player.sendMessage(`${chatName} §4You do not have permission to change the team tag`) // Not finished message
-  if(config.BedrockTeams.bannedTeamNames.includes(args)) return player.sendMessage(`${chatName} §4That tag is banned`)
+  if(config.BedrockTeams.blacklist.includes(args)) return player.sendMessage(`${chatName} §4That tag is banned`)
   if(config.BedrockTeams.bannedChars.split('').some(char => args.includes(char)) || ![...args].every(char => config.BedrockTeams.allowedChars.includes(char))) return player.sendMessage(`${chatName} §4A character you tried to use is banned`)
   if(config.BedrockTeams.maxTagLength < args.length) return player.sendMessage(`${chatName} §4That tag is too long`)
   
   let team = teams.find(t => t.name === player.hasTeam().name)
   team.tag = args.replace("/§[1234567890abcdefklmnori]/g", "")
   const color = !config.BedrockTeams.colorTeamName ? config.BedrockTeams.defaulColor : team.color
-  team.members.push({name: team.leader})
-  team.members.forEach(member => {
+  team.members.concat(team.leader).forEach(member => {
     system.run(() => {
       const targetMember = world.getPlayers().find(p => p.name.toLowerCase() === member.name)
-      targetMember.nameTag = `§${color}${team.tag}§r ${targetMember.name}`
+      targetMember ? targetMember.nameTag = `§${color}${team.tag}§r ${targetMember.name}` : null
     })
   })
-  team.members = team.members.filter(d => d.name !== team.leader)
   player.sendMessage(`${chatName} §6Your tag has successfully changed`)
   db.store("team", teams)
   return 0

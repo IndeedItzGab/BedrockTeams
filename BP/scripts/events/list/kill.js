@@ -11,8 +11,8 @@ world.afterEvents.entityDie.subscribe((event) => {
   const killTag = suspect.getTags().find(d => d.includes("kill:"))
   
   let teams = db.fetch("team", true)
-  let suspectTeam = teams.find(d => d.name === suspect.hasTeam().name)
-  let victimTeam = teams.find(d => d.name === victim.hasTeam().name)
+  let suspectTeam = teams.find(d => d.name === suspect.hasTeam()?.name)
+  let victimTeam = teams.find(d => d.name === victim.hasTeam()?.name)
   
   // Responsible for scoring
   if(suspectTeam?.name === victimTeam?.name) return; // Avoid score farming if both are in the same team

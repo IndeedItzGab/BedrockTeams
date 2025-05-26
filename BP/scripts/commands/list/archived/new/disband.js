@@ -23,7 +23,7 @@ registerCommand(commandInformation, (origin) => {
   if(player.hasTag("deleteTeamQuery")) {
     system.run(() => {
       player.removeTag(`deleteTeamQuery`)
-      db.store("team", db.fetch("team", true).filter(data => data.leader !== player.name.toLowerCase()));
+      db.store("team", db.fetch("team", true).filter(data => !data.leader.some(l => l.name === player.name.toLowerCase())));
       player.sendMessage(`${chatName} You have disbanded the team`)
     })
   } else {

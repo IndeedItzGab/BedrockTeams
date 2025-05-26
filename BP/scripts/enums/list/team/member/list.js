@@ -4,16 +4,15 @@ import * as db from "../../../../utilities/storage.js"
 import { config } from "../../../../config.js"
 const chatName = config.BedrockTeams.chatName
 
-enumRegistry("top", (origin, args) => {
+enumRegistry("list", (origin, args) => {
   const player = origin.sourceEntity
   let teams = db.fetch("team", true)
   
   player.sendMessage(`${chatName} §6Loading`)
-  let message = `${chatName} §6Leaderboard:`
+  let message = `${chatName} §7--- §bTeam list §7---`
   let count = 1
-  teams.sort((a, b) => b.score - a.score)
   teams.forEach(team => {
-    message += `\n${chatName} §b${count}. §6${team.name} §i(${team.score})`
+    message += `\n${chatName} §6${count}: §b${team.name}`
     count++
   })
   

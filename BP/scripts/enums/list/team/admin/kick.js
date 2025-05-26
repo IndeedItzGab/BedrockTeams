@@ -12,16 +12,17 @@ enumRegistry("kick", (origin, args) => {
   const playerExist = db.fetch("teamPlayerList", true).some(p => p.name.toLowerCase() === args.toLowerCase())
 
   if(!player.hasTeam()) return player.sendMessagr(`${chatName} §4You must be in a team to do that`)
-  if(!player.isLeader() || !player.isAdmin()) return player.sendMessage(`${chatName} §4You must be admin or owner of the team to do that`)
+  if(!player.isAdmin()) return player.sendMessage(`${chatName} §4You must be admin or owner of the team to do that`)
   if(!playerExist && !targetPlayer) return player.sendMessage(`${chatName} §4Specified player not found`)
   if(playerExist && !player.hasTeam().members.some(member => member.name === args.toLowerCase())) return player.sendMessage(`${chatName} §6You are not in the same team as that person`)
-  if(targetPlayer.isLeader() || targetPlayer.isAdmin()) return player.sendMessage(`${chatName} §6You do not have permission to kick that person`)
-  
+
   let team = teams.find(team => team.name === player.hasTeam().name)
+  if(team.members.concat(team.leader).some(l => l.name === args.toLowerCase() && (!l.rank || l.rank === "admin"))) return player.sendMessage(`${chatName} §6You do not have permission to kick that person`)
+  
   team.members = team.members.filter(member => member.name !== args.toLowerCase())
   
   system.run(() => {
-    targetPlayer ? targetPlayer.nameTag = targetPlayer.name : null
+    targetPlayer && (targetPlayer.nameTag = targetPlayer.name);
   })
   
   targetPlayer?.disableTeamPvp()

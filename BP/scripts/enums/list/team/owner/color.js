@@ -23,19 +23,17 @@ enumRegistry("color", (origin, args) => {
     if(!chatColor[args.toUpperCase()]) return player.sendMessage(`${chatName} §6That is not a recognised chat color`)
     team.color = chatColor[args.toUpperCase()]
   } else {
-    if(!"1234567890abcdefklmnori".split('').some(d => args.includes(d))) return player.sendMessage(`${chatName} §6That is not a recognised chat color`)
+    if(!"1234567890abcdefi".split('').some(d => args.includes(d))) return player.sendMessage(`${chatName} §6That is not a recognised chat color`)
     team.color = args
   }
   
-  team.members.push({name: team.leader})
-  team.members.forEach(member => {
+  team.members.concat(team.leader).forEach(member => {
     system.run(() => {
       const targetMember = world.getPlayers().find(p => p.name.toLowerCase() === member.name)
-      targetMember.nameTag = `§${color}${team.tag}§r ${targetMember.name}`
+      targetMember ? targetMember.nameTag = `§${team.color}${team.tag}§r ${targetMember.name}` : null
     })
   })
-  team.members = team.members.filter(d => d.name !== team.leader)
- 
+
   player.sendMessage(`${chatName} §6Your team color has been changed`)
   db.store("team", teams)
   

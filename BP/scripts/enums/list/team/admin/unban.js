@@ -12,9 +12,9 @@ enumRegistry("unban", (origin, args) => {
   const playerExist = db.fetch("teamPlayerList", true).some(p => p.name.toLowerCase() === args.toLowerCase())
 
   if(!player.hasTeam()) return player.sendMessagr(`${chatName} §4You must be in a team to do that`)
-  if(!player.isLeader() || !player.isAdmin()) return player.sendMessage(`${chatName} §4You must be admin or owner of the team to do that`)
+  if(!player.isAdmin()) return player.sendMessage(`${chatName} §4You must be admin or owner of the team to do that`)
   if(!player.hasTeam().banned.some(member => member.name === args.toLowerCase())) return player.sendMessage(`${chatName} §6That player is not banned`)
-  if(targetPlayer.isLeader() || targetPlayer.isAdmin()) return player.sendMessage(`${chatName} §6You do not have permission to unban that person`)
+  if(targetPlayer?.isLeader() || targetPlayer?.isAdmin()) return player.sendMessage(`${chatName} §6You do not have permission to unban that person`)
   
   let team = teams.find(team => team.name === player.hasTeam().name)
   team.banned = team.banned.filter(member => member.name !== args.toLowerCase())

@@ -5,7 +5,9 @@ import { config } from "../../../../config.js"
 const chatName = config.BedrockTeams.chatName
 const defaultColor = config.BedrockTeams.defaultColor
 
-enumRegistry("promote", (origin, args) => {
+if(config.BedrockTeams.singleOwner) {
+
+enumRegistry("setowner", (origin, args) => {
   const player = origin.sourceEntity
   let teams = db.fetch("team", true)
   const targetPlayer = world.getPlayers().find(player => player.name.toLowerCase() === args.toLowerCase())
@@ -18,23 +20,19 @@ enumRegistry("promote", (origin, args) => {
   
   let team = teams.find(t => t.name === player.hasTeam().name)
   const specifiedMember = team.members.find(m => m.name === args.toLowerCase())
-
-  if(team.leader.some(l => l.name === args.toLowerCase())) return player.sendMessage(`${chatName} §6That person is already promoted to the max!`)
-  if(config.BedrockTeams.singleOwner && specifiedMember.rank === "admin") return player.sendMessage(`${chatName} §6It is configured that teams can only have a single owner, do §b/teama setowner <player> §6to set the player as the owner`)
-  if(specifiedMember.rank === "default" && player.teamPerks().maxAdmims < team.members.filter(m => m.rank === "admin").length + 1) return player.sendMessage(`${chatName} §4Your team already has the maximum number of admins, demote someone or level your team up`)
-  if(specifiedMember.rank === "admin" && player.teamPerks().maxOwners < team.leader.length + 1) return player.sendMessage(`${chatName} §4Your team already has the maximum number of owners, demote someone or level your team up`)
-
-  if(specifiedMember.rank === "admin") {
-    team.members = team.members.filter(m => m.name !== specifiedMember.name)
-    team.leader.push({
-      name: specifiedMember.name
-    })
-  } else {
-    specifiedMember.rank = "admin"
-  }
   
-  targetPlayer?.sendMessage(`${chatName} §6You have been promoted!`)
-  player.sendMessage(`${chatName} §6That player has been promoted`)
+  team.members = team.members.filter(m => m.name !== specifiedMember.name)
+  team.leader.push({
+    name: specifiedMember.name
+  })
+  team.members.push({
+    name: player.name.toLowerCase(),
+    rank: "default"
+  })
+  
+  targetPlayer?.sendMessage(`${chatName} §6You are now owner of your team`)
+  player.sendMessage(`${chatName} §6That player is now owner`)
   db.store("team", teams)
   return 0
 })
+}

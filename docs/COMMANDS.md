@@ -16,7 +16,7 @@ These commands are meant to be use by anyone with or without the permission leve
 |team ban             |\<player\>                 |Ban a particular player from your team.                                  |
 |team unban           |\<player\>                 |Unban a banned player from your team.                                    |
 |team sethome         |                           |Set a team's home.                                                       |
-|team delhome         |                           |Delete the team's home.                                                  |                                            |                                            
+|team delhome         |                           |Delete the team's home.                                                  |                                                                                        
 |team home            |                           |Teleport to your team's home.                                            |
 |team setwarp         |\<name\> [password]        |Set a coordinate to be warpable by other's member with optional password.|
 |team delwarp         |\<name\> [password]        |Delete a particular warp by name.                                        |
@@ -27,9 +27,6 @@ These commands are meant to be use by anyone with or without the permission leve
 |team tag             |\<name\>                   |Change the tag of your team.                                             |
 |team color           |\<color-code\>             |Change the color of your team.                                           |
 |team pvp             |                           |Toggle if pvp is enabled between team members                            |
-
-## Operator Commands
-These commands are meant to be use by operators and cannot be accessible by non-operators.
-|NAME                      |PARAMETERS                 |DESCRIPTION                                                              |
-|--------------------------|---------------------------|-------------------------------------------------------------------------|
-|teamadmin update          |                           |Responsible for updating the script to the current latest version.       |
+|team setowner        |\<player\>                 |Set a member of the team to be the new team owner (only avaliable if "singleOwner" is enabled)|
+|team rank            |[team]                     |View the rank of a team                                                  |
+|team list            |                           |View all existing teams.                                                 |

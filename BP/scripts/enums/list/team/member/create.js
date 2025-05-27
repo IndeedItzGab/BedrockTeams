@@ -4,8 +4,6 @@ import * as db from "../../../../utilities/storage.js"
 import { config } from "../../../../config.js"
 import { messages } from "../../../../messages.js"
 import "../../../../utilities/messageSyntax.js"
-const namespace = config.commands.namespace
-const chatName = config.BedrockTeams.chatName
 
 enumRegistry("create", (origin, args) => {
   
@@ -13,12 +11,12 @@ enumRegistry("create", (origin, args) => {
   if(!args) return player.sendMessage(`/${namespace}:team create <name>`)
 
   let teams = db.fetch("team", true)
-  if(player.hasTeam()) return player.sendMessage(`${chatName} §4You must leave your team before doing that`)
-  if(config.BedrockTeams.maxTeamLength < args.length) return player.sendMessage(`${chatName} §4That team name is too long`)
-  if(config.BedrockTeams.minTeamLength > args.length) return player.sendMessage(`${chatName} §4That team name is too short`)
-  if(config.BedrockTeams.bannedChars.split('').some(char => args.includes(char)) || ![...args].every(char => config.BedrockTeams.allowedChars.includes(char))) return player.sendMessage(`${chatName} §4A character you tried to use is banned`)
-  if(config.BedrockTeams.blacklist.includes(args)) return player.sendMessage(`${chatName} §4That team name is banned`)
-  if(teams.some(team => team.name === args)) return player.sendMessage(`${chatName} §4That team already exists`)
+  if(player.hasTeam()) return player.sendMessage(messageSyntax(messages.notInTeam))
+  if(config.BedrockTeams.maxTeamLength < args.length) return player.sendMessage(messageSyntax(messages.create.maxLength))
+  if(config.BedrockTeams.minTeamLength > args.length) return player.sendMessage(messageSyntax(messages.create.minLength))
+  if(config.BedrockTeams.bannedChars.split('').some(char => args.includes(char)) || ![...args].every(char => config.BedrockTeams.allowedChars.includes(char))) return player.sendMessage(messageSyntax(messages.bannedChar))
+  if(config.BedrockTeams.blacklist.includes(args)) return player.sendMessage(messageSyntax(messages.create.banned))
+  if(teams.some(team => team.name === args)) return player.sendMessage(messageSyntax(messages.create.exists))
   
   let teamGeneratedId;
   for (let i = 1; i <= 500; i++) {
@@ -53,7 +51,7 @@ enumRegistry("create", (origin, args) => {
   })
   
   player.enableTeamPvp(teamGeneratedId)
-  player.sendMessage(`${chatName} §6Your team has been created`)
+  player.sendMessage(messageSyntax(messages.create.success))
   db.store("team", teams)
   
   //return 0

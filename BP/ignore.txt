@@ -1,2 +1,31 @@
-Improvement on ownership
-Administrator's commands
+ban*
+delhome*
+delwarp*
+invite*
+kick*
+pvp*
+sethome*
+setwarp*
+unban*
+
+chat*
+create*
+home*
+info*
+join*
+leave*
+list*
+rank*
+top*
+warp*
+
+color*
+demote*
+description*
+disband*
+open*
+promote*
+setowner*
+tag*
+
+3

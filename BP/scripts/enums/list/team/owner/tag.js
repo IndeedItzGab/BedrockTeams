@@ -2,6 +2,8 @@ import { world, system } from "@minecraft/server"
 import { enumRegistry } from "../../../enumRegistry.js"
 import * as db from "../../../../utilities/storage.js"
 import { config } from "../../../../config.js"
+import { messages } from "../../../../messages.js"
+import "../../../../utilities/messageSyntax.js"
 const chatName = config.BedrockTeams.chatName
 const namespace = config.commands.namespace
 const defaultColor = config.BedrockTeams.defaultColor
@@ -12,11 +14,11 @@ enumRegistry("tag", (origin, args) => {
 
   let teams = db.fetch("team", true)
   
-  if(!player.hasTeam()) return player.sendMessage(`${chatName} §4You must be in a team to do that`)
-  if(!player.isLeader()) return player.sendMessage(`${chatName} §4You do not have permission to change the team tag`) // Not finished message
-  if(config.BedrockTeams.blacklist.includes(args)) return player.sendMessage(`${chatName} §4That tag is banned`)
-  if(config.BedrockTeams.bannedChars.split('').some(char => args.includes(char)) || ![...args].every(char => config.BedrockTeams.allowedChars.includes(char))) return player.sendMessage(`${chatName} §4A character you tried to use is banned`)
-  if(config.BedrockTeams.maxTagLength < args.length) return player.sendMessage(`${chatName} §4That tag is too long`)
+  if(!player.hasTeam()) return player.sendMessage(messageSyntax(messages.inTeam))
+  if(!player.isLeader()) return player.sendMessage(messageSyntax(messages.tag.noPerm))
+  if(config.BedrockTeams.blacklist.includes(args)) return player.sendMessage(messageSyntax(messages.tag.banned))
+  if(config.BedrockTeams.bannedChars.split('').some(char => args.includes(char)) || ![...args].every(char => config.BedrockTeams.allowedChars.includes(char))) return player.sendMessage(messageSyntax(messages.bannedChar))
+  if(config.BedrockTeams.maxTagLength < args.length) return player.sendMessage(messageSyntax(messages.tag.maxLength))
   
   let team = teams.find(t => t.name === player.hasTeam().name)
   team.tag = args.replace("/§[1234567890abcdefklmnori]/g", "")
@@ -27,7 +29,7 @@ enumRegistry("tag", (origin, args) => {
       targetMember ? targetMember.nameTag = `§${color}${team.tag}§r ${targetMember.name}` : null
     })
   })
-  player.sendMessage(`${chatName} §6Your tag has successfully changed`)
+  player.sendMessage(messageSyntax(messages.tag.success))
   db.store("team", teams)
   return 0
 })

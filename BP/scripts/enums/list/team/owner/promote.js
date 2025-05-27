@@ -2,6 +2,8 @@ import { world, system } from "@minecraft/server"
 import { enumRegistry } from "../../../enumRegistry.js"
 import * as db from "../../../../utilities/storage.js"
 import { config } from "../../../../config.js"
+import { messages } from "../../../../messages.js"
+import "../../../../utilities/messageSyntax.js"
 const chatName = config.BedrockTeams.chatName
 const defaultColor = config.BedrockTeams.defaultColor
 
@@ -11,18 +13,18 @@ enumRegistry("promote", (origin, args) => {
   const targetPlayer = world.getPlayers().find(player => player.name.toLowerCase() === args.toLowerCase())
   const playerExist = db.fetch("teamPlayerList", true).some(p => p.name.toLowerCase() === args.toLowerCase())
 
-  if(!player.hasTeam()) return player.sendMessage(`${chatName} §4You must be in a team to do that`)
-  if(!player.isLeader()) return player.sendMessage(`${chatName} §4You must be the owner of the team to do that`)
-  if(!playerExist && !targetPlayer) return player.sendMessage(`${chatName} §4Specified player not found`)
-  if(playerExist && !(player.hasTeam().members.some(member => member.name === args?.toLowerCase()) || player.hasTeam().leader.some(l => l.name === args?.toLowerCase()))) return player.sendMessage(`${chatName} §6You are not in the same team as that person`)
+  if(!player.hasTeam()) return player.sendMessage(messageSyntax(messages.inTeam))
+  if(!player.isLeader()) return player.sendMessage(messageSyntax(messages.needOwner))
+  if(!playerExist && !targetPlayer) return player.sendMessage(messageSyntax(messages.noPlayer))
+  if(playerExist && !(player.hasTeam().members.some(member => member.name === args?.toLowerCase()) || player.hasTeam().leader.some(l => l.name === args?.toLowerCase()))) return player.sendMessage(messageSyntax(messages.needSameTeam))
   
   let team = teams.find(t => t.name === player.hasTeam().name)
   const specifiedMember = team.members.find(m => m.name === args.toLowerCase())
 
-  if(team.leader.some(l => l.name === args.toLowerCase())) return player.sendMessage(`${chatName} §6That person is already promoted to the max!`)
-  if(config.BedrockTeams.singleOwner && specifiedMember.rank === "admin") return player.sendMessage(`${chatName} §6It is configured that teams can only have a single owner, do §b/teama setowner <player> §6to set the player as the owner`)
-  if(specifiedMember.rank === "default" && player.teamPerks().maxAdmims < team.members.filter(m => m.rank === "admin").length + 1) return player.sendMessage(`${chatName} §4Your team already has the maximum number of admins, demote someone or level your team up`)
-  if(specifiedMember.rank === "admin" && player.teamPerks().maxOwners < team.leader.length + 1) return player.sendMessage(`${chatName} §4Your team already has the maximum number of owners, demote someone or level your team up`)
+  if(team.leader.some(l => l.name === args.toLowerCase())) return player.sendMessage(messageSyntax(messages.promote.max))
+  if(config.BedrockTeams.singleOwner && specifiedMember.rank === "admin") return player.sendMessage(messageSyntax(messages.promote.owner))
+  if(specifiedMember.rank === "default" && player.teamPerks().maxAdmims < team.members.filter(m => m.rank === "admin").length + 1) return player.sendMessage(messageSyntax(messages.promote.maxAdmins))
+  if(specifiedMember.rank === "admin" && player.teamPerks().maxOwners < team.leader.length + 1) return player.sendMessage(messageSyntax(messages.promote.maxOwners))
 
   if(specifiedMember.rank === "admin") {
     team.members = team.members.filter(m => m.name !== specifiedMember.name)
@@ -33,8 +35,8 @@ enumRegistry("promote", (origin, args) => {
     specifiedMember.rank = "admin"
   }
   
-  targetPlayer?.sendMessage(`${chatName} §6You have been promoted!`)
-  player.sendMessage(`${chatName} §6That player has been promoted`)
+  targetPlayer?.sendMessage(messageSyntax(messages.promote.notify))
+  player.sendMessage(messageSyntax(messages.promote.success))
   db.store("team", teams)
   return 0
 })

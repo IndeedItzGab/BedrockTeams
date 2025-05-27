@@ -2,17 +2,18 @@ import { world, system } from "@minecraft/server"
 import { enumRegistry } from "../../../enumRegistry.js"
 import * as db from "../../../../utilities/storage.js"
 import { config } from "../../../../config.js"
-const chatName = config.BedrockTeams.chatName
+import { messages } from "../../../../messages.js"
+import "../../../../utilities/messageSyntax.js"
 
 enumRegistry("list", (origin, args) => {
   const player = origin.sourceEntity
   let teams = db.fetch("team", true)
   
-  player.sendMessage(`${chatName} §6Loading`)
-  let message = `${chatName} §7--- §bTeam list §7---`
+  player.sendMessage(messageSyntax(messages.loading))
+  let message = messageSyntax(messages.list.header)
   let count = 1
   teams.forEach(team => {
-    message += `\n${chatName} §6${count}: §b${team.name}`
+    message += `\n${messageSyntax(messages.list.body.replace("{0}", count).replace("{1}", team.name))}`
     count++
   })
   

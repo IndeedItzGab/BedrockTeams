@@ -10,7 +10,7 @@ export const messages = {
   notTeam: '§6§4That team does not exist try §b/team create <name>',
   needSameTeam: '§6You are not in the same team as that person',
   noPerm: '§4You do not have permission to do that',
-  prefixSyntax: '{0} §r{1}',
+  prefixSyntax: '§7[§r{0}§7] §r{1}',
   bannedChar: '§4A character you tried to use is banned',
   noTeam: '§4That team does not exist',
   loading: '§6Loading',
@@ -22,9 +22,9 @@ export const messages = {
     run: '§4§l-{0}',
   },
   prefix: {
-    owner: ' **',
-    admin: ' *',
-    default: ' ',
+    owner: '**',
+    admin: '*',
+    default: '',
   },
   create: {
     exists: '§6That team already exists',
@@ -164,7 +164,7 @@ export const messages = {
   chat: {
     enabled: '§6Your messages now go to the team chat',
     disabled: '§6Your messages now go to the global chat',
-    syntax: '§b[Team]§f{0}§f: {1}',
+    syntax: '§b[Team]§f {0}§f: {1}',
   },
   color: {
     success: '§6Your team color has been changed',
@@ -213,7 +213,7 @@ export const messages = {
   },
   list: {
     noPage: '§6That page is not found',
-    header: '§7--- §bTeam list page {0} §7---',
+    header: '§7--- §bTeam list §7---',
     body: '§6{0}: §b{1}',
     footer: '§7--- §6do §b/team list [page] §6to view more §7---',
   },

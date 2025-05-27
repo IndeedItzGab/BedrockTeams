@@ -2,7 +2,8 @@ import { world, system } from "@minecraft/server"
 import { enumRegistry } from "../../../enumRegistry.js"
 import * as db from "../../../../utilities/storage.js"
 import { config } from "../../../../config.js"
-const chatName = config.BedrockTeams.chatName
+import { messages } from "../../../../messages.js"
+import "../../../../utilities/messageSyntax.js"
 
 
 const ordinalWords = [
@@ -33,12 +34,11 @@ enumRegistry("rank", (origin, args) => {
   
   const targetTeam = args || player.hasTeam()?.name
   const team = teams.find(team => team.name === targetTeam)
-  if(!team) return player.sendMessage(`${chatName} §6No team or player found under that name`)
+  if(!team) return player.sendMessage(messageSyntax(messages.rank.noTeam))
   
-  let message = "", extra = `§7(${config.BedrockTeams.newLevelsFormat[player.teamLevel(team.name)]?.price - team.score} score needed for next rankup)`
-  if(config.BedrockTeams.newLevelsFormat.length === player.teamLevel(team.name)) extra = "§7(You are the max rank)"
   
-  message += `${chatName} §6Team rank: §b${player.teamLevel(team.name)} ${extra}`
+  let message = messageSyntax(messages.rank.infos.replace("{0}", player.teamLevel(team.name)).replace("{1}", config.BedrockTeams.levels[player.teamLevel(team.name)]?.price - team.score))
+  if(config.BedrockTeams.levels.length === player.teamLevel(team.name)) message = messageSyntax(messages.rank.infomm.replace("{0}", player.teamLevel(team.name)))
   message += `\n${chatName} §7${levelsMessage[player.teamLevel(team.name) - 1]}`
   player.sendMessage(message)
 

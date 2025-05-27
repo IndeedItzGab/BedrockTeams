@@ -1,5 +1,7 @@
 import { world } from "@minecraft/server"
 import { config } from "../../config.js"
+import { messages } from "../../messages.js"
+import "../../utilities/messageSyntax.js"
 
 world.beforeEvents.chatSend.subscribe((event) => {
   const player = event.sender
@@ -12,9 +14,9 @@ world.beforeEvents.chatSend.subscribe((event) => {
   } 
   
   if(player.hasTag("chat:team")) {
-    const allMembers = team.members.concat(team.leader) // Makes sure owner is included
-    allMembers.forEach(member => {
-      world.getPlayers().find(p => p.name.toLowerCase() === member.name.toLowerCase())?.sendMessage(`§b[Team]§r **${player.name}: ${message}`)
+    let rank = player.isLeader() ? messages.prefix.owner : player.isAdmin() ? messages.prefix.admin : messages.prefix.default
+    team.members.concat(team.leader).forEach(member => {
+      world.getPlayers().find(p => p.name.toLowerCase() === member.name.toLowerCase())?.sendMessage(messages.chat.syntax.replace("{0}", rank + player.name).replace("{1}", message))
     })
   } else {
     const color = !config.BedrockTeams.colorTeamName ? "" : team?.color

@@ -2,15 +2,15 @@ import { world, system } from "@minecraft/server"
 import { enumRegistry } from "../../../enumRegistry.js"
 import * as db from "../../../../utilities/storage.js"
 import { config } from "../../../../config.js"
-const chatName = config.BedrockTeams.chatName
-const defaultColor = config.BedrockTeams.defaultColor
+import { messages } from "../../../../messages.js"
+import "../../../../utilities/messageSyntax.js"
 
 enumRegistry("sethome", (origin, args) => {
   const player = origin.sourceEntity
   let teams = db.fetch("team", true)
   
-  if(!player.hasTeam()) return player.sendMessage(`${chatName} §4You must be in a team to do that`)
-  if(!player.isAdmin()) return player.sendMessage(`${chatName} §6Your are not a high enough rank to set your team home`) // Not finished message
+  if(!player.hasTeam()) return player.sendMessagr(messageSyntax(messages.inTeam))
+  if(!player.isAdmin()) return player.sendMessage(messageSyntax(messages.sethome.noPerm))
 
   let team = teams.find(t => t.name === player.hasTeam().name)
   team.home = {
@@ -20,7 +20,7 @@ enumRegistry("sethome", (origin, args) => {
     z: player.location.z
   }
   
-  player.sendMessage(`${chatName} §6Your team home has been set`)
+  player.sendMessage(messageSyntax(messages.sethome.success))
   db.store("team", teams)
   return 0
 })

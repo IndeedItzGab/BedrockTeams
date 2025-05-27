@@ -2,18 +2,20 @@ import { world, system } from "@minecraft/server"
 import { enumRegistry } from "../../../enumRegistry.js"
 import * as db from "../../../../utilities/storage.js"
 import { config } from "../../../../config.js"
+import { messages } from "../../../../messages.js"
+import "../../../../utilities/messageSyntax.js"
 const chatName = config.BedrockTeams.chatName
 
 enumRegistry("top", (origin, args) => {
   const player = origin.sourceEntity
   let teams = db.fetch("team", true)
   
-  player.sendMessage(`${chatName} §6Loading`)
-  let message = `${chatName} §6Leaderboard:`
+  player.sendMessage(messageSyntax(messages.loading))
+  let message = messageSyntax(messages.top.leaderboard)
   let count = 1
   teams.sort((a, b) => b.score - a.score)
   teams.forEach(team => {
-    message += `\n${chatName} §b${count}. §6${team.name} §i(${team.score})`
+    message += `\n${messageSyntax(messsages.top.syntax.replace("{0}", count).replace("{1}", team.name).replace("{2}", team.score))}`
     count++
   })
   

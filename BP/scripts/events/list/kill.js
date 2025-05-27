@@ -16,14 +16,14 @@ world.afterEvents.entityDie.subscribe((event) => {
   
   // Responsible for scoring
   if(suspectTeam?.name === victimTeam?.name) return; // Avoid score farming if both are in the same team
-  suspectTeam ? suspectTeam.score = Math.max(0, suspectTeam.score + config.BedrockTeams.events.kill.score) : null
-  victimTeam ? victimTeam.score = Math.max(0, victimTeam.score + config.BedrockTeams.events.death.score) : null
+  suspectTeam ? suspectTeam.score = Math.max(config.BedrockTeams.minScore, suspectTeam.score + config.BedrockTeams.events.kill.score) : null
+  victimTeam ? victimTeam.score = Math.max(config.BedrockTeams.minScore, victimTeam.score + config.BedrockTeams.events.death.score) : null
   
   // Check victim death time status if they have.
   if(deathTag) {
     // Spam Death-Detector
     if(parseInt(deathTag.split(":")[2]) >= system.currentTick) {
-      victimTeam ? victimTeam.score = Math.max(0, victimTeam.score + config.BedrockTeams.events.death.spam) : null
+      victimTeam ? victimTeam.score = Math.max(config.BedrockTeams.minScore, victimTeam.score + config.BedrockTeams.events.death.spam) : null
     }
     
     system.run(() => {
@@ -40,7 +40,7 @@ world.afterEvents.entityDie.subscribe((event) => {
   if(killTag) {
     // Spam Kill-Detector
     if(parseInt(killTag.split(":")[2]) >= system.currentTick) {
-      suspectTeam ? suspectTeam.score = Math.max(0, suspectTeam.score + config.BedrockTeams.events.kill.spam) : null
+      suspectTeam ? suspectTeam.score = Math.max(config.BedrockTeams.minScore, suspectTeam.score + config.BedrockTeams.events.kill.spam) : null
     }
     
     system.run(() => {

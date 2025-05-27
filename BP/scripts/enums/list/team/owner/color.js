@@ -3,7 +3,8 @@ import { enumRegistry } from "../../../enumRegistry.js"
 import * as db from "../../../../utilities/storage.js"
 import { config } from "../../../../config.js"
 import "../../../../utilities/chatColor.js"
-const chatName = config.BedrockTeams.chatName
+import { messages } from "../../../../messages.js"
+import "../../../../utilities/messageSyntax.js"
 const namespace = config.commands.namespace
 const defaultColor = config.BedrockTeams.defaultColor
 
@@ -14,16 +15,16 @@ enumRegistry("color", (origin, args) => {
 
   let teams = db.fetch("team", true)
   
-  if(!player.hasTeam()) return player.sendMessage(`${chatName} §4You must be in a team to do that`)
-  if(!player.isLeader()) return player.sendMessage(`${chatName} §4You must be the owner of the team to do that`) // Not finished message
-  if(config.BedrockTeams.bannedColors.split('').some(char => args.includes(char))) return player.sendMessage(`${chatName} §4That color code is banned`)
+  if(!player.hasTeam()) return player.sendMessage(messageSyntax(messages.inTeam))
+  if(!player.isLeader()) return player.sendMessage(messageSyntax(messages.needOwner))
+  if(config.BedrockTeams.bannedColors.split('').some(char => args.includes(char))) return player.sendMessage(messageSyntax(messages.color.banned))
   
   let team = teams.find(team => team.name === player.hasTeam().name)
   if(args.length > 1) {
-    if(!chatColor[args.toUpperCase()]) return player.sendMessage(`${chatName} §6That is not a recognised chat color`)
+    if(!chatColor[args.toUpperCase()]) return player.sendMessage(messageSyntax(messages.color.fail))
     team.color = chatColor[args.toUpperCase()]
   } else {
-    if(!"1234567890abcdefi".split('').some(d => args.includes(d))) return player.sendMessage(`${chatName} §6That is not a recognised chat color`)
+    if(!"1234567890abcdefi".split('').some(d => args.includes(d))) return player.sendMessage(messageSyntax(messages.color.fail))
     team.color = args
   }
   
@@ -34,7 +35,7 @@ enumRegistry("color", (origin, args) => {
     })
   })
 
-  player.sendMessage(`${chatName} §6Your team color has been changed`)
+  player.sendMessage(messageSyntax(messages.color.success))
   db.store("team", teams)
   
   return 0

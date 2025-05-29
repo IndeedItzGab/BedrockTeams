@@ -11,6 +11,9 @@ This add-on is for Minecraft: Bedrock Edition inspired by [BetterTeams](https://
 - Beta APIs enabled in experimental features section.
 ![beta_api](docs/images/beta_apis.jpg)
 
+## Installation
+Visit [here](docs/INSTRUCTIONS.md) for more information about installing this project.
+
 ## Features
 - Create a team
 - Send a message that only your team members can see.

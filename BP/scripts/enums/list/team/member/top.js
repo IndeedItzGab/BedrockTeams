@@ -15,7 +15,7 @@ enumRegistry("top", (origin, args) => {
   let count = 1
   teams.sort((a, b) => b.score - a.score)
   teams.forEach(team => {
-    message += `\n${messageSyntax(messsages.top.syntax.replace("{0}", count).replace("{1}", team.name).replace("{2}", team.score))}`
+    message += `\n${messageSyntax(messages.top.syntax.replace("{0}", count).replace("{1}", team.name).replace("{2}", team.score))}`
     count++
   })
   

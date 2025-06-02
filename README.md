@@ -7,6 +7,12 @@ This add-on is for Minecraft: Bedrock Edition inspired by [BetterTeams](https://
 
 ![example](docs/images/example.jpg)
 
+## Documentation
+- [Configuration Document](https://github.com/IndeedItzGab/BedrockTeams/blob/main/docs%2FCONFIGURATION.md#configuration)
+- [Commands List](https://github.com/IndeedItzGab/BedrockTeams/blob/main/docs/COMMANDS.md#available-commands)
+- [FAQ](https://github.com/IndeedItzGab/BedrockTeams/blob/main/docs/FAQ.md#frequently-asked-questions)
+- [Installation Guide](https://github.com/BedrockTeams/LandLocker/blob/main/docs/INSTRUCTIONS.md#instructions)
+
 ## Requirements
 - Beta APIs enabled in experimental features section.
 ![beta_api](docs/images/beta_apis.jpg)

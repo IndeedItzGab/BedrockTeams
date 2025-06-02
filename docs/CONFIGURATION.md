@@ -88,6 +88,7 @@ This option determines if users are allowed to do /team:team chat to toggle thei
 This option is used to determine if the team name should be colored in correspondance to /team:team color whenever the team name is displayed within the plugin.
 
 `BedrockTeams.defaultColor: "6"`
+
 This option is used to determine the default team color using the color code of the color you want.
 
 ### Allowing multiple team's owners
@@ -111,8 +112,8 @@ The team's score gets after a player was spammingly killed by another player.
 
 `BedrockTeams.events.kill.score: 1`
 
-The team's score gets after a member killed another player
-.
+The team's score gets after a member killed another player.
+
 `BedrockTeams.events.kill.spam: 0`
 
 The team's score gets after a member spammingly killing another player.

@@ -46,6 +46,11 @@ This option is for the prefix name from BedrockTeams messages. This is what you 
 
 These options may serve the same purpose. They are use to announce globally if someone joined, left, or disbanded a team.
 
+### Alliances limitation
+`BedrockTeams.allyLimit: 5`
+
+This is used to limit the length of a team name (if chat prefixes are enabled, this will stop the team names clogging up the chat)
+
 ### Team/Tag name length limitation
 `BedrockTeams.maxTeamLength: 12`
 

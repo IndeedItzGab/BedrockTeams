@@ -30,3 +30,7 @@ These commands are meant to be use by anyone with or without the permission leve
 |team setowner        |\<player\>                 |Set a member of the team to be the new team owner (only avaliable if "singleOwner" is enabled)|
 |team rank            |[team]                     |View the rank of a team                                                  |
 |team list            |                           |View all existing teams.                                                 |
+|team ally            |[team]                     |Request / accept an alliance with another team.                          |
+|team neutral         |\<team\>                   |Remove an alliance with another team.                                    |
+|team allychat        |[message]                  |Send a message that only team allies can see.                            |
+|team chat            |[message]                  |If a message is included, it will send a single message to the team chat, if no message is included the player will be moved to the team chat. (all further messages will go there)|

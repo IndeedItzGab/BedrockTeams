@@ -1,7 +1,7 @@
 import { Player, system } from "@minecraft/server"
 import * as db from "../../storage.js"
  
-Player.prototype.checkPvp = function () {
+Player.prototype.teamCheckPvp = function () {
   const team = this.hasTeam()
   if(!team) {
     const tags = this.getTags().filter(d => d.startsWith("team"))

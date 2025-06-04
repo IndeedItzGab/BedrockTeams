@@ -1,7 +1,7 @@
 export const messages = {
   invalidArg: '§4Invalid Arguments, help',
   inTeam: '§4You must be in a team to do that',
-  internalError: '§4Something went wrong while executing that command, please report it to your server owners',
+  internalError: '§4Something went wrong while executing that command, please report it to the developer.',
   notInTeam: '§4You must leave your team before doing that',
   needOwner: '§4You must be the owner of the team to do that',
   needAdmin: '§4You must be admin or owner of the team to do that',
@@ -184,32 +184,28 @@ export const messages = {
     notEnough: '§6Your team does not have enougn money',
   },
   ally: {
-    already: '§4You are already allies',
-    success: '§6Your teams are now allies',
-    ally: '§6Your team is now allied with §b{0}',
-    ally_title: '§6Your team is now allied with §b{0}',
-    requested: '§6An ally request has been sent to that team',
-    request: '§b{0} §6has sent an ally request, use §b/team ally <team> §6to accept',
-    self: '§4You cannot ally your own team',
-    from: '§6You have ally requests from: {0}',
-    noRequests: '§4You do not have any ally requests',
+    already: '§4You are already allies',  //
+    ally: '§6Your team is now allied with §b{0}', //
+    requested: '§6An ally request has been sent to that team', //
+    request: '§b{0} §6has sent an ally request, use §b/team ally <team> §6to accept', //
+    self: '§4You cannot ally your own team', //
+    from: '§6You have ally requests from: {0}', //
+    noRequests: '§4You do not have any ally requests', //
     onJoin: '§6You have new ally requests do §b/team ally §6to view them',
-    limit: '§4The limit on allies has been reached',
-    alreadyrequest: '§4You have already requested to be allies with that team',
+    limit: '§4The limit on allies has been reached', //
+    alreadyrequest: '§4You have already requested to be allies with that team', //
   },
   allychat: {
     disabled: '§6Your messages are no longer going to the ally chat',
     enabled: '§6Your messages are now going to the ally chat',
-    syntax: '§d[{0}]§f{1}§f: {2}',
+    syntax: '§d[{0}] §f{1}§f: {2}',
   },
   neutral: {
-    self: '§6That is your own team',
-    requestremove: '§6That ally request has been removed',
-    reject: '§4Your ally request with §b{0} §4has been rejected',
-    notAlly: '§4You are not allied with that team',
-    success: '§4You are no longer allied with that team',
-    remove: '§4You are no longer allied with §b{0}',
-    remove_title: '§4You are no longer allied with §b{0}',
+    self: '§6That is your own team', // 
+    requestremove: '§6That ally request has been removed', // 
+    reject: '§4Your ally request with §b{0} §4has been rejected', //
+    notAlly: '§4You are not allied with that team', //
+    remove: '§4You are no longer allied with §b{0}', //
   },
   list: {
     noPage: '§6That page is not found',

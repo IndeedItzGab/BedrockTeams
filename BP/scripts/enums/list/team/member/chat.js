@@ -5,19 +5,25 @@ import { config } from "../../../../config.js"
 import "../../../../utilities/chatColor.js"
 import { messages } from "../../../../messages.js"
 import "../../../../utilities/messageSyntax.js"
+const namespace = config.commands.namespace
 
 enumRegistry("chat", (origin, args) => {
   const player = origin.sourceEntity
   let teams = db.fetch("team", true)
   
-  if(!player.hasTeam()) return player.sendMessagr(messageSyntax(messages.inTeam))
+  if(!player.hasTeam()) return player.sendMessage(messageSyntax(messages.inTeam))
   
   let team = teams.find(team => team.name === player.hasTeam().name)
   if(!args) {
-    if(!config.BedrockTeams.allowToggleTeamChat) return
+    if(!config.BedrockTeams.allowToggleTeamChat) return player.sendMessage(`/${namespace}:team chat <message>`)
     const tag = player.hasTag("chat:team")
     system.run(() => {
-      tag ? player.removeTag("chat:team") : player.addTag("chat:team")
+      if(tag) {
+        player.removeTag("chat:team")
+      } else {
+        player.removeTag("chat:ally")
+        player.addTag("chat:team")
+      }
     })
     player.sendMessage(messageSyntax(tag ? messages.chat.disabled : messages.chat.enabled));
   } else {

@@ -1,31 +1,16 @@
-ban*
-delhome*
-delwarp*
-invite*
-kick*
-pvp*
-sethome*
-setwarp*
-unban*
 
-chat*
-create*
-home*
-info*
-join*
-leave*
-list*
-rank*
-top*
-warp*
+ally (Good)
+  - On Join advertise (Good)
+neutral (Good)
+allychat (Good)
 
-color*
-demote*
-description*
-disband*
-open*
-promote*
-setowner*
-tag*
+Ally Damage Cancelation (Good)
 
-3
+(Good)
+ban
+kick
+join
+leave
+disband
+neutral
+ally

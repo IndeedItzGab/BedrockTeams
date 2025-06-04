@@ -5,7 +5,7 @@ import { config } from "../../../../config.js"
 import { messages } from "../../../../messages.js"
 import "../../../../utilities/messageSyntax.js"
 
-enumRegistry("kick", (origin, args) => {
+enumRegistry("kick", async (origin, args) => {
   const player = origin.sourceEntity
   const targetPlayer = world.getPlayers().find(player => player.name.toLowerCase() === args.toLowerCase())
   const teams = db.fetch("team", true)
@@ -25,9 +25,10 @@ enumRegistry("kick", (origin, args) => {
     targetPlayer && (targetPlayer.nameTag = targetPlayer.name);
   })
   
-  targetPlayer?.disableTeamPvp()
   targetPlayer?.sendMessage(messageSyntax(messages.kick.notify.replace("{0}", team.name)))
   player.sendMessage(messageSyntax(messages.kick.success))
-  db.store("team", teams)
+  await db.store("team", teams)
+  targetPlayer?.disableTeamPvp()
+  targetPlayer?.allyCheckPvp()
   return 0
 })

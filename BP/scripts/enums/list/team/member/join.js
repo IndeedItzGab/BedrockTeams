@@ -8,7 +8,7 @@ const chatName = config.BedrockTeams.chatName
 const namespace = config.commands.namespace
 const defaultColor = config.BedrockTeams.defaultColor
 
-enumRegistry("join", (origin, args) => {
+enumRegistry("join", async (origin, args) => {
   const player = origin.sourceEntity
   if(!args) return player.sendMessage(`/${namespace}:team join <team>`)
   const teams = db.fetch("team", true)
@@ -44,7 +44,8 @@ enumRegistry("join", (origin, args) => {
   }
   
   player.sendMessage(messageSyntax(messages.join.success))
-  db.store("team", teams)
+  await db.store("team", teams)
   player.enableTeamPvp(specifiedTeam.id)
+  player.allyCheckPvp()
   return 0
 })

@@ -7,7 +7,7 @@ import "../../../../utilities/messageSyntax.js"
 const chatName = config.BedrockTeams.chatName
 const defaultColor = config.BedrockTeams.defaultColor
 
-enumRegistry("disband", (origin, args) => {
+enumRegistry("disband", async (origin, args) => {
   const player = origin.sourceEntity
   let teams = db.fetch("team", true)
   
@@ -17,14 +17,16 @@ enumRegistry("disband", (origin, args) => {
  
   
   if(player.hasTag("deleteTeamQuery")) {
-    system.run(() => {
+    await db.store("team", teams.filter(t => t.name !== player.hasTeam().name))
+    system.run(async () => {
       player.nameTag = player.name
       player.removeTag(`deleteTeamQuery`)
       const team = teams.find(d => d.leader.some(l => l.name === player.name.toLowerCase()))
       team.members.concat(team.leader).forEach(member => {
         const p = world.getPlayers().find(p => p.name.toLowerCase() === member.name.toLowerCase())
-        p ? p.disableTeamPvp() : null
+        p?.disableTeamPvp()
         p ? p.nameTag = p.name : null
+        p?.allyCheckPvp()
       })
       
       // Global Announcement
@@ -33,8 +35,19 @@ enumRegistry("disband", (origin, args) => {
           p.sendMessage(messageSyntax(messages.announce.disband.replace("{0}", team.name)))
         })
       }
-  
-      db.store("team", teams.filter(t => t.name !== player.hasTeam().name))
+      
+      // Revoke the alliances between the other teams
+      let alliances = db.fetch("alliances", true)
+      const ally = alliances.filter(d => d.teams.includes(team.name))
+      await db.store("alliances", alliances.filter(d => !d.teams.includes(team.name)))
+      for(const t of teams) {
+        if(t.name === team.name || !ally.some(d => d.teams.includes(t.name))) continue;
+        t.members.concat(t.leader).forEach(m => {
+          const p = world.getPlayers().find(a => a.name.toLowerCase() === m.name.toLowerCase())
+          p?.sendMessage(messageSyntax(messages.neutral.remove.replace("{0}", team.name)))
+          p?.allyCheckPvp()
+        })
+      }
       player.sendMessage(messageSyntax(messages.disband.success))
     })
   } else {

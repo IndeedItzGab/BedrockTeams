@@ -5,7 +5,7 @@ import { config } from "../../../../config.js"
 import { messages } from "../../../../messages.js"
 import "../../../../utilities/messageSyntax.js"
 
-enumRegistry("leave", (origin, args) => {
+enumRegistry("leave", async (origin, args) => {
   const player = origin.sourceEntity
   const teams = db.fetch("team", true)
   
@@ -30,8 +30,9 @@ enumRegistry("leave", (origin, args) => {
     })
   }
   
-  player.disableTeamPvp()
   player.sendMessage(messageSyntax(messages.leave.success))
-  db.store("team", teams)
+  await db.store("team", teams)
+  player.disableTeamPvp()
+  player.allyCheckPvp()
   return 0
 })

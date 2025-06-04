@@ -7,7 +7,7 @@ export const config = {
     announceTeamJoin: false, // This is used to determine whether players joining a new team should be announced (Message is configurable in messages.yml)
     announceTeamLeave: false, // This is used to determine whether players leaving a team should be announced (Message is configurable in messages.yml)
     announceTeamDisband: false, // This is used to determine whether disbanding a team should be announced (Message is configurable in messages.yml)
-    //allyLimit: 5, // This is used to set the maxmimum number of allies a team can have
+    allyLimit: 5, // This is used to set the maxmimum number of allies a team can have
     maxTeamLength: 12, // This is used to limit the length of a team name
     minTeamLength: 2, // This is used to limit the length of a team name
     maxTagLength: 12, // This is used to limit the length of the teams tag (If enabled, this will display next to the players nametag above their character)

@@ -24,6 +24,7 @@ enumRegistry("setowner", (origin, args) => {
   const specifiedMember = team.members.find(m => m.name === args.toLowerCase())
   
   team.members = team.members.filter(m => m.name !== specifiedMember.name)
+  team.leader = team.leader.filter(l => l.name !== player.name.toLowerCase())
   team.leader.push({
     name: specifiedMember.name
   })

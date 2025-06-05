@@ -9,7 +9,7 @@ enumRegistry("pvp", (origin) => {
   const player = origin.sourceEntity
   const teams = db.fetch("team", true)
 
-  if(!player.hasTeam()) return player.sendMessagr(messageSyntax(messages.inTeam))
+  if(!player.hasTeam()) return player.sendMessage(messageSyntax(messages.inTeam))
   if(!player.isAdmin()) return player.sendMessage(messageSyntax(messages.needAdmin))
   
   let team = teams.find(team => team.name === player.hasTeam().name)
@@ -24,7 +24,7 @@ enumRegistry("pvp", (origin) => {
   })
   
   const message = team.pvp ? messageSyntax(messages.pvp.enabled) : messageSyntax(messages.pvp.disabled)
-  player.sendMessage(messages)
+  player.sendMessage(message)
   db.store("team", teams)
   return 0
 })

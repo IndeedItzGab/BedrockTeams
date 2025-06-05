@@ -22,7 +22,7 @@ enumRegistry("promote", (origin, args) => {
   const specifiedMember = team.members.find(m => m.name === args.toLowerCase())
 
   if(team.leader.some(l => l.name === args.toLowerCase())) return player.sendMessage(messageSyntax(messages.promote.max))
-  if(config.BedrockTeams.singleOwner && specifiedMember.rank === "admin") return player.sendMessage(messageSyntax(messages.promote.owner))
+  if(config.BedrockTeams.singleOwner && specifiedMember.rank === "admin") return player.sendMessage(messageSyntax(messages.setowner.use))
   if(specifiedMember.rank === "default" && player.teamPerks().maxAdmims < team.members.filter(m => m.rank === "admin").length + 1) return player.sendMessage(messageSyntax(messages.promote.maxAdmins))
   if(specifiedMember.rank === "admin" && player.teamPerks().maxOwners < team.leader.length + 1) return player.sendMessage(messageSyntax(messages.promote.maxOwners))
 

@@ -36,10 +36,9 @@ enumRegistry("rank", (origin, args) => {
   const team = teams.find(team => team.name === targetTeam)
   if(!team) return player.sendMessage(messageSyntax(messages.rank.noTeam))
   
-  
   let message = messageSyntax(messages.rank.infos.replace("{0}", player.teamLevel(team.name)).replace("{1}", config.BedrockTeams.levels[player.teamLevel(team.name)]?.price - team.score))
   if(config.BedrockTeams.levels.length === player.teamLevel(team.name)) message = messageSyntax(messages.rank.infomm.replace("{0}", player.teamLevel(team.name)))
-  message += `\n${chatName} §7${levelsMessage[player.teamLevel(team.name) - 1]}`
+  message += `\n${messageSyntax(`§7${levelsMessage[player.teamLevel(team.name) - 1]}`)}`
   player.sendMessage(message)
 
   return 0

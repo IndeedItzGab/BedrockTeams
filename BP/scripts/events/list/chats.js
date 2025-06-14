@@ -1,4 +1,4 @@
-import { world } from "@minecraft/server"
+import { world, system } from "@minecraft/server"
 import { config } from "../../config.js"
 import { messages } from "../../messages.js"
 import * as db from "../../utilities/storage.js"
@@ -36,6 +36,7 @@ world.beforeEvents.chatSend.subscribe((event) => {
   } else {
     const color = !config.BedrockTeams.colorTeamName ? "" : team?.color
     world.sendMessage(`§i[§r§${color}${team?.name}§i]§r <${player.name}> ${message}`)
+    system.run(() => system.sendScriptEvent("discordcc:sendchat", JSON.stringify({message: message, name: player.name})))
   }
   event.cancel = true
 })

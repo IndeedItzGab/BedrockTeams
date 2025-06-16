@@ -15,7 +15,8 @@ enumRegistry("home", (origin, args) => {
   if(!team.home.x && !team.home.y && !team.home.z) return player.sendMessage(messageSyntax(messages.home.noHome))
   
   system.run(() => {
-    player.tryTeleport({x: team.home.x, y: team.home.y, z: team.home.z}, {dimension: team.dimension})
+    const dimension = world.getDimension(team.home.dimension)
+    player.tryTeleport({x: team.home.x, y: team.home.y, z: team.home.z}, {dimension: dimension})
   })
   
   player.sendMessage(messageSyntax(messages.home.success))

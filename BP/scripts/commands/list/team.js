@@ -15,17 +15,17 @@ const commandInformation = {
   usage:[
     {
       name: "team:team",
-      type: 9,
+      type: "Enum",
       optional: false
     },
     {
       name: "args",
-      type: 3,
+      type: "String",
       optional: true
     },
     {
       name: "args",
-      type: 3,
+      type: "String",
       optional: true
     }
   ]

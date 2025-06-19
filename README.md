@@ -6,6 +6,7 @@
 This add-on is for Minecraft: Bedrock Edition inspired by [BetterTeams](https://www.spigotmc.org/resources/better-teams.17129/). It encourage players to team up and providing useful tools for a team.
 
 ![example](docs/images/example.jpg)
+![example-2](docs/images/example-V1.0.6.jpg)
 
 ## Documentation
 - [Configuration Document](https://github.com/IndeedItzGab/BedrockTeams/blob/main/docs%2FCONFIGURATION.md#configuration)

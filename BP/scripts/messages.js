@@ -10,7 +10,7 @@ export const messages = {
   needAdmin: '§4You must be admin or owner of the team to do that',
   needPlayer: '§4You must be a player to do that',
   noPlayer: '§4Specified player not found',
-  notTeam: `§6§4That team does not exist try §b/${namespace}:team create <name>`,
+  notTeam: `§6§4That team does not exist try §b/team create <name>`,
   needSameTeam: '§6You are not in the same team as that person',
   noPerm: '§4You do not have permission to do that',
   prefixSyntax: '§7[§r{0}§7] §r{1}',
@@ -38,7 +38,7 @@ export const messages = {
   },
   leave: {
     success: '§6You have left the team',
-    lastOwner: `§6You are the only owner rank within the team, Either promote someone else or use §b/${namespace}:team disband §6to disband command. the team`,
+    lastOwner: `§6You are the only owner rank within the team, Either promote someone else or use §b/team disband §6to disband command. the team`,
   },
   announce: {
     join: '§3{0} §7has joined team {1}',
@@ -59,7 +59,7 @@ export const messages = {
   },
   disband: {
     success: '§6You have disbanded the team',
-    confirm: `§6Type §b/${namespace}:team disband §6again to confirm`,
+    confirm: `§6Type §b/team disband §6again to confirm`,
   },
   description:{
     success: '§6You have changed the team description',
@@ -75,7 +75,7 @@ export const messages = {
   },
   invite: {
     success: '§6That player has been invited',
-    invite: `§6You have been invited to join team {0} do §b/${namespace}:team join {0} §6 to join the team`,
+    invite: `§6You have been invited to join team {0} do §b/team join {0} §6 to join the team`,
     hover: '§6Click to join §b{0}',
     inTeam: '§6That player is already in a team',
     banned: '§6That player is banned from your team',
@@ -190,11 +190,11 @@ export const messages = {
     already: '§4You are already allies',  //
     ally: '§6Your team is now allied with §b{0}', //
     requested: '§6An ally request has been sent to that team', //
-    request: `§b{0} §6has sent an ally request, use §b/${namespace}:team ally <team> §6to accept`, //
+    request: `§b{0} §6has sent an ally request, use §b/team ally <team> §6to accept`, //
     self: '§4You cannot ally your own team', //
     from: '§6You have ally requests from: {0}', //
     noRequests: '§4You do not have any ally requests', //
-    onJoin: `§6You have new ally requests do §b/${namespace}:team ally §6to view them`,
+    onJoin: `§6You have new ally requests do §b/team ally §6to view them`,
     limit: '§4The limit on allies has been reached', //
     alreadyrequest: '§4You have already requested to be allies with that team', //
   },
@@ -214,10 +214,10 @@ export const messages = {
     noPage: '§6That page is not found',
     header: '§7--- §bTeam list §7---',
     body: '§6{0}: §b{1}',
-    footer: `§7--- §6do §b/${namespace}:team list [page] §6to view more §7---`,
+    footer: `§7--- §6do §b/team list [page] §6to view more §7---`,
   },
   setowner: {
-    use: `§6You cannot promote that player, use §b/${namespace}:team setowner <player> §6to promote that player to owner`,
+    use: `§6You cannot promote that player, use §b/team setowner <player> §6to promote that player to owner`,
     success: '§6That player is now owner',
     notify: '§6You are now owner of your team',
     max: '§4That player is already owner',
@@ -360,7 +360,7 @@ export const messages = {
       max: '§6That player is already the maximum rank',
       notify: '§6You have been promoted',
       success: '§6That player has been promoted',
-      owner: '§6It is configured that teams can only have a single owner, do §b/${namespace}:teama setowner <player> §6to set the player as the owner',
+      owner: '§6It is configured that teams can only have a single owner, do §b/teama setowner <player> §6to set the player as the owner',
       maxAdmins: '§4That team already has the max number of admins, remove one before promoting that player',
       maxOwners: '§4That team already has the max number of owners, remove one before promoting that player',
     },

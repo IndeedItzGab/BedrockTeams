@@ -4,6 +4,7 @@ import * as db from "../../../../utilities/storage.js"
 import { config } from "../../../../config.js"
 import { messages } from "../../../../messages.js"
 import "../../../../utilities/messageSyntax.js"
+import "../../../../utilities/updateDisplayTop.js"
 
 enumRegistry("create", (origin, args) => {
   
@@ -53,6 +54,6 @@ enumRegistry("create", (origin, args) => {
   player.enableTeamPvp(teamGeneratedId)
   player.sendMessage(messageSyntax(messages.create.success))
   db.store("team", teams)
-  
+  updateDisplayTop()
   //return 0
 })

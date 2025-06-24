@@ -4,6 +4,7 @@ export const config = {
   },
   BedrockTeams: {
     chatName: "§6BedrockTeams",
+    displayTopTeams: false, // This is used to determine whether the script should display the top teams depending on their scores.
     announceTeamJoin: false, // This is used to determine whether players joining a new team should be announced (Message is configurable in messages.yml)
     announceTeamLeave: false, // This is used to determine whether players leaving a team should be announced (Message is configurable in messages.yml)
     announceTeamDisband: false, // This is used to determine whether disbanding a team should be announced (Message is configurable in messages.yml)

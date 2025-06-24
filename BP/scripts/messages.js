@@ -2,6 +2,7 @@ import { config } from "./config.js"
 const namespace = config.commands.namespace
 
 export const messages = {
+  
   invalidArg: '§4Invalid Arguments, help',
   inTeam: '§4You must be in a team to do that',
   internalError: '§4Something went wrong while executing that command, please report it to the developer.',
@@ -17,6 +18,10 @@ export const messages = {
   bannedChar: '§4A character you tried to use is banned',
   noTeam: '§4That team does not exist',
   loading: '§6Loading',
+  displayTopTeams: {
+    header: "§l§bTOP TEAMS",
+    body: "§{0}{1} §7({2})"
+  },
   cooldown: {
     wait: '§4You need to wait another {0} seconds before running that!',
   },

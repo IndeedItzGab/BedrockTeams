@@ -4,6 +4,7 @@ import * as db from "../../../../utilities/storage.js"
 import { config } from "../../../../config.js"
 import { messages } from "../../../../messages.js"
 import "../../../../utilities/messageSyntax.js"
+import "../../../../utilities/updateDisplayTop.js"
 const chatName = config.BedrockTeams.chatName
 const defaultColor = config.BedrockTeams.defaultColor
 
@@ -18,6 +19,7 @@ enumRegistry("disband", async (origin, args) => {
   
   if(player.hasTag("deleteTeamQuery")) {
     await db.store("team", teams.filter(t => t.name !== player.hasTeam().name))
+    updateDisplayTop()
     system.run(async () => {
       player.nameTag = player.name
       player.removeTag(`deleteTeamQuery`)

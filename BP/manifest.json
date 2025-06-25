@@ -3,15 +3,15 @@
   "header": {
     "name": "§l§rBedrockTeams §r(§a1.0.7§r)",
     "description": "Create teams to compete to be the best. This add-on is designed to encourage teamwork and foster a sense of community within a server or realm.",
-    "uuid": "4453ab3f-7ee3-4353-a51c-1d9c818c0a54",
-    "min_engine_version": [1, 21, 80],
-    "version": [1, 0, 7]
+    "uuid": "686628bc-ac99-4d7c-ab91-62349c48159d",
+    "min_engine_version": [1, 21, 90],
+    "version": [1, 0, 71]
   },
   "modules": [
     {
       "description": "Behavior Pack Module",
       "type": "data",
-      "uuid": "bcecbabd-4403-4d2a-b79e-a5167c88310d",
+      "uuid": "87bf0473-366d-481a-a51c-3a388e0b26ad",
       "version": [1, 0, 0]
     },
     {
@@ -19,7 +19,7 @@
       "type": "script",
       "language": "javascript",
       "entry": "scripts/index.js",
-      "uuid": "555d1771-f260-41d2-82ce-20b58a6ea735",
+      "uuid": "280ba3cf-2e3e-4a1c-a7cf-663efa51a3d3",
       "version": [1, 0, 0]
     }
   ],

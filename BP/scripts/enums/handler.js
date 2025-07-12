@@ -37,4 +37,19 @@ import "./list/team/owner/setowner.js"
 import "./list/team/owner/ally.js"
 import "./list/team/owner/neutral.js"
 
-// Progrws
+// Progress
+// Fully Tested = false
+// Require two players for testing.
+import "./list/teamadmin/chatspy.js"
+import "./list/teamadmin/purge.js"
+import "./list/teamadmin/promote.js"
+import "./list/teamadmin/demote.js"
+import "./list/teamadmin/leave.js"
+import "./list/teamadmin/disband.js"
+import "./list/teamadmin/join.js"
+import "./list/teamadmin/create.js"
+import "./list/teamadmin/color.js"
+import "./list/teamadmin/home.js"
+import "./list/teamadmin/setowner.js"
+import "./list/teamadmin/tag.js"
+import "./list/teamadmin/warp.js"

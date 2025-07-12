@@ -5,7 +5,7 @@ import { config } from "../../../../config.js"
 import { messages } from "../../../../messages.js"
 import "../../../../utilities/messageSyntax.js"
 
-enumRegistry("sethome", (origin, args) => {
+enumRegistry("sethome", (origin) => {
   const player = origin.sourceEntity
   let teams = db.fetch("team", true)
   

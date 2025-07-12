@@ -31,6 +31,10 @@ enumRegistry("chat", (origin, args) => {
     team.members.concat(team.leader).forEach(member => {
       world.getPlayers().find(p => p.name.toLowerCase() === member.name)?.sendMessage(messages.chat.syntax.replace("{0}", rank + player.name).replace("{1}", args))
     })
+    world.getPlayers().filter(p => p.hasTag("bedrockteams:chatspy")).forEach(p => {
+      // Admin chat spy
+      p.sendMessage(messages.spy.team.replace("{0}", config.BedrockTeams.chatName).replace("{1}", rank + player.name).replace("{2}", args))
+    })
   }
   
   return 0

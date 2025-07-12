@@ -6,7 +6,7 @@ import { messages } from "../../../../messages.js"
 import "../../../../utilities/messageSyntax.js"
 const chatName = config.BedrockTeams.chatName
 
-enumRegistry("top", (origin, args) => {
+enumRegistry("top", (origin) => {
   const player = origin.sourceEntity
   let teams = db.fetch("team", true)
   

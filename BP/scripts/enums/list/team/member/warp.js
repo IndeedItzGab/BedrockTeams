@@ -8,7 +8,9 @@ const namespace = config.commands.namespace
 const chatName = config.BedrockTeams.chatName
 const defaultColor = config.BedrockTeams.defaultColor
 
-enumRegistry("warp", (origin, argsFirst, argsSecond) => {
+enumRegistry("warp", (origin, args) => {
+  const argsFirst = args?.split(" ")[0]
+  const argsSecond = args?.split(" ")[1]
   const player = origin.sourceEntity
   let teams = db.fetch("team", true)
   

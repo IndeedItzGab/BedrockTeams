@@ -32,7 +32,7 @@ enumRegistry("join", async (origin, args) => {
 
   const color = !config.BedrockTeams.colorTeamName ? config.BedrockTeams.defaulColor : specifiedTeam.color
   system.run(() => {
-    player.nameTag = `§${specifiedTeam.color}${specifiedTeam.tag}§r ${player.name}`
+    player.nameTag = `§${color}${specifiedTeam.tag}§r ${player.name}`
     teamTag ? player?.removeTag(teamTag) : null
   })
   

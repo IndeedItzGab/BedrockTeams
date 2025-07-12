@@ -1,16 +1,16 @@
 
-ally (Good)
-  - On Join advertise (Good)
-neutral (Good)
-allychat (Good)
+- Revamp parameters - FAILED
 
-Ally Damage Cancelation (Good)
+BedrockTeams V1.1.0
+- Implementation of new adminsitrative commands
+  - /teamadmin setwarp <team> <warpName> [password]
+  - /teamadmin delwarp <team> <warpName> [password]
+  - /teamadmin score <set/add/remove> <team> <amount>
+  - /teamadmin description <team> <string>
+  - /teamadmin invite <team> <player>
 
-(Good)
-ban
-kick
-join
-leave
-disband
-neutral
-ally
+BedrockTeams V1.1.3
+- Implementation of user interface for non-administrators that can be shown by executing `/team` only.
+
+BedrockTeams V1.1.4
+- Implementation of user interface for administrators that can be shown by executing `/teamadmin` or `/teama` only.

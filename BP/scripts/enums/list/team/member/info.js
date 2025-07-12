@@ -49,5 +49,5 @@ enumRegistry("info", (origin, args) => {
   team.tag ? message += `\n${messageSyntax(messages.info.tag.replace("{0}", team.tag))}` : null
 
   player.sendMessage(message)
-  return 0
+  return true
 })

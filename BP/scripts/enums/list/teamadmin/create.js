@@ -1,18 +1,17 @@
-import { world, system } from "@minecraft/server"
-import { enumRegistry } from "../../../enumRegistry.js"
-import * as db from "../../../../utilities/storage.js"
-import { config } from "../../../../config.js"
-import { messages } from "../../../../messages.js"
-import "../../../../utilities/messageSyntax.js"
-import "../../../../utilities/updateDisplayTop.js"
+import { world, system, Player } from "@minecraft/server"
+import { enumAdminRegistry } from "../../enumRegistry.js"
+import * as db from "../../../utilities/storage.js"
+import { config } from "../../../config.js"
+import { messages } from "../../../messages.js"
+import "../../../utilities/messageSyntax.js"
+import "../../../utilities/updateDisplayTop.js"
 
-enumRegistry("create", async (origin, args) => {
-  
+enumAdminRegistry("create", async (origin, args) => {
   const player = origin.sourceEntity
-  if(!args) return player.sendMessage(`/${namespace}:team create <name>`)
-
+  if (!(player instanceof Player)) return 1
+  
   let teams = db.fetch("team", true)
-  if(player.hasTeam()) return player.sendMessage(messageSyntax(messages.notInTeam))
+  
   if(config.BedrockTeams.maxTeamLength < args.length) return player.sendMessage(messageSyntax(messages.create.maxLength))
   if(config.BedrockTeams.minTeamLength > args.length) return player.sendMessage(messageSyntax(messages.create.minLength))
   if(config.BedrockTeams.bannedChars.split('').some(char => args.includes(char)) || ![...args].every(char => config.BedrockTeams.allowedChars.includes(char))) return player.sendMessage(messageSyntax(messages.bannedChar))
@@ -26,7 +25,7 @@ enumRegistry("create", async (origin, args) => {
       break;
     }
   }
-  
+
   teams.push({
     name: args.replace("/§[1234567890abcdefklmnori]/g", ""),
     id: teamGeneratedId,
@@ -36,9 +35,7 @@ enumRegistry("create", async (origin, args) => {
     inviteOnly: true,
     score: 0,
     level: 1,
-    leader: [{
-      name: player.name.toLowerCase()
-    }],
+    leader: [],
     pvp: false,
     version: "1.0.2",
     home: {},
@@ -46,14 +43,9 @@ enumRegistry("create", async (origin, args) => {
     banned: [],
     members: []
   })
-  
-  system.run(() => {
-    player.nameTag = `§${config.BedrockTeams.defaultColor}${args.replace("/§[1234567890abcdefklmnori]/g", "")}§r ${player.name}`
-  })
-  
-  player.enableTeamPvp(teamGeneratedId)
-  player.sendMessage(messageSyntax(messages.create.success))
+
   await db.store("team", teams)
   updateDisplayTop()
-  //return 0
+  player.sendMessage(messageSyntax(messages.admin.create.success))
+  return 0
 })

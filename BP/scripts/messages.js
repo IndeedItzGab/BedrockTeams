@@ -476,8 +476,8 @@ export const messages = {
   spy: {
     stop: '§6You are no longer spying on team messages',
     start: '§6You are now spying on team messages',
-    team: '§7[§b{0}§7]§f{1}§f: {2}',
-    ally: '§7[§d{0}§7]§f{1}§f: {2}',
+    team: '§7[§b{0}§7] §f{1}§f: {2}',
+    ally: '§7[§d{0}§7] §f{1}§f: {2}',
   },
   uclaim: {
     team: '§4You must be in a team to create a claim',

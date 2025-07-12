@@ -6,7 +6,9 @@ import { messages } from "../../../../messages.js"
 import "../../../../utilities/messageSyntax.js"
 const namespace = config.commands.namespace
 
-enumRegistry("delwarp", (origin, argsFirst, argsSecond) => {
+enumRegistry("delwarp", (origin, args) => {
+  const argsFirst = args?.split(" ")[0]
+  const argsSecond = args?.split(" ")[1]
   const player = origin.sourceEntity
   if(!argsFirst) return player.sendMessage(`/${namespace}:team setwarp <name> [password]`)
   let teams = db.fetch("team", true)

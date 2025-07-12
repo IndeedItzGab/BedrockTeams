@@ -33,6 +33,10 @@ enumRegistry("allychat", (origin, args) => {
     team.members.concat(team.leader).forEach(member => {
       world.getPlayers().find(p => p.name.toLowerCase() === member.name)?.sendMessage(messages.allychat.syntax.replace("{0}", team.name).replace("{1}", rank + player.name).replace("{2}", args))
     })
+    world.getPlayers().filter(p => p.hasTag("bedrockteams:chatspy")).forEach(p => {
+      // Admin chat spy
+      p.sendMessage(messages.spy.ally.replace("{0}", config.BedrockTeams.chatName).replace("{1}", rank + player.name).replace("{2}", args))
+    })
     for(const d of teams) {
       if(d.name === team.name || !allyTeams.some(a => a.teams.includes(d.name))) continue;
       d.members.concat(d.leader).forEach(m => {

@@ -1,0 +1,9 @@
+name: BedrockTeams
+version: V1.1.0
+status: STABLE
+message: |
+  # BedrockTeams V1.1.0
+  - Implemented of new adminsitrative commands.
+    - /teamadmin description <team> <description>
+    - /teamadmin invite <player> <team>
+  - The custom slash commands can now be used without enabling cheats on the world. However, only few enums are shown if cheats are not enabled for no particular reason.

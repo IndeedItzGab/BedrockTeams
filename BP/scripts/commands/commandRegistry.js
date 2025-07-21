@@ -28,6 +28,7 @@ export function registerCommand(comInfo, callback) {
         commandInformation: {
           name: `${config.commands.namespace}:${alias}`,
           description: comInfo?.description,
+          cheatsRequired: false,
           permissionLevel: comInfo.permissionLevel || 0,
           optionalParameters: optionalParameters,
           mandatoryParameters: mandatoryParameters
@@ -41,6 +42,7 @@ export function registerCommand(comInfo, callback) {
       commandInformation: {
         name: `${config.commands.namespace}:${comInfo?.name}`,
         description: comInfo?.description,
+        cheatsRequired: false,
         permissionLevel: comInfo?.permissionLevel || 0,
         optionalParameters: optionalParameters,
         mandatoryParameters: mandatoryParameters

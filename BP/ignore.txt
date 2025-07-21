@@ -1,14 +1,10 @@
 
 - Revamp parameters - FAILED
-
-BedrockTeams V1.1.0
-- Implementation of new adminsitrative commands
+BedrockTeams V1.1.1
+- Implementation of new administrative commands
   - /teamadmin setwarp <team> <warpName> [password]
   - /teamadmin delwarp <team> <warpName> [password]
   - /teamadmin score <set/add/remove> <team> <amount>
-  - /teamadmin description <team> <string>
-  - /teamadmin invite <team> <player>
-
 BedrockTeams V1.1.3
 - Implementation of user interface for non-administrators that can be shown by executing `/team` only.
 

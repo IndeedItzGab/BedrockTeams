@@ -331,7 +331,7 @@ export const messages = {
       success: '§6The team name has been changed',
     },
     description: {
-      success: '§6That teams name has been changed',
+      success: '§6That teams description has been changed',
     },
     open: {
       successopen: '§6That team is now open for everyone',

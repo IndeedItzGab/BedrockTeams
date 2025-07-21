@@ -38,7 +38,7 @@ const commandInformation = {
 registerCommand(commandInformation, (origin, enumArgs, args, args2, args3) => {  
   try {
     if(!enumAdminNames.some(d => d === enumArgs)) return origin.sourceEntity.sendMessage(messageSyntax("§4That command does't exist."))
-    enumAdminFunctions[enumArgs](origin, [args, args2, args3].filter(d => d).join(" "))
+    enumAdminFunctions[enumArgs](origin, [args, args2, args3])
   } catch (error) {
     origin.sourceEntity.sendMessage(messageSyntax(messages.internalError))
     console.error(messageSyntax(error))

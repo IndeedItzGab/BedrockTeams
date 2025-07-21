@@ -6,8 +6,8 @@ import { messages } from "../../../messages.js"
 import "../../../utilities/messageSyntax.js"
 
 enumAdminRegistry("color", async (origin, args) => {
-  const firstArgs = args?.split(" ")[0]
-  const secondArgs = args?.split(" ")[1]
+  const firstArgs = args[0]
+  const secondArgs = args[1]
   const player = origin.sourceEntity
   if (!(player instanceof Player)) return 1
 

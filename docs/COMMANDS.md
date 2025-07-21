@@ -54,3 +54,5 @@ These commands are meant to be use by anyone with or without the permission leve
 |teamadmin home       |\<team\>                   |Teleport to a teams home.                                                |
 |teamadmin warp       |\<team\> \<warp\>          |Warp to a location set by a team, leave the warp blank for a list of that teams warps.|
 |teamadmin setowner   |\<player\>                 |Set that player to be owner of their team (only avaliable if "singleOwner" is enabled)|
+|teamadmin invite     |\<player\> \<team\>        |Send an invite for a team to that player.                                |
+|teamadmin description|\<team\> \<description\>   |Change the description of a team.                                        |

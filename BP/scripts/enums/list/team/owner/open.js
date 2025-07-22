@@ -7,7 +7,7 @@ import "../../../../utilities/messageSyntax.js"
 const chatName = config.BedrockTeams.chatName
 const defaultColor = config.BedrockTeams.defaultColor
 
-enumRegistry("open", (origin) => {
+enumRegistry(messages.command.open, (origin) => {
   const player = origin.sourceEntity
   let teams = db.fetch("team", true)
   

@@ -6,10 +6,11 @@ import { messages } from "../../../messages.js"
 import "../../../utilities/messageSyntax.js"
 import "../../../utilities/updateDisplayTop.js"
 
-enumAdminRegistry("disband", async (origin, firstArgs) => {
+enumAdminRegistry(messages.command.disband, async (origin, firstArgs) => {
   const player = origin.sourceEntity
   if(!(player instanceof Player)) return;
 
+  if(!firstArgs) return player.sendMessage(messageSyntax(`/${config.commands.namespace}:teamadmin ${messages.command.disband} ${messages.helpArg.admin.disband}`))
   const teams = db.fetch("team", true)
   const team = teams.find(team => team.name.toLowerCase() === firstArgs.toLowerCase())
   if(!team) return player.sendMessage(messageSyntax(messages.noTeam))

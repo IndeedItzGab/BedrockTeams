@@ -5,7 +5,7 @@ import { config } from "../../../../config.js"
 import { messages } from "../../../../messages.js"
 import "../../../../utilities/messageSyntax.js"
 
-enumRegistry("pvp", (origin) => {
+enumRegistry(messages.command.pvp, (origin) => {
   const player = origin.sourceEntity
   const teams = db.fetch("team", true)
 

@@ -5,7 +5,7 @@ import { config } from "../../../config.js"
 import { messages } from "../../../messages.js"
 import "../../../utilities/messageSyntax.js"
 
-enumAdminRegistry("chatspy", async (origin) => {
+enumAdminRegistry(messages.command.chatspy, async (origin) => {
   const player = origin.sourceEntity
   if (!(player instanceof Player)) return 1
 

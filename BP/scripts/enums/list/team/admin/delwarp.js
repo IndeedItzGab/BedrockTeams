@@ -4,13 +4,10 @@ import * as db from "../../../../utilities/storage.js"
 import { config } from "../../../../config.js"
 import { messages } from "../../../../messages.js"
 import "../../../../utilities/messageSyntax.js"
-const namespace = config.commands.namespace
 
-enumRegistry("delwarp", (origin, args) => {
-  const argsFirst = args?.split(" ")[0]
-  const argsSecond = args?.split(" ")[1]
+enumRegistry(messages.command.delwarp, (origin, argsFirst, argsSecond) => {
   const player = origin.sourceEntity
-  if(!argsFirst) return player.sendMessage(`/${namespace}:team setwarp <name> [password]`)
+  if(!argsFirst) return player.sendMessage(`/${config.commands.namespace}:team ${messages.command.delwarp} ${messages.helpArg.delwarp}`)
   let teams = db.fetch("team", true)
 
   if(!player.hasTeam()) return player.sendMessage(messageSyntax(messages.inTeam))

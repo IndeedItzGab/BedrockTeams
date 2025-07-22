@@ -4,14 +4,13 @@ import * as db from "../../../../utilities/storage.js"
 import { config } from "../../../../config.js"
 import { messages } from "../../../../messages.js"
 import "../../../../utilities/messageSyntax.js"
-const namespace = config.commands.namespace
 
-enumRegistry("neutral", (origin, args) => {
+enumRegistry(messages.command.neutral, (origin, args) => {
   const player = origin.sourceEntity
   if(!player.hasTeam()) return player.sendMessage(messageSyntax(messages.inTeam))
   if(!player.isLeader()) return player.sendMessage(messageSyntax(messages.description.noPerm))
   
-  if(!args) return player.sendMessage(`/${namespace}:team nautral <team>`)
+  if(!args) return player.sendMessage(`/${config.commands.namespace}:team ${messages.command.neutral} ${messages.helpArg.neutral}`)
   
   let teams = db.fetch("team", true)
   let alliances = db.fetch("alliances", true)

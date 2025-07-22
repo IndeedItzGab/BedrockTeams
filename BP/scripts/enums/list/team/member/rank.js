@@ -28,7 +28,7 @@ const ordinalWords = [
 
 const levelsMessage = ordinalWords.map(word => `§7The ${word} level`);
 
-enumRegistry("rank", (origin, args) => {
+enumRegistry(messages.command.rank, (origin, args) => {
   const player = origin.sourceEntity
   let teams = db.fetch("team", true)
   

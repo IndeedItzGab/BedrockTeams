@@ -5,13 +5,12 @@ import { config } from "../../../../config.js"
 import "../../../../utilities/chatColor.js"
 import { messages } from "../../../../messages.js"
 import "../../../../utilities/messageSyntax.js"
-const namespace = config.commands.namespace
 const defaultColor = config.BedrockTeams.defaultColor
 
-enumRegistry("color", (origin, args) => {
+enumRegistry(messages.command.color, (origin, args) => {
 
   const player = origin.sourceEntity
-  if(!args) return player.sendMessage(`/${namespace}:team color <color code>`)
+  if(!args) return player.sendMessage(`/${config.commands.namespace}:team ${messages.command.color} ${messages.helpArg.color}`)
 
   let teams = db.fetch("team", true)
   

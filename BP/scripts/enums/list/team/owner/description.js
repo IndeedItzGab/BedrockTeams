@@ -8,7 +8,7 @@ const chatName = config.BedrockTeams.chatName
 const namespace = config.commands.namespace
 const defaultColor = config.BedrockTeams.defaultColor
 
-enumRegistry("description", (origin, args) => {
+enumRegistry(messages.command.description, (origin, args) => {
     
   const player = origin.sourceEntity
   let teams = db.fetch("team", true)

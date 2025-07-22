@@ -5,12 +5,12 @@ import { config } from "../../../config.js"
 import { messages } from "../../../messages.js"
 import "../../../utilities/messageSyntax.js"
 
-enumAdminRegistry("promote", async (origin, args) => {
+enumAdminRegistry(messages.command.promote, async (origin, args) => {
   const player = origin.sourceEntity
   if (!(player instanceof Player)) return 1
 
-  if(!args) return player.sendMessage(messageSyntax(`/${config.commands.namespace}:teamadmin promote <player>`))
-  
+  if(!args) return player.sendMessage(messageSyntax(`/${config.commands.namespace}:teamadmin ${messages.command.promote} ${messages.helpArg.admin.promote}`))
+
   const targetPlayer = world.getPlayers().find(player => player.name.toLowerCase() === args.toLowerCase())
 
   let teams = db.fetch("team", true);

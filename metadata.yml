@@ -1,9 +1,12 @@
 name: BedrockTeams
-version: V1.1.0
+version: V1.1.1
 status: STABLE
 message: |
-  # BedrockTeams V1.1.0
-  - Implemented of new adminsitrative commands.
-    - /teamadmin description <team> <description>
-    - /teamadmin invite <player> <team>
-  - The custom slash commands can now be used without enabling cheats on the world. However, only few enums are shown if cheats are not enabled for no particular reason.
+  # BedrockTeams V1.1.1
+  - Implementation of new administrative commands
+    - /teamadmin setwarp <team> <warpName> [password]
+    - /teamadmin delwarp <team> <warpName> 
+    - /teamadmin score <set/add/remove> <team> <amount> 
+  - Owners can now easily change the enums' name from `messages.js` at the command object section.
+  - Implementation of usage mistake reply per commands.
+  - Fixed an issue where some commands won't work because of the changes with usage parameters. Therefore, I am suggesting to update your BedrockTeams starting from this version and above.

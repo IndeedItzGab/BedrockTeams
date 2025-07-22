@@ -50,9 +50,12 @@ These commands are meant to be use by anyone with or without the permission leve
 |teamadmin demote     |\<player\>                 |Demote a player within their team.                                       |
 |teamadmin purge      |                           |Reset all team scores back to 0.                                         |
 |teamadmin tag        |\<team\> \<tag\>           |Change the tag for the specified team.                                   |
-|teamadmin color      |\<team\> \<tag\>           |Changes that teams color code to the specified version.                  |
+|teamadmin color      |\<team\> \<color code\>    |Changes that teams color code to the specified version.                  |
 |teamadmin home       |\<team\>                   |Teleport to a teams home.                                                |
-|teamadmin warp       |\<team\> \<warp\>          |Warp to a location set by a team, leave the warp blank for a list of that teams warps.|
+|teamadmin warp       |\<team\> [warp]            |Warp to a location set by a team, leave the warp blank for a list of that teams warps.|
 |teamadmin setowner   |\<player\>                 |Set that player to be owner of their team (only avaliable if "singleOwner" is enabled)|
 |teamadmin invite     |\<player\> \<team\>        |Send an invite for a team to that player.                                |
-|teamadmin description|\<team\> \<description\>   |Change the description of a team.                                        |
+|teamadmin description|\<team\> [description]     |Change the description of a team.                                        |
+|teamadmin setwarp    |\<team\> \<name\> [password]|Set a new warp for that team with the specified password (leave blank for no password)|
+|teamadmin delwarp    |\<team\> \<name\>          |Delete a warp from the specified team                                    |
+|teamadmin score      |\<set|add|remove\> \<team\> \<amount\>|Edit a team/players score through commands                    |

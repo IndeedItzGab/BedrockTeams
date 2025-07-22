@@ -9,8 +9,10 @@ const defaultColor = config.BedrockTeams.defaultColor
 
 if(config.BedrockTeams.singleOwner) {
 
-enumRegistry("setowner", (origin, args) => {
+enumRegistry(messages.command.setowner, (origin, args) => {
   const player = origin.sourceEntity
+
+  if(!args) return player.sendMessage(messageSyntax(`/${config.commands.namespace}:team ${messages.command.setowner} ${messages.helpArg.setowner}`))
   let teams = db.fetch("team", true)
   const targetPlayer = world.getPlayers().find(player => player.name.toLowerCase() === args.toLowerCase())
   const playerExist = db.fetch("teamPlayerList", true).some(p => p.name.toLowerCase() === args.toLowerCase())

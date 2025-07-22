@@ -5,11 +5,11 @@ import { config } from "../../../config.js"
 import { messages } from "../../../messages.js"
 import "../../../utilities/messageSyntax.js"
 
-enumAdminRegistry("tag", async (origin, args) => {
-  const firstArgs = args[0]
-  const secondArgs = args[1]
+enumAdminRegistry(messages.command.tag, async (origin, firstArgs, secondArgs) => {
   const player = origin.sourceEntity
   if (!(player instanceof Player)) return 1
+
+  if(!firstArgs || !secondArgs) return player.sendMessage(messageSyntax(`/${config.commands.namespace}:teamadmin ${messages.command.tag} ${messages.helpArg.admin.tag}`))
 
   let teams = db.fetch("team", true)
   let team = teams.find(t => t.name === firstArgs)

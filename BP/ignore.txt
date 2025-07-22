@@ -1,10 +1,12 @@
-
-- Revamp parameters - FAILED
 BedrockTeams V1.1.1
 - Implementation of new administrative commands
   - /teamadmin setwarp <team> <warpName> [password]
-  - /teamadmin delwarp <team> <warpName> [password]
-  - /teamadmin score <set/add/remove> <team> <amount>
+  - /teamadmin delwarp <team> <warpName> 
+  - /teamadmin score <set/add/remove> <team> <amount> 
+- Owners can now easily change the enums' name from `messages.js` at the command object section.
+- Implementation of usage mistake reply per commands.
+- Fixed an issue where some commands won't work because of the changes with usage parameters. Therefore, I am suggesting to update your BedrockTeams starting from this version and above.
+
 BedrockTeams V1.1.3
 - Implementation of user interface for non-administrators that can be shown by executing `/team` only.
 

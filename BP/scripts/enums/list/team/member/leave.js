@@ -5,7 +5,7 @@ import { config } from "../../../../config.js"
 import { messages } from "../../../../messages.js"
 import "../../../../utilities/messageSyntax.js"
 
-enumRegistry("leave", async (origin, args) => {
+enumRegistry(messages.command.leave, async (origin, args) => {
   const player = origin.sourceEntity
   const teams = db.fetch("team", true)
   

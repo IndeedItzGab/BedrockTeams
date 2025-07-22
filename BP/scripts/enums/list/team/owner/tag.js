@@ -4,13 +4,10 @@ import * as db from "../../../../utilities/storage.js"
 import { config } from "../../../../config.js"
 import { messages } from "../../../../messages.js"
 import "../../../../utilities/messageSyntax.js"
-const chatName = config.BedrockTeams.chatName
-const namespace = config.commands.namespace
-const defaultColor = config.BedrockTeams.defaultColor
 
-enumRegistry("tag", (origin, args) => {
+enumRegistry(messages.command.tag, (origin, args) => {
   const player = origin.sourceEntity
-  if(!args) return player.sendMessage(`/${namespace}:team tag <name>`)
+  if(!args) return player.sendMessage(`/${config.commands.namespace}:team ${messages.command.tag} ${messages.helpArg.tag}`)
 
   let teams = db.fetch("team", true)
   

@@ -5,11 +5,11 @@ import { config } from "../../../config.js"
 import { messages } from "../../../messages.js"
 import "../../../utilities/messageSyntax.js"
 
-enumAdminRegistry("demote", async (origin, args) => {
+enumAdminRegistry(messages.command.demote, async (origin, args) => {
   const player = origin.sourceEntity
   if (!(player instanceof Player)) return 1
 
-  if(!args) return player.sendMessage(messageSyntax(`/${config.commands.namespace}:teamadmin demote <player>`))
+  if(!args) return player.sendMessage(messageSyntax(`/${config.commands.namespace}:teamadmin ${messages.command.demote} ${messages.helpArg.admin.demote}`))
   
   const targetPlayer = world.getPlayers().find(player => player.name.toLowerCase() === args.toLowerCase())
 

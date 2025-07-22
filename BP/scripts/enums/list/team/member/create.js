@@ -6,10 +6,10 @@ import { messages } from "../../../../messages.js"
 import "../../../../utilities/messageSyntax.js"
 import "../../../../utilities/updateDisplayTop.js"
 
-enumRegistry("create", async (origin, args) => {
+enumRegistry(messages.command.create, async (origin, args) => {
   
   const player = origin.sourceEntity
-  if(!args) return player.sendMessage(`/${namespace}:team create <name>`)
+  if(!args) return player.sendMessage(`/${config.commands.namespace}:team ${messages.command.create} ${messages.helpArg.create}`)
 
   let teams = db.fetch("team", true)
   if(player.hasTeam()) return player.sendMessage(messageSyntax(messages.notInTeam))

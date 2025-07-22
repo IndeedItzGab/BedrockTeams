@@ -3,15 +3,12 @@ import { enumRegistry } from "../../../enumRegistry.js"
 import * as db from "../../../../utilities/storage.js"
 import { config } from "../../../../config.js"
 import { messages } from "../../../../messages.js"
-const namespace = config.commands.namespace
 const chatName = config.BedrockTeams.chatName
 const defaultColor = config.BedrockTeams.defaultColor
 
-enumRegistry("setwarp", (origin, args) => {
-  const argsFirst = args?.split(" ")[0]
-  const argsSecond = args?.split(" ")[1]
+enumRegistry(messages.command.setwarp, (origin, argsFirst, argsSecond) => {
   const player = origin.sourceEntity
-  if(!argsFirst) return player.sendMessage(`/${namespace}:team setwarp <name> [password]`)
+  if(!argsFirst) return player.sendMessage(`/${config.commands.namespace}:team ${messages.command.setwarp} ${messages.helpArg.setwarp}`)
   let teams = db.fetch("team", true)
 
   if(!player.hasTeam()) return player.sendMessagr(messageSyntax(messages.inTeam))

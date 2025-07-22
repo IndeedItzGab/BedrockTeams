@@ -1,5 +1,4 @@
 import { config } from "./config.js"
-const namespace = config.commands.namespace
 
 export const messages = {
   
@@ -22,10 +21,10 @@ export const messages = {
     header: "§l§bTOP TEAMS",
     body: "§{0}{1} §7({2})"
   },
-  cooldown: {
+  cooldown: { // ALL OF THESE ARE NOT IMPLEMENTED!
     wait: '§4You need to wait another {0} seconds before running that!',
   },
-  cost: {
+  cost: { // ALL OF THESE ARE NOT IMPLEMENTED!
     tooPoor: '§4You are too poor to run that command',
     run: '§4§l-{0}',
   },
@@ -98,7 +97,7 @@ export const messages = {
     successopen: '§6Your team now open to everyone',
     successclose: '§6Your team is now invite only',
   },
-  title: {
+  title: { // ALL OF THESE ARE NOT IMPLEMENTED!
     change: '§6Your title has been changed to §b{0}',
     remove: '§6Your title has been removed',
     success: '§6That title has been changed',
@@ -120,7 +119,7 @@ export const messages = {
     tag: '§6Tag: §b{0}',
     fail: '§6No team or player found under that name',
     score: '§6Score: §b{0}',
-    money: '§6Balance: §b{0}',
+    money: '§6Balance: §b{0}', // NOT IMPLEMENTED!
     ally: '§6Allies: §b{0}',
     online: '§a',
     offline: '§c',
@@ -179,13 +178,13 @@ export const messages = {
     fail: '§6That is not a recognised chat color',
     banned: '§4That color code is banned',
   },
-  deposit: {
+  deposit: { // ALL OF THESE ARE NOT IMPLEMENTED!
     tooLittle: '§4You cannot deposit negative amounts',
     fail: '§4The deposit failed',
     success: '§6Money deposited',
     max: '§4That would exceed your maximum allowed team balance',
   },
-  withdraw: {
+  withdraw: { // ALL OF THESE ARE NOT IMPLEMENTED!
     tooLittle: '§4You cannot widthraw negative amounts',
     fail: '§4The withdrawal failed',
     success: '§6Money withdrawn',
@@ -246,11 +245,11 @@ export const messages = {
   delwarp: {
     success: '§4That warp has been deleted',
   },
-  teleport: {
+  teleport: { // ALL OF THESE ARE NOT IMPLEMENTED!
     fail: '§4The teleportation failed',
     wait: '§6Wait §b{0} §6seconds',
   },
-  chest: {
+  chest: { // ALL OF THESE ARE NOT IMPLEMENTED!
     claim: {
       noChest: '§4You are not standing on a chest',
       limit: '§4Your team has claimed the maximum number of chests',
@@ -272,7 +271,7 @@ export const messages = {
       claimed: '§6That chest is claimed by §a{0}',
     },
   },
-  echest: {
+  echest: { // ALL OF THESE ARE NOT IMPLEMENTED!
     echest: "Enderchest"
   },
   pvp: {
@@ -292,7 +291,7 @@ export const messages = {
     noPerm: '§4You do not have permission to change the team tag',
   },
   admin: {
-    cancel: '§4The command was cancelled by another plugin',
+    cancel: '§4The command was cancelled by another plugin', // NOT IMPLEMENTED!
     tag: {
       success: '§6That teams tag successfully changed',
     },
@@ -300,10 +299,10 @@ export const messages = {
       success: '§6That teams rank has been set',
       no: '§4That rank either does not exist or is not setup correctly',
     },
-    config: {
+    config: { // ALL OF THESE ARE NOT IMPLEMENTED!
       reload: '§6BetterTeams has been reloaded (If you are having problems when using this command, restart the server)',
     },
-    holo: {
+    holo: { // ALL OF THESE ARE NOT IMPLEMENTED!
       create: {
         success: '§6Hologram created',
       },
@@ -312,16 +311,16 @@ export const messages = {
         success: '§6Hologram deleted',
       },
     },
-    title: {
+    title: { // ALL OF THESE ARE NOT IMPLEMENTED!
       success: '§6that players title has been changed',
       reset: '§6That players title has been reset',
     },
-    version: '§6Current plugin version: §b{0}',
-    versionstorage: '§6Storage Method: §b{0}',
-    versionversion: '§6Minecraft Version: §b{0}',
-    versionlanguage: '§6Language Selected: §b{0}',
-    versiononline: '§6Online mode: §b{0}',
-    versionplayers: '§6Player count: §b{0}',
+    version: '§6Current plugin version: §b{0}', // NOT IMPLEMENTED!
+    versionstorage: '§6Storage Method: §b{0}', // NOT IMPLEMENTED!
+    versionversion: '§6Minecraft Version: §b{0}', // NOT IMPLEMENTED!
+    versionlanguage: '§6Language Selected: §b{0}', // NOT IMPLEMENTED!
+    versiononline: '§6Online mode: §b{0}', // NOT IMPLEMENTED!
+    versionplayers: '§6Player count: §b{0}', // NOT IMPLEMENTED!
     noTeam: '§4That is not a team',
     home: {
       success: '§6You have been teleported to that teams home',
@@ -390,18 +389,18 @@ export const messages = {
       tooSmall: '§4The score must be greater than 0',
       success: '§6That teams score has been changed',
     },
-    bal: {
+    bal: { // ALL OF THESE ARE NOT IMPLEMENTED!
       toSmall: '§4The balance must be greater than 0',
       success: '§6That teams balance has been changed',
     },
-    update: '§4There is a new version of better teams released update here: https://www.spigotmc.org/resources/better-teams.17129/',
+    update: '§4There is a new version of better teams released update here: https://www.spigotmc.org/resources/better-teams.17129/', // NOT IMPLEMENTED!
     disband: {
       success: '§6That team has been disbanded successfully',
     },
     color: {
       success: '§6That teams color has been changed',
     },
-    chest: {
+    chest: { // ALL OF THESE ARE NOT IMPLEMENTED!
       claim: {
         success: '§6You have claimed that chest on behalf of the team',
       },
@@ -427,7 +426,7 @@ export const messages = {
         bc: '§6§lAll claimed chests are locked',
       },
     },
-    teleport: {
+    teleport: { // ALL OF THESE ARE NOT IMPLEMENTED!
       noWorld: '§4Specified world not found',
       success: '§6All online members of that team were teleported',
       player: {
@@ -440,25 +439,25 @@ export const messages = {
         },
       },
     },
-    ally: {
+    ally: { // ALL OF THESE ARE NOT IMPLEMENTED!
       same: '§4You cannot make a team an ally of itself',
       already: '§4Those teams are already allies',
       success: '§6Those two teams are now allies',
     },
-    neutral: {
+    neutral: { // ALL OF THESE ARE NOT IMPLEMENTED!
       same: '§4You cannot enter the same team twice',
       not: '§4Those teams are not allies',
       success: '§6Those teams are no longer allies',
     },
-    import: {
+    import: { // ALL OF THESE ARE NOT IMPLEMENTED!
       fail: '§4The messages import failed, check the console for errors',
       success: '§6The messages have been successfully imported',
     },
   },
-  nametag: {
+  nametag: { // ALL OF THESE ARE NOT IMPLEMENTED!
     syntax: '§6§l{0}§r ',
   },
-  holo: {
+  holo: { // ALL OF THESE ARE NOT IMPLEMENTED!
     leaderboard: '§6Leaderboard',
     syntax: '§6{0}: §b{1}',
     msyntax: '§6{0}: §b${1}',
@@ -468,7 +467,7 @@ export const messages = {
     syntax: '§b{0}: §6{1} §7({2})',
     divide: '§f...',
   },
-  baltop: {
+  baltop: { // ALL OF THESE ARE NOT IMPLEMENTED!
     leaderboard: '§6Leaderboard',
     syntax: '§b{0}: §6{1} §7({2})',
     divide: '§f...',
@@ -479,14 +478,14 @@ export const messages = {
     team: '§7[§b{0}§7] §f{1}§f: {2}',
     ally: '§7[§d{0}§7] §f{1}§f: {2}',
   },
-  uclaim: {
+  uclaim: { // ALL OF THESE ARE NOT IMPLEMENTED!
     team: '§4You must be in a team to create a claim',
     member: '§4You cannot leave your teams claim',
     kick: '§4You cannot kick members of your own team from your claim',
     ban: '§4You cannot ban members of your own team from your claim',
     dissolve: '§4Your team has been disbanded so your claim has been dissolved',
   },
-  help: {
+  help: { // ALL OF THESE ARE NOT IMPLEMENTED!
     header: '§6---- §bBetterTeams Help §6----',
     footer: '§6---- §bPage {0}/{1} - /{2} help <page> §6----',
     
@@ -521,20 +520,38 @@ export const messages = {
     allychat: "Send a message only to your allies",
   },
   helpArg: {
+    admin: {
+      color: "<team> <color code>",
+      create: "<team>",
+      delwarp: "<team> <name>",
+      demote: "<player>",
+      description: "<team> [description]",
+      disband: "<team>",
+      home: "<team>",
+      invite: "<player> <team>",
+      join: "<player> <team>",
+      leave: "<player>",
+      promote: "<player>",
+      score: "<set|add|remove> <team> <amount>",
+      setowner: "<player>",
+      setwarp: "<team> <name> [password]",
+      tag: "<team> <tag>",
+      warp: "<team> <name>"
+    },
     delhome: '',
-    echest: '',
+    echest: '', // NOT IMPLEMENTED!
     color: "<color code>",
     allychat: '[message]',
     description: '[description]',
     setwarp: "<name> [password]",
-    title: '[player/me] [title]',
-    bal: '',
+    title: '[player/me] [title]', // NOT IMPLEMENTED!
+    bal: '', // NOT IMPLEMENTED!
     ban: "<player>",
     promote: "<player>",
     warps: '',
     top: '',
     ally: "<team>",
-    rankup: '',
+    rankup: '', // NOT IMPLEMENTED!
     leave: '',
     sethome: '',
     create: "<name> [tag]",
@@ -544,23 +561,24 @@ export const messages = {
     disband: '',
     info: '[team/player]',
     delwarp: "<name> [password]",
-    chest: '',
+    chest: '', // NOT IMPLEMENTED!
     neutral: "<team>",
     pvp: '',
-    baltop: '',
+    baltop: '', // NOT IMPLEMENTED!
     list: '[page]',
     home: '',
-    help: '',
+    help: '', // NOT IMPLEMENTED!
     unban: "<player>",
     demote: "<player>",
     kick: "<player>",
     chat: '[message]',
     name: "<name>",
-    deposit: "<amount>",
+    deposit: "<amount>", // NOT IMPLEMENTED!
     invite: "<player>",
     open: '',
     warp: "<name>",
-    withdraw: "<amount>",
+    withdraw: "<amount>", // NOT IMPLEMENTED!
+    setowner: "<player>"
   },
   command: {
     create: "create",
@@ -581,9 +599,9 @@ export const messages = {
     unban: "unban",
     chat: "chat",
     color: "color",
-    title: "title",
+    title: "title", // NOT IMPLEMENTED!
     top: "top",
-    baltop: "baltop",
+    baltop: "baltop", // NOT IMPLEMENTED!
     rank: "rank",
     delhome: "delhome",
     ally: "ally",
@@ -594,15 +612,15 @@ export const messages = {
     setwarp: "setwarp",
     delwarp: "delwarp",
     warps: "warps",
-    echest: "echest",
+    echest: "echest", // NOT IMPLEMENTED!
     rankup: "rankup",
     tag: "tag",
     pvp: "pvp",
-    claim: "claim",
+    claim: "claim", // NOT IMPLEMENTED!
     remove: "remove",
-    removeall: "removeall",
-    chest: "chest",
-    reload: "reload",
+    removeall: "removeall", // NOT IMPLEMENTED!
+    chest: "chest", // NOT IMPLEMENTED!
+    reload: "reload", // NOT IMPLEMENTED!
     chatspy: "chatspy",
     version: "version",
     purge: "purge",
@@ -610,12 +628,13 @@ export const messages = {
     add: "add",
     set: "set",
     score: "score",
-    enableclaims: "enableclaims",
-    disableclaims: "disableclaims",
-    check: "check",
-    debug: "debug",
-    teleport: "teleport",
-    importmessages: "importmessages",
-    money: "money",
+    enableclaims: "enableclaims", // NOT IMPLEMENTED!
+    disableclaims: "disableclaims", // NOT IMPLEMENTED!
+    check: "check", // NOT IMPLEMENTED!
+    debug: "debug", // NOT IMPLEMENTED!
+    teleport: "teleport", // NOT IMPLEMENTED!
+    importmessages: "importmessages", // NOT IMPLEMENTED!
+    money: "money", // NOT IMPLEMENTED!
+    setowner: "setowner"
   },
 }

@@ -8,9 +8,9 @@ const chatName = config.BedrockTeams.chatName
 const namespace = config.commands.namespace
 const defaultColor = config.BedrockTeams.defaultColor
 
-enumRegistry("join", async (origin, args) => {
+enumRegistry(messages.command.join, async (origin, args) => {
   const player = origin.sourceEntity
-  if(!args) return player.sendMessage(`/${namespace}:team join <team>`)
+  if(!args) return player.sendMessage(`/${namespace}:team ${messages.command.join} ${messages.helpArg.join}`)
   const teams = db.fetch("team", true)
   const teamTag = player?.getTags().find(tag => tag.includes("teamInvite:"))
   const specifiedTeam = teams.find(team => team.name === args)

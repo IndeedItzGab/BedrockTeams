@@ -5,8 +5,10 @@ import { config } from "../../../../config.js"
 import { messages } from "../../../../messages.js"
 import "../../../../utilities/messageSyntax.js"
 
-enumRegistry("invite", (origin, args) => {
+enumRegistry(messages.command.invite, (origin, args) => {
   const player = origin.sourceEntity
+
+  if(!args) return player.sendMessage(messageSyntax(`/${config.commands.namespace}:team ${messages.command.invite} ${messages.helpArg.invite}`))
   const targetPlayer = world.getPlayers().find(player => player.name.toLowerCase() === args.toLowerCase())
   let teams = db.fetch("team", true)
   let team = teams.find(team => team.name === player.hasTeam().name)

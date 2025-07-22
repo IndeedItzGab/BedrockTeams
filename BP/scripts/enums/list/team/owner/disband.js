@@ -8,7 +8,7 @@ import "../../../../utilities/updateDisplayTop.js"
 const chatName = config.BedrockTeams.chatName
 const defaultColor = config.BedrockTeams.defaultColor
 
-enumRegistry("disband", async (origin, args) => {
+enumRegistry(messages.command.disband, async (origin, args) => {
   const player = origin.sourceEntity
   let teams = db.fetch("team", true)
   

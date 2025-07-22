@@ -6,10 +6,11 @@ import { messages } from "../../../messages.js"
 import "../../../utilities/messageSyntax.js"
 import "../../../utilities/updateDisplayTop.js"
 
-enumAdminRegistry("create", async (origin, args) => {
+enumAdminRegistry(messages.command.create, async (origin, args) => {
   const player = origin.sourceEntity
   if (!(player instanceof Player)) return 1
   
+  if(!args) return player.sendMessage(messageSyntax(`/${config.commands.namespace}:teamadmin ${messages.command.create} ${messages.helpArg.admin.create}`))
   let teams = db.fetch("team", true)
   
   if(config.BedrockTeams.maxTeamLength < args.length) return player.sendMessage(messageSyntax(messages.create.maxLength))

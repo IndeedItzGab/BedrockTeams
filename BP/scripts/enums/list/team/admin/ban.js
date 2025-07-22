@@ -5,8 +5,10 @@ import { config } from "../../../../config.js"
 import { messages } from "../../../../messages.js"
 import "../../../../utilities/messageSyntax.js"
 
-enumRegistry("ban", async (origin, args) => {
+enumRegistry(messages.command.ban, async (origin, args) => {
   const player = origin.sourceEntity
+
+  if(!args) return player.sendMessage(messageSyntax(`/${config.commands.namespace}:team ${messages.command.ban} ${messages.helpArg.ban}`))
   const targetPlayer = world.getPlayers().find(player => player.name?.toLowerCase() === args?.toLowerCase())
   const teams = db.fetch("team", true)
   const playerExist = db.fetch("teamPlayerList", true).some(p => p.name?.toLowerCase() === args?.toLowerCase())

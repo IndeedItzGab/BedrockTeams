@@ -5,7 +5,7 @@ import { config } from "../../../../config.js"
 import { messages } from "../../../../messages.js"
 import "../../../../utilities/messageSyntax.js"
 
-enumRegistry("ally", async (origin, args) => {
+enumRegistry(messages.command.ally, async (origin, args) => {
   
   const player = origin.sourceEntity
   if(!player.hasTeam()) return player.sendMessage(messageSyntax(messages.inTeam))

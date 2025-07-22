@@ -7,8 +7,10 @@ import "../../../../utilities/messageSyntax.js"
 const chatName = config.BedrockTeams.chatName
 const defaultColor = config.BedrockTeams.defaultColor
 
-enumRegistry("promote", (origin, args) => {
+enumRegistry(messages.command.promote, (origin, args) => {
   const player = origin.sourceEntity
+
+  if(!args) return player.sendMessage(messageSyntax(`/${config.commands.namespace}:team ${messages.command.promote} ${messages.helpArg.promote}`))
   let teams = db.fetch("team", true)
   const targetPlayer = world.getPlayers().find(player => player.name.toLowerCase() === args.toLowerCase())
   const playerExist = db.fetch("teamPlayerList", true).some(p => p.name.toLowerCase() === args.toLowerCase())

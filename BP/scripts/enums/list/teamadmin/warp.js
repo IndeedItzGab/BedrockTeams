@@ -5,12 +5,12 @@ import { config } from "../../../config.js"
 import { messages } from "../../../messages.js"
 import "../../../utilities/messageSyntax.js"
 
-enumAdminRegistry("warp", async (origin, args) => {
-  const firstArgs = args[0]
-  const secondArgs = args[1]
+enumAdminRegistry(messages.command.warp, async (origin, firstArgs, secondArgs) => {
   const player = origin.sourceEntity
   if (!(player instanceof Player)) return 1
   
+  if(!firstArgs) return player.sendMessage(messageSyntax(`/${config.commands.namespace}:teamadmin ${messages.command.warp} ${messages.helpArg.admin.warp}`))
+
   let teams = db.fetch("team", true)
   let team = teams.find(t => t.name === firstArgs)
   let warp = team?.warp?.find(w => w.name.toLowerCase() === secondArgs?.toLowerCase())

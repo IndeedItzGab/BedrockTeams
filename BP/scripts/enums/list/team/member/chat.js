@@ -7,7 +7,7 @@ import { messages } from "../../../../messages.js"
 import "../../../../utilities/messageSyntax.js"
 const namespace = config.commands.namespace
 
-enumRegistry("chat", (origin, args) => {
+enumRegistry(messages.command.chat, (origin, args) => {
   const player = origin.sourceEntity
   let teams = db.fetch("team", true)
   
@@ -15,7 +15,7 @@ enumRegistry("chat", (origin, args) => {
   
   let team = teams.find(team => team.name === player.hasTeam().name)
   if(!args) {
-    if(!config.BedrockTeams.allowToggleTeamChat) return player.sendMessage(`/${namespace}:team chat <message>`)
+    if(!config.BedrockTeams.allowToggleTeamChat) return player.sendMessage(`/${namespace}:team ${messages.command.chat} ${messages.helpArg.chat}`)
     const tag = player.hasTag("chat:team")
     system.run(() => {
       if(tag) {

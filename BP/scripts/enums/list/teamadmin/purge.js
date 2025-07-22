@@ -5,7 +5,7 @@ import { config } from "../../../config.js"
 import { messages } from "../../../messages.js"
 import "../../../utilities/messageSyntax.js"
 
-enumAdminRegistry("purge", async (origin) => {
+enumAdminRegistry(messages.command.purge, async (origin) => {
   const player = origin.sourceEntity
   if (!(player instanceof Player)) return 1
 

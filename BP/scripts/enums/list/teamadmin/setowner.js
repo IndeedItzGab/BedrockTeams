@@ -6,9 +6,10 @@ import { messages } from "../../../messages.js"
 import "../../../utilities/messageSyntax.js"
 
 if(config.BedrockTeams.singleOwner) {
-  enumAdminRegistry("setowner", async (origin, firstArgs) => {
+  enumAdminRegistry(messages.command.setowner, async (origin, firstArgs) => {
     const player = origin.sourceEntity
     if (!(player instanceof Player)) return 1
+    if(!firstArgs) return player.sendMessage(messageSyntax(`/${config.commands.namespace}:teamadmin ${messages.command.setowner} ${messages.helpArg.admin.setowner}`))
 
     const teams = db.fetch("team", true)
     const team = teams.find(team => team.members.some(member => member.name.toLowerCase() === firstArgs.toLowerCase()) || team.leader.some(leader => leader.name.toLowerCase() === firstArgs.toLowerCase()))

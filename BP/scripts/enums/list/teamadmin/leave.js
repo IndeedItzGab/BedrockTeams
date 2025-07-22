@@ -5,9 +5,10 @@ import { config } from "../../../config.js"
 import { messages } from "../../../messages.js"
 import "../../../utilities/messageSyntax.js"
 
-enumAdminRegistry("leave", async (origin, firstArgs) => {
+enumAdminRegistry(messages.command.leave, async (origin, firstArgs) => {
   const player = origin.sourceEntity
   if (!(player instanceof Player)) return 1
+  if(!firstArgs) return player.sendMessage(messageSyntax(`/${config.commands.namespace}:teamadmin ${messages.command.leave} ${messages.helpArg.admin.leave}`))
 
   const teams = db.fetch("team", true)
   const team = teams.find(team => team.members.some(member => member.name.toLowerCase() === firstArgs.toLowerCase()) || team.leader.some(leader => leader.name.toLowerCase() === firstArgs.toLowerCase()))

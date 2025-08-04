@@ -24,7 +24,7 @@ Not most of the host services provide the same mechanics as aternos. Therefore, 
     - The content of the `world_behavior_packs.json` should be like this:
     ```
     [
-      "pack_id": "4453ab3f-7ee3-4353-a51c-1d9c818c0a54",
-      "version": [ 1, 0, 9 ]
+      "pack_id": "686628bc-ac99-4d7c-ab91-62349c48159d",
+      "version": [ 1, 1, 2 ]
     ]
     ```

@@ -10,6 +10,7 @@ enumRegistry(messages.command.home, (origin, args) => {
   let teams = db.fetch("team", true)
   
   if(!player.hasTeam()) return player.sendMessagr(messageSyntax(messages.inTeam))
+  if(player.hasTag("inCombat")) return player.sendMessage(messageSyntax(messages.notAllowedInCombat))
 
   let team = teams.find(t => t.name === player.hasTeam().name)
   if(!team.home.x && !team.home.y && !team.home.z) return player.sendMessage(messageSyntax(messages.home.noHome))

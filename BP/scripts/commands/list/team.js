@@ -7,6 +7,7 @@ import * as db from "../../utilities/storage.js"
 import { enumFunctions, enumNames } from "../../enums/enumRegistry.js"
 import { messages } from "../../messages.js"
 import "../../utilities/messageSyntax.js"
+import "../../gui/default/teamList.js"
 
 const commandInformation = {
   name: "team",
@@ -16,7 +17,7 @@ const commandInformation = {
     {
       name: "team:team",
       type: "Enum",
-      optional: false
+      optional: true
     },
     {
       name: "args",
@@ -33,11 +34,12 @@ const commandInformation = {
 
 registerCommand(commandInformation, (origin, enumArgs, args, args2) => {
   try {
-    if(!enumNames.some(d => d === enumArgs)) return origin.sourceEntity.sendMessage(messageSyntax("§4That command does't exist."))
-    enumFunctions[enumArgs](origin, args, args2)
+    if(!enumArgs) return teamListGUI(origin.sourceEntity);
+    if(!enumNames.some(d => d === enumArgs)) return origin.sourceEntity.sendMessage(messageSyntax("§4That command does't exist."));
+    enumFunctions[enumArgs](origin, args, args2);
   } catch (error) {
-    origin.sourceEntity.sendMessage(messageSyntax(messages.internalError))
-    console.error(messageSyntax(error))
+    origin.sourceEntity.sendMessage(messageSyntax(messages.internalError));
+    console.error(messageSyntax(error));
   }
   //origin.sourceEntity.sendMessage(enumArgs)
   // return {

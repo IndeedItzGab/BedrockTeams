@@ -17,6 +17,7 @@ export const messages = {
   bannedChar: '§4A character you tried to use is banned',
   noTeam: '§4That team does not exist',
   loading: '§6Loading',
+  notAllowedInCombat: "§4You are not allowed to use this command while you are in combat!",
   displayTopTeams: {
     header: "§l§bTOP TEAMS",
     body: "§{0}{1} §7({2})"

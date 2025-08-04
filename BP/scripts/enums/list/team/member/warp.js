@@ -16,6 +16,7 @@ enumRegistry(messages.command.warp, (origin, argsFirst, argsSecond) => {
   
   let team = teams.find(t => t.name === player.hasTeam().name)
   let warp = team.warp.find(w => w.name.toLowerCase() === argsFirst?.toLowerCase())
+  if(player.hasTag("inCombat")) return player.sendMessage(messageSyntax(messages.notAllowedInCombat))
   if(team.warp.length === 0) return player.sendMessage(messageSyntax(messages.warps.none))
   if(!argsFirst) return player.sendMessage(messageSyntax(messages.warps.syntax.replace("{0}", team.warp.map(m => m.name).join(", "))))
   if(!warp) return player.sendMessage(messageSyntax(messages.warp.nowarp))

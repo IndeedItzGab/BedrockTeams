@@ -1,7 +1,6 @@
 name: BedrockTeams
-version: V1.1.2
+version: V1.1.21
 status: STABLE
 message: |
-  # BedrockTeams V1.1.2
-  - Added User-Interface (UI) support that can be used by executing `/team` only. Some feature is not yet implemented on the UI.
-  - Players who are in combat within 15 seconds cannot execute any kind of teleportation command from this script
+  # BedrockTeams V1.1.21
+  - Updated to support the latest version of Bedrock Edition.

@@ -23,3 +23,6 @@ You can also use words to change the color of your team's name like "dark_red" o
 - "LIGHT_PURPLE" for "§d"
 - "YELLOW" for "§e"
 - "WHITE" for "§f"
+
+## How to adjust the score of a specific team?
+You'll need to use `/teamadmin score \<set|add|remove\> \<team\> \<score\>`. However, you will need to include double qoute before and after of the score for the command to accept it. Therefore, that's how it works. Example Usage: `/teamadmin score set MyTeam "99"` this will set the Myteam's score to 99.

@@ -5,6 +5,7 @@ Default commands namespace: `team`
 These commands are meant to be use by anyone with or without the permission level of a operator.
 |NAME                 |PARAMETERS                 |DESCRIPTION                                                              |
 |---------------------|---------------------------|-------------------------------------------------------------------------|
+|team                 |                           |Open the User Interface of BedrockTeams                                  |
 |team create          |\<name\>                   |Create your own team.                                                    |
 |team disband         |                           |Abandon the team.                                                        |
 |team invite          |\<player\>                 |Invite a particular player to your team.                                 |

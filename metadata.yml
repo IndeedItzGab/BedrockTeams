@@ -4,6 +4,6 @@ status: STABLE
 message: |
   # BedrockTeams V1.1.3
   - Improvement with the User Interface making it more interactive.
-  - 'Settings' option in the User Interface of the script is now accessible with two new togglable options.
-  - Fixed the issue with '/teamadmin chatspy' recieving '[object Object]' instead of the actual message.
+  - `Settings` option in the User Interface of the script is now accessible with two new togglable options.
+  - Fixed the issue with `/teamadmin chatspy` recieving `[object Object]` instead of the actual message.
   - Added a decent preventive action for the issue that disable the hit action of both player in different teams.

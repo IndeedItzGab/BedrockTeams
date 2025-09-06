@@ -11,7 +11,7 @@ globalThis.teamListGUI = (player) => {
 
   // Initial Declaration of the GUI
   const form = new ActionFormData()
-  .title("Teams (§aBETA§r)")
+  .title("Teams")
   
   let listedTeams = [], type = "visitor";
 
@@ -21,14 +21,14 @@ globalThis.teamListGUI = (player) => {
   // If the player has a team, it make sure to prioritize the team's button at the top
   if(player.hasTeam()) {
     const t = teams.find(t => t.id === player.hasTeam().id)
-    form.button(`${t.name} (§aYour Team§r)`);
+    form.button(`${t.name} (§aTeam§r)`, "textures/ui/green");
     listedTeams.push(t.id)
   }
 
   // List all the teams in the GUI as a button
   for(const team of teams) {
     if(listedTeams.includes(team.id)) continue;
-    form.button(team.name);
+    form.button(team.name, "textures/ui/green");
     listedTeams.push(team.id);
   }
 
@@ -82,11 +82,11 @@ globalThis.teamListGUI = (player) => {
       }
 
       // Handle selected team from the list
-      const team = teams.find(t => t.id === listedTeams[res.selection + !player.hasTeam() ? 1 : 0]);
-      const memberInfo = team.members.some(m => m.name.toLowerCase() === player.name.toLowerCase());
-      if(memberInfo.rank === "default") {
+      const team = teams.find(t => t.id === listedTeams[res.selection - !player.hasTeam() ? 1 : 0]);
+      const memberInfo = team.members.find(m => m.name.toLowerCase() === player.name.toLowerCase());
+      if(memberInfo?.rank === "default") {
         type = "member"; // If the player is an member of that selected team..
-      } else if(memberInfo.rank === "admin") {
+      } else if(memberInfo?.rank === "admin") {
         type = "admin"; // If the player is an admin of that selected team.
       } else if(team.leader.some(l => l.name.toLowerCase() === player.name.toLowerCase())) {
         type = "owner"; // If the player is an owner of that selected team.

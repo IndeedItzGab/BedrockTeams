@@ -19,7 +19,8 @@ globalThis.warpsListGUI = (player, type) => {
 
   const form = new ActionFormData()
   .title("Warps")
-  .button("Create")
+  console.info(type)
+  type === "member" || type === "visitor" ? null : form.button("Create") ;
   
   for(const warp of team.warp) {
     form.button(warp.name)

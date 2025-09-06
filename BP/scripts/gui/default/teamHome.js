@@ -1,6 +1,8 @@
 import { ActionFormData, MessageFormData, ModalFormData} from "@minecraft/server-ui";
 import { world, system } from "@minecraft/server";
 import * as db from "../../utilities/storage.js";
+import { messages } from "../../messages.js";
+import { config } from "../../config.js";
 import "./teamDisband.js"
 import "./warpsList.js"
 import "./membersList.js"
@@ -58,29 +60,31 @@ globalThis.teamHomeGUI = (player, teamId, type) => {
     allyList.push(t.name)
   }
 
+  let teamInfo = '';
+  team.description ? teamInfo += `§b§aDescription: §r${team.description}\n` : null;
+  team.inviteOnly ? teamInfo += `§b§aPublic: §rFalse\n` : teamInfo += `§b§aPublic: §rTrue\n`;
+  teamInfo += `§b§aLevel: §r${team.level}\n`;
+  teamInfo += `§b§aScore: §r${team.score}\n`;
+  teamInfo += `§b§aTag: §r${team.tag}\n`;
+
   const form = new ActionFormData()
   .title(team.name)
-  .body(`
-${team.description ? "Description: " + team.description : ''}
-${team.invteOnly ? "Public: False" : "Public: True"}
-Level: ${team.level}
-Score: ${team.score}
-Tag: ${team.tag}
+  .body(`${teamInfo}
 ${allyList.length > 0 ? "Allies: " + allyList.join(", ") : ''}`)
-  type === "admin" || type === "owner" ? form.button("Setting (inaccessible)") : null;
-  form.button("Members")
-  type === "visitor" && !player.hasTeam() ? form.button("Join") : null;
+  type === "admin" || type === "owner" ? form.button("Setting", "textures/ui/gear") : null;
+  form.button("Members", "textures/ui/friendsbutton/navbar-friends-icon")
+  type === "visitor" && !player.hasTeam() ? form.button("Join", "textures/ui/invite_base") : null;
   if(type === "visitor" && player.isLeader()) {
     if(allyList.includes(player.isLeader().name)) {
-      form.button("Neutral");
+      form.button("Neutral", "textures/ui/dark_minus");
     } else {
-      form.button("Ally");
+      form.button("Ally", "textures/ui/color_plus");
     }
   }
-  type === "member" || type === "admin" || type === "owner" ? form.button("Home") : null;
-  type === "member" || type === "admin" || type === "owner" ? form.button("Warps") : null;
-  type === "owner" ? form.button("Disband") : null;
-  type === "member" || type === "admin" || (type === "owner" && player.hasTeam().leader.length > 1) ? form.button("Leave") : null;
+  type === "member" || type === "admin" || type === "owner" ? form.button("Home", "textures/ui/store_home_icon") : null;
+  type === "member" || type === "admin" || type === "owner" ? form.button("Warps", "textures/ui/realmsIcon.png") : null;
+  type === "owner" ? form.button("Disband", "textures/ui/icon_trash") : null;
+  type === "member" || type === "admin" || (type === "owner" && player.hasTeam().leader.length > 1) ? form.button("Leave", "textures/ui/icon_import") : null;
 
 
   // Functionalities
@@ -124,8 +128,10 @@ ${allyList.length > 0 ? "Allies: " + allyList.join(", ") : ''}`)
               
               player.sendMessage(messageSyntax(messages.join.success))
               await db.store("team", teams)
-              player.enableTeamPvp(team.id)
-              player.allyCheckPvp()
+              system.run(() => {
+                player.enableTeamPvp(team.id)
+                player.allyCheckPvp()
+              })
             } else if(player.isLeader()) {
               if(allyList.includes(player.isLeader().name)) {
                 // Neutral entry
@@ -155,7 +161,7 @@ ${allyList.length > 0 ? "Allies: " + allyList.join(", ") : ''}`)
       case "admin":
         switch(res.selection) {
           case 0:
-            teamSettingGUI(player); // Unfinished
+            teamSettingGUI(player, teams); // Unfinished
             break;
           case 1:
             membersListGUI(player, team.id, type);
@@ -174,7 +180,7 @@ ${allyList.length > 0 ? "Allies: " + allyList.join(", ") : ''}`)
       case "owner":
         switch(res.selection) {
           case 0:
-            teamSettingGUI(player); // Unfinished GUI
+            teamSettingGUI(player, teams); // Unfinished GUI
             break;
           case 1:
             membersListGUI(player, team.id, type);
@@ -232,4 +238,24 @@ async function leave(player) {
   await db.store("team", teams);
   player.disableTeamPvp();
   player.allyCheckPvp();
+}
+
+
+// Team Settings GUI
+// Invite Only: Togglable
+// PVP: Togglable
+function teamSettingGUI(player, teams) {
+  const team = teams.find(t => t.name === player.hasTeam().name);
+  const form = new ModalFormData()
+  .title("Settings")
+  .toggle("Invite Only", {defaultValue: team.inviteOnly})
+  .toggle("PVP", {defaultValue: team.pvp})
+
+  form.show(player).then((res) => {
+    if(res.canceled) return;
+    team.inviteOnly = res.formValues[0];
+    team.pvp = res.formValues[1];
+    db.store("team", teams);
+    player.sendMessage(messageSyntax(messages.settings.success));
+  })
 }

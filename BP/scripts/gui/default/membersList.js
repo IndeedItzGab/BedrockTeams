@@ -18,7 +18,7 @@ globalThis.membersListGUI = (player, teamId, type) => {
     let isOnline = world.getPlayers().some(m => m.name.toLowerCase() === leader.name)
     name = `${isOnline ? messages.info.online : messages.info.offline }${messages.prefix.owner}${leader.name}§r`
 
-    form.button(leader.name)
+    form.button(leader.name, "textures/ui/icon_steve")
     membersList.push(leader.name)
   }
 
@@ -29,7 +29,7 @@ globalThis.membersListGUI = (player, teamId, type) => {
     name = `${isOnline ? messages.info.online : messages.info.offline }${messages.prefix.default}${member.name}§r`
     if(member.rank === "admin") name = `${isOnline ? messages.info.online : messages.info.offline }${messages.prefix.admin}${member.name}§r`
 
-    form.button(member.name)
+    form.button(member.name, "textures/ui/icon_steve")
     membersList.push(member.name)
   }
 

@@ -22,7 +22,7 @@ world.beforeEvents.chatSend.subscribe((event) => {
     })
     world.getPlayers().filter(p => p.hasTag("bedrockteams:chatspy")).forEach(p => {
       // Admin chat spy
-      p.sendMessage(messages.spy.team.replace("{0}", config.BedrockTeams.chatName).replace("{1}", rank + player.name).replace("{2}", messages))
+      p.sendMessage(messages.spy.team.replace("{0}", config.BedrockTeams.chatName).replace("{1}", rank + player.name).replace("{2}", message))
     })
   } else if(player.hasTag("chat:ally")) {
     const alliances = db.fetch("alliances", true)

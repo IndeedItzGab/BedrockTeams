@@ -34,6 +34,9 @@ export const messages = {
     admin: '*',
     default: '',
   },
+  settings: {
+    success: '§6Your team settings have been updated',
+  },
   create: {
     exists: '§6That team already exists',
     success: '§6Your team has been created',

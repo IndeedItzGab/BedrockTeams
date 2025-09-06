@@ -1,11 +1,11 @@
 {
   "format_version": 2,
   "header": {
-    "name": "§l§rBedrockTeams §r(§a1.1.21§r)",
+    "name": "§l§rBedrockTeams §r(§a1.1.3§r)",
     "description": "Create teams to compete to be the best. This add-on is designed to encourage teamwork and foster a sense of community within a server or realm.",
     "uuid": "686628bc-ac99-4d7c-ab91-62349c48159d",
     "min_engine_version": [1, 21, 100],
-    "version": [1, 1, 21]
+    "version": [1, 1, 3]
   },
   "modules": [
     {

@@ -3,7 +3,7 @@ import {
   system
 } from "@minecraft/server";
 import { registerCommand }  from "../commandRegistry.js"
-import * as db from "../../utilities/storage.js"
+import * as db from "../../utilities/DatabaseHandler.js"
 import { enumFunctions, enumNames } from "../../enums/enumRegistry.js"
 import { messages } from "../../messages.js"
 import "../../utilities/messageSyntax.js"

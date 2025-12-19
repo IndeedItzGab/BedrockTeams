@@ -1,6 +1,8 @@
 name: BedrockTeams
-version: V1.1.5
+version: V1.1.6
 status: STABLE
 message: |
-  # BedrockTeams V1.1.5
-  - The pack will now automatically support manifest updates. Therefore, this pack supports minecraft bedrock (1.21.120) and above without further manual manifest updates.
+  # BedrockTeams V1.1.6
+  - Improvement with cancelling damages
+  - Improvement with checking pass combat
+  - Fixed players were allowed to use `/team warp` and `/team home` during combat

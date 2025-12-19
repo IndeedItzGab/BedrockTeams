@@ -1,6 +1,6 @@
 import { world, system, Player } from "@minecraft/server"
 import { enumAdminRegistry } from "../../enumRegistry.js"
-import * as db from "../../../utilities/storage.js"
+import * as db from "../../../utilities/DatabaseHandler.js"
 import { config } from "../../../config.js"
 import { messages } from "../../../messages.js"
 import "../../../utilities/messageSyntax.js"
@@ -17,9 +17,7 @@ enumAdminRegistry(messages.command.disband, async (origin, firstArgs) => {
 
   team.members.concat(team.leader).forEach(member => {
     const p = world.getPlayers().find(p => p.name.toLowerCase() === member.name.toLowerCase())
-    p?.disableTeamPvp()
     system.run(() => p ? p.nameTag = p.name : null)
-    p?.allyCheckPvp()
   })
 
   // Global Announcement
@@ -38,7 +36,6 @@ enumAdminRegistry(messages.command.disband, async (origin, firstArgs) => {
     t.members.concat(t.leader).forEach(m => {
       const p = world.getPlayers().find(a => a.name.toLowerCase() === m.name.toLowerCase())
       p?.sendMessage(messageSyntax(messages.neutral.remove.replace("{0}", team.name)))
-      p?.allyCheckPvp()
     })
   }
   

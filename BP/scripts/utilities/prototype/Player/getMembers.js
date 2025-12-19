@@ -1,5 +1,5 @@
 import { Player } from "@minecraft/server"
-import * as db from "../../storage.js"
+import * as db from "../../DatabaseHandler.js"
  
 Player.prototype.getMembers = function () {
   const teams = db.fetch("teams", true)

@@ -1,5 +1,5 @@
 import { world, system, Player } from "@minecraft/server"
-import * as db from "../../utilities/storage.js"
+import * as db from "../../utilities/DatabaseHandler.js"
 import { config } from "../../config.js"
 import "../../utilities/updateDisplayTop.js"
 

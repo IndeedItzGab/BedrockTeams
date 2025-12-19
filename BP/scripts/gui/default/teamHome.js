@@ -1,6 +1,6 @@
 import { ActionFormData, MessageFormData, ModalFormData} from "@minecraft/server-ui";
 import { world, system } from "@minecraft/server";
-import * as db from "../../utilities/storage.js";
+import * as db from "../../utilities/DatabaseHandler.js";
 import { messages } from "../../messages.js";
 import { config } from "../../config.js";
 import "./teamDisband.js"
@@ -129,8 +129,6 @@ ${allyList.length > 0 ? "Allies: " + allyList.join(", ") : ''}`)
               player.sendMessage(messageSyntax(messages.join.success))
               await db.store("team", teams)
               system.run(() => {
-                player.enableTeamPvp(team.id)
-                player.allyCheckPvp()
               })
             } else if(player.isLeader()) {
               if(allyList.includes(player.isLeader().name)) {
@@ -236,8 +234,6 @@ async function leave(player) {
   
   player.sendMessage(messageSyntax(messages.leave.success));
   await db.store("team", teams);
-  player.disableTeamPvp();
-  player.allyCheckPvp();
 }
 
 

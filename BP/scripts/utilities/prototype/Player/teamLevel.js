@@ -1,6 +1,6 @@
 import { Player } from "@minecraft/server"
 import { config } from "../../../config.js"
-import * as db from "../../storage.js"
+import * as db from "../../DatabaseHandler.js"
  
  /**
  * Checks if the player is in a crawling state based on the distance between their head location and feet location.

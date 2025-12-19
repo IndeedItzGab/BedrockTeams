@@ -1,6 +1,6 @@
 import { world, system } from "@minecraft/server"
 import { enumRegistry } from "../../../enumRegistry.js"
-import * as db from "../../../../utilities/storage.js"
+import * as db from "../../../../utilities/DatabaseHandler.js"
 import { config } from "../../../../config.js"
 import { messages } from "../../../../messages.js"
 import "../../../../utilities/messageSyntax.js"
@@ -36,7 +36,5 @@ enumRegistry(messages.command.ban, async (origin, args) => {
   targetPlayer?.sendMessage(messageSyntax(messages.ban.notify.replace("{0}", player.hasTeam().name)))
   player.sendMessage(messageSyntax(messages.ban.success))
   await db.store("team", teams)
-  targetPlayer?.disableTeamPvp()
-  targetPlayer?.allyCheckPvp()
   return 0
 })

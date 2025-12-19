@@ -1,6 +1,6 @@
 import { world } from "@minecraft/server"
 import { messages } from "../../messages.js"
-import * as db from "../../utilities/storage.js"
+import * as db from "../../utilities/DatabaseHandler.js"
 import "../../utilities/messageSyntax.js"
 
 world.afterEvents.playerSpawn.subscribe((event) => {

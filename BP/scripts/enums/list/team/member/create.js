@@ -1,6 +1,6 @@
 import { world, system } from "@minecraft/server"
 import { enumRegistry } from "../../../enumRegistry.js"
-import * as db from "../../../../utilities/storage.js"
+import * as db from "../../../../utilities/DatabaseHandler.js"
 import { config } from "../../../../config.js"
 import { messages } from "../../../../messages.js"
 import "../../../../utilities/messageSyntax.js"
@@ -51,7 +51,6 @@ enumRegistry(messages.command.create, async (origin, args) => {
     player.nameTag = `§${config.BedrockTeams.defaultColor}${args.replace("/§[1234567890abcdefklmnori]/g", "")}§r ${player.name}`
   })
   
-  player.enableTeamPvp(teamGeneratedId)
   player.sendMessage(messageSyntax(messages.create.success))
   await db.store("team", teams)
   updateDisplayTop()

@@ -1,6 +1,6 @@
 import { world, system, Player } from "@minecraft/server"
 import { enumAdminRegistry } from "../../enumRegistry.js"
-import * as db from "../../../utilities/storage.js"
+import * as db from "../../../utilities/DatabaseHandler.js"
 import { config } from "../../../config.js"
 import { messages } from "../../../messages.js"
 import "../../../utilities/messageSyntax.js"
@@ -55,7 +55,5 @@ enumAdminRegistry(messages.command.join, async (origin, firstArgs, secondArgs) =
   targetPlayer?.sendMessage(messageSyntax(messages.admin.join.notify.replace("{0}", specifiedTeam.name)))
   player.sendMessage(messageSyntax(messages.admin.join.success))
   await db.store("team", teams)
-  targetPlayer?.enableTeamPvp(specifiedTeam.id)
-  targetPlayer?.allyCheckPvp()
   return 0
 })

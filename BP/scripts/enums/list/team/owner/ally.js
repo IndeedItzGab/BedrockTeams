@@ -1,6 +1,6 @@
 import { world, system } from "@minecraft/server"
 import { enumRegistry } from "../../../enumRegistry.js"
-import * as db from "../../../../utilities/storage.js"
+import * as db from "../../../../utilities/DatabaseHandler.js"
 import { config } from "../../../../config.js"
 import { messages } from "../../../../messages.js"
 import "../../../../utilities/messageSyntax.js"
@@ -40,19 +40,10 @@ enumRegistry(messages.command.ally, async (origin, args) => {
   if(specifiedAllyReq) {
     // Check whether the team already reached the maximum alliances limit
     if(alliances.filter(d => d.teams.includes(selfTeam.name)).length >= config.BedrockTeams.allyLimit) return player.sendMessage(messageSyntax(messages.ally.limit))
-    // Call if the requests exists and create a new object in "alliases"
-    let aTag;
-    for(let i = 1; i<501; i++) {
-      // Check if the tag already exists from ally1 to ally500 to ensure no alliances conflict happens
-      if(alliances.some(d => d.teamTag === `ally${i}`)) continue
-      aTag = `ally${i}`; // Assign the value of aTag for the current alliance to use
-      break;
-    }
     
     // Add the new object in alliances
     alliances.push({
       teams: [selfTeam.name, targetTeam.name],
-      allyTag: aTag
     })
     
     // Update the data
@@ -64,12 +55,10 @@ enumRegistry(messages.command.ally, async (origin, args) => {
     selfTeam.members.concat(selfTeam.leader).forEach(async (m) => {
       const member = world.getPlayers().find(p => p.name.toLowerCase() === m.name.toLowerCase())
       member?.sendMessage(messageSyntax(messages.ally.ally.replace("{0}", targetTeam.name)))
-      await member?.allyCheckPvp(1, aTag)
     })
     targetTeam.members.concat(targetTeam.leader).forEach(async (m) => {
       const member = world.getPlayers().find(p => p.name.toLowerCase() === m.name.toLowerCase())
       member?.sendMessage(messageSyntax(messages.ally.ally.replace("{0}", selfTeam.name)))
-      await member?.allyCheckPvp(1, aTag)
     })
   } else {
     if(selfTeam.name === targetTeam.name) return player.sendMessage(messageSyntax(messages.ally.self))

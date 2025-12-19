@@ -1,6 +1,6 @@
 import { ActionFormData, MessageFormData, ModalFormData} from "@minecraft/server-ui"
 import { world, system } from "@minecraft/server"
-import * as db from "../../utilities/storage.js"
+import * as db from "../../utilities/DatabaseHandler.js"
 import { config } from "../../config.js"
 import { messages } from "../../messages.js"
 import "../../utilities/messageSyntax.js"
@@ -23,9 +23,7 @@ globalThis.teamDisbandGUI = (player) => {
       const team = teams.find(d => d.leader.some(l => l.name === player.name.toLowerCase()))
       team.members.concat(team.leader).forEach(member => {
         const p = world.getPlayers().find(p => p.name.toLowerCase() === member.name.toLowerCase())
-        p?.disableTeamPvp()
         p ? p.nameTag = p.name : null
-        p?.allyCheckPvp()
       })
       
       // Global Announcement
@@ -44,7 +42,6 @@ globalThis.teamDisbandGUI = (player) => {
         t.members.concat(t.leader).forEach(m => {
           const p = world.getPlayers().find(a => a.name.toLowerCase() === m.name.toLowerCase())
           p?.sendMessage(messageSyntax(messages.neutral.remove.replace("{0}", team.name)))
-          p?.allyCheckPvp()
         })
       }
       player.sendMessage(messageSyntax(messages.disband.success))

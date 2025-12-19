@@ -1,6 +1,6 @@
 import { world, system } from "@minecraft/server"
 import { enumRegistry } from "../../../enumRegistry.js"
-import * as db from "../../../../utilities/storage.js"
+import * as db from "../../../../utilities/DatabaseHandler.js"
 import { config } from "../../../../config.js"
 import { messages } from "../../../../messages.js"
 import "../../../../utilities/messageSyntax.js"
@@ -38,12 +38,10 @@ enumRegistry(messages.command.neutral, (origin, args) => {
     selfTeam.members.concat(selfTeam.leader).forEach(m => {
       const member = world.getPlayers().find(p => p.name.toLowerCase() === m.name.toLowerCase())
       member?.sendMessage(messageSyntax(messages.neutral.remove.replace("{0}", args)))
-      member?.allyCheckPvp(0, allyObj.allyTag)
     })
     specifiedTeam.members.concat(specifiedTeam.leader).forEach(m => {
       const member = world.getPlayers().find(p => p.name.toLowerCase() === m.name.toLowerCase())
       member?.sendMessage(messageSyntax(messages.neutral.remove.replace("{0}", selfTeam.name)))
-      member?.allyCheckPvp(0, allyObj.allyTag)
     })
     
     alliances = alliances.filter(a => a != allyObj)

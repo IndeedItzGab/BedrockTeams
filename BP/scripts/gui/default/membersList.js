@@ -1,6 +1,6 @@
 import { ActionFormData, MessageFormData, ModalFormData} from "@minecraft/server-ui"
 import { world, system } from "@minecraft/server"
-import * as db from "../../utilities/storage.js"
+import * as db from "../../utilities/DatabaseHandler.js"
 import { messages } from "../../messages.js"
 import { config } from "../../config"
 import "../../utilities/messageSyntax.js"
@@ -140,8 +140,7 @@ async function kick(player, targetName) {
   targetPlayer?.sendMessage(messageSyntax(messages.kick.notify.replace("{0}", team.name)))
   player.sendMessage(messageSyntax(messages.kick.success))
   await db.store("team", teams)
-  targetPlayer?.disableTeamPvp()
-  targetPlayer?.allyCheckPvp()
+
 }
 
 async function ban(player, targetName) {
@@ -164,6 +163,4 @@ async function ban(player, targetName) {
   targetPlayer?.sendMessage(messageSyntax(messages.ban.notify.replace("{0}", player.hasTeam().name)))
   player.sendMessage(messageSyntax(messages.ban.success))
   await db.store("team", teams)
-  targetPlayer?.disableTeamPvp()
-  targetPlayer?.allyCheckPvp()
 }

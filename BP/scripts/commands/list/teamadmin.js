@@ -1,11 +1,6 @@
-import {
-  world,
-  system
-} from "@minecraft/server";
-import { registerCommand }  from "../commandRegistry.js"
+import { registerCommand }  from "../CommandRegistry.js"
 import { messages } from "../../messages.js"
-import * as db from "../../utilities/DatabaseHandler.js"
-import { enumAdminFunctions,enumAdminNames } from "../../enums/enumRegistry.js"
+import { enumAdminFunctions,enumAdminNames } from "../../enums/EnumRegistry.js"
 
 const commandInformation = {
   name: "teamadmin",

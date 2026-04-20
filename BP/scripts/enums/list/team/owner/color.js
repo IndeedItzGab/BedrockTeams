@@ -1,22 +1,30 @@
 import { world, system } from "@minecraft/server"
-import { enumRegistry } from "../../../enumRegistry.js"
+import { EnumRegistry } from "../../../EnumRegistry.js"
 import * as db from "../../../../utilities/DatabaseHandler.js"
-import { config } from "../../../../config.js"
 import "../../../../utilities/chatColor.js"
 import { messages } from "../../../../messages.js"
 import "../../../../utilities/messageSyntax.js"
-const defaultColor = config.BedrockTeams.defaultColor
 
-enumRegistry(messages.command.color, (origin, args) => {
+let cooldowns = new Map()
+EnumRegistry(messages.command.color, (origin, args) => {
 
   const player = origin.sourceEntity
-  if(!args) return player.sendMessage(`/${config.commands.namespace}:team ${messages.command.color} ${messages.helpArg.color}`)
+  if(!args) return player.sendMessage(`/team ${messages.command.color} ${messages.helpArg.color}`)
 
   let teams = db.fetch("team", true)
+  const setting = db.fetch("bedrockteams:setting")
+
+  // Cooldown
+  const cooldown = cooldowns.get(player.id)
+  if(cooldown?.tick >= system.currentTick) {
+    return player.sendMessage(`§c${messages.CommandCooldown.replaceAll("{0}", (cooldown.tick - system.currentTick) / 20)}`)
+  } else {
+    cooldowns.set(player.id, {tick: system.currentTick + setting.commands["cooldown"]*20})
+  }
   
   if(!player.hasTeam()) return player.sendMessage(messageSyntax(messages.inTeam))
   if(!player.isLeader()) return player.sendMessage(messageSyntax(messages.needOwner))
-  if(config.BedrockTeams.bannedColors.split('').some(char => args.includes(char))) return player.sendMessage(messageSyntax(messages.color.banned))
+  if(setting.teams["bannedColors"].split('').some(char => args.includes(char))) return player.sendMessage(messageSyntax(messages.color.banned))
   
   let team = teams.find(team => team.name === player.hasTeam().name)
   if(args.length > 1) {

@@ -1,14 +1,13 @@
 import { world, system, Player } from "@minecraft/server"
-import { enumAdminRegistry } from "../../enumRegistry.js"
+import { enumAdminRegistry } from "../../EnumRegistry.js"
 import * as db from "../../../utilities/DatabaseHandler.js"
-import { config } from "../../../config.js"
 import { messages } from "../../../messages.js"
 import "../../../utilities/messageSyntax.js"
 
 enumAdminRegistry(messages.command.leave, async (origin, firstArgs) => {
   const player = origin.sourceEntity
   if (!(player instanceof Player)) return 1
-  if(!firstArgs) return player.sendMessage(messageSyntax(`/${config.commands.namespace}:teamadmin ${messages.command.leave} ${messages.helpArg.admin.leave}`))
+  if(!firstArgs) return player.sendMessage(messageSyntax(`/teamadmin ${messages.command.leave} ${messages.helpArg.admin.leave}`))
 
   const teams = db.fetch("team", true)
   const team = teams.find(team => team.members.some(member => member.name.toLowerCase() === firstArgs.toLowerCase()) || team.leader.some(leader => leader.name.toLowerCase() === firstArgs.toLowerCase()))
@@ -29,7 +28,7 @@ enumAdminRegistry(messages.command.leave, async (origin, firstArgs) => {
   })
   
   // Global Announcement
-  if(config.BedrockTeams.announceTeamLeave) {
+  if(setting.teams["announceTeamLeave"]) {
     world.getPlayers().forEach(p => {
       p.sendMessage(messageSyntax(messages.announce.leave.replace("{0}", firstArgs.toLowerCase()).replace("{1}", specifiedTeam.name)))
     })

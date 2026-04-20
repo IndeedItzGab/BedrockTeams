@@ -1,24 +1,24 @@
-import { world, system, Player } from "@minecraft/server"
-import { enumAdminRegistry } from "../../enumRegistry.js"
+import { Player } from "@minecraft/server"
+import { enumAdminRegistry } from "../../EnumRegistry.js"
 import * as db from "../../../utilities/DatabaseHandler.js"
-import { config } from "../../../config.js"
 import { messages } from "../../../messages.js"
 import "../../../utilities/messageSyntax.js"
 
 enumAdminRegistry(messages.command.setwarp, async (origin, firstArgs, secondArgs, thirdArgs) => {
   const player = origin.sourceEntity
   if (!(player instanceof Player)) return 1
-  if(!firstArgs || !secondArgs) return player.sendMessage(messageSyntax(`/${config.commands.namespace}:teamadmin ${messages.command.setwarp} ${messages.helpArg.admin.setwarp}`))
+  const setting = db.fetch("bedrockteams:setting")
+  if(!firstArgs || !secondArgs) return player.sendMessage(messageSyntax(`/teamadmin ${messages.command.setwarp} ${messages.helpArg.admin.setwarp}`))
 
   let teams = db.fetch("team", true)
   let team = teams.find(t => t.name === firstArgs)
-  const perks = config.BedrockTeams.levels.filter(d => !d?.price || d.price <= team?.score).reduce((acc, cur) => {
+  const perks = setting.teams["levels"].filter(d => !d?.price || d.price <= team?.score).reduce((acc, cur) => {
     return (!acc || (cur.price > acc.price)) ? cur : acc;
   }, null)
 
 
   if(!team) return player.sendMessage(messageSyntax(messages.noTeam))
-  if(config.BedrockTeams.bannedChars.split('').some(char => secondArgs?.includes(char)) || ![...secondArgs].every(char => config.BedrockTeams.allowedChars?.includes(char))) return player.sendMessage(messageSyntax(messages.setwarp.char))
+  if(setting.teams["bannedChars"].split('').some(char => secondArgs?.includes(char)) || ![...secondArgs].every(char => setting.teams["allowedChars"]?.includes(char))) return player.sendMessage(messageSyntax(messages.setwarp.char))
   if(team.warp.some(w => w.name.toLowerCase() === secondArgs?.toLowerCase())) return player.sendMessage(messageSyntax(messages.setwarp.exist))
   if(team.warp.length + 1 > perks.maxWarps) return player.sendMessage(messageSyntax(messages.admin.setwarp.max))
 

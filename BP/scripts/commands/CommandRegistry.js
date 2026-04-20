@@ -1,8 +1,8 @@
 import {
   system
 } from "@minecraft/server";
-import { config } from "../config.js"
-import { enumNames, enumAdminNames } from "../enums/enumRegistry.js"
+
+import { enumNames, enumAdminNames } from "../enums/EnumRegistry.js"
 
 let commands = []
 export function registerCommand(comInfo, callback) {
@@ -26,7 +26,7 @@ export function registerCommand(comInfo, callback) {
     comInfo?.aliases?.forEach(alias => {
       commands.push({
         commandInformation: {
-          name: `${config.commands.namespace}:${alias}`,
+          name: `team:${alias}`,
           description: comInfo?.description,
           cheatsRequired: false,
           permissionLevel: comInfo.permissionLevel || 0,
@@ -40,7 +40,7 @@ export function registerCommand(comInfo, callback) {
     // Main Command Handler
     commands.push({
       commandInformation: {
-        name: `${config.commands.namespace}:${comInfo?.name}`,
+        name: `team:${comInfo?.name}`,
         description: comInfo?.description,
         cheatsRequired: false,
         permissionLevel: comInfo?.permissionLevel || 0,

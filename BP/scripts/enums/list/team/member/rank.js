@@ -1,7 +1,6 @@
-import { world, system } from "@minecraft/server"
-import { enumRegistry } from "../../../enumRegistry.js"
+import { system } from "@minecraft/server"
+import { EnumRegistry } from "../../../EnumRegistry.js"
 import * as db from "../../../../utilities/DatabaseHandler.js"
-import { config } from "../../../../config.js"
 import { messages } from "../../../../messages.js"
 import "../../../../utilities/messageSyntax.js"
 
@@ -28,16 +27,26 @@ const ordinalWords = [
 
 const levelsMessage = ordinalWords.map(word => `§7The ${word} level`);
 
-enumRegistry(messages.command.rank, (origin, args) => {
+let cooldowns = new Map()
+EnumRegistry(messages.command.rank, (origin, args) => {
   const player = origin.sourceEntity
   let teams = db.fetch("team", true)
+  const setting = db.fetch("bedrockteams:setting")
+
+  // Cooldown
+  const cooldown = cooldowns.get(player.id)
+  if(cooldown?.tick >= system.currentTick) {
+    return player.sendMessage(`§c${messages.CommandCooldown.replaceAll("{0}", (cooldown.tick - system.currentTick) / 20)}`)
+  } else {
+    cooldowns.set(player.id, {tick: system.currentTick + setting.commands["cooldown"]*20})
+  }
   
   const targetTeam = args || player.hasTeam()?.name
   const team = teams.find(team => team.name === targetTeam)
   if(!team) return player.sendMessage(messageSyntax(messages.rank.noTeam))
   
-  let message = messageSyntax(messages.rank.infos.replace("{0}", player.teamLevel(team.name)).replace("{1}", config.BedrockTeams.levels[player.teamLevel(team.name)]?.price - team.score))
-  if(config.BedrockTeams.levels.length === player.teamLevel(team.name)) message = messageSyntax(messages.rank.infomm.replace("{0}", player.teamLevel(team.name)))
+  let message = messageSyntax(messages.rank.infos.replace("{0}", player.teamLevel(team.name)).replace("{1}", setting.teams["levels"][player.teamLevel(team.name)]?.price - team.score))
+  if(setting.teams["levels"].length === player.teamLevel(team.name)) message = messageSyntax(messages.rank.infomm.replace("{0}", player.teamLevel(team.name)))
   message += `\n${messageSyntax(`§7${levelsMessage[player.teamLevel(team.name) - 1]}`)}`
   player.sendMessage(message)
 

@@ -1,21 +1,29 @@
 import { world, system } from "@minecraft/server"
-import { enumRegistry } from "../../../enumRegistry.js"
+import { EnumRegistry } from "../../../EnumRegistry.js"
 import * as db from "../../../../utilities/DatabaseHandler.js"
-import { config } from "../../../../config.js"
 import "../../../../utilities/chatColor.js"
 import { messages } from "../../../../messages.js"
 import "../../../../utilities/messageSyntax.js"
-const namespace = config.commands.namespace
 
-enumRegistry(messages.command.chat, (origin, args) => {
+let cooldowns = new Map()
+EnumRegistry(messages.command.chat, (origin, args) => {
   const player = origin.sourceEntity
   let teams = db.fetch("team", true)
+  const setting = db.fetch("bedrockteams:setting")
+
+  // Cooldown
+  const cooldown = cooldowns.get(player.id)
+  if(cooldown?.tick >= system.currentTick) {
+    return player.sendMessage(`§c${messages.CommandCooldown.replaceAll("{0}", (cooldown.tick - system.currentTick) / 20)}`)
+  } else {
+    cooldowns.set(player.id, {tick: system.currentTick + setting.commands["cooldown"]*20})
+  }
   
   if(!player.hasTeam()) return player.sendMessage(messageSyntax(messages.inTeam))
   
   let team = teams.find(team => team.name === player.hasTeam().name)
   if(!args) {
-    if(!config.BedrockTeams.allowToggleTeamChat) return player.sendMessage(`/${namespace}:team ${messages.command.chat} ${messages.helpArg.chat}`)
+    if(!setting.teams["allowToggleTeamChat"]) return player.sendMessage(`/team ${messages.command.chat} ${messages.helpArg.chat}`)
     const tag = player.hasTag("chat:team")
     system.run(() => {
       if(tag) {
@@ -33,7 +41,7 @@ enumRegistry(messages.command.chat, (origin, args) => {
     })
     world.getPlayers().filter(p => p.hasTag("bedrockteams:chatspy")).forEach(p => {
       // Admin chat spy
-      p.sendMessage(messages.spy.team.replace("{0}", config.BedrockTeams.chatName).replace("{1}", rank + player.name).replace("{2}", args))
+      p.sendMessage(messages.spy.team.replace("{0}", setting.teams["chatName"]).replace("{1}", rank + player.name).replace("{2}", args))
     })
   }
   

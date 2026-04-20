@@ -1,18 +1,24 @@
 import { world, system } from "@minecraft/server"
-import { enumRegistry } from "../../../enumRegistry.js"
+import { EnumRegistry } from "../../../EnumRegistry.js"
 import * as db from "../../../../utilities/DatabaseHandler.js"
-import { config } from "../../../../config.js"
 import { messages } from "../../../../messages.js"
 import "../../../../utilities/messageSyntax.js"
-const chatName = config.BedrockTeams.chatName
-const defaultColor = config.BedrockTeams.defaultColor
 
-if(config.BedrockTeams.singleOwner) {
-
-enumRegistry(messages.command.setowner, (origin, args) => {
+let cooldowns = new Map()
+EnumRegistry(messages.command.setowner, (origin, args) => {
   const player = origin.sourceEntity
+  const setting = db.fetch("bedrockteams:setting")
 
-  if(!args) return player.sendMessage(messageSyntax(`/${config.commands.namespace}:team ${messages.command.setowner} ${messages.helpArg.setowner}`))
+  if(!setting.teams["singleOwner"]) return player.sendMessahe(messageSyntax(messages.singleOwnerOnlyCommand))
+  // Cooldown
+  const cooldown = cooldowns.get(player.id)
+  if(cooldown?.tick >= system.currentTick) {
+    return player.sendMessage(`§c${messages.CommandCooldown.replaceAll("{0}", (cooldown.tick - system.currentTick) / 20)}`)
+  } else {
+    cooldowns.set(player.id, {tick: system.currentTick + setting.commands["cooldown"]*20})
+  }
+
+  if(!args) return player.sendMessage(messageSyntax(`/team ${messages.command.setowner} ${messages.helpArg.setowner}`))
   let teams = db.fetch("team", true)
   const targetPlayer = world.getPlayers().find(player => player.name.toLowerCase() === args.toLowerCase())
   const playerExist = db.fetch("teamPlayerList", true).some(p => p.name.toLowerCase() === args.toLowerCase())
@@ -40,4 +46,3 @@ enumRegistry(messages.command.setowner, (origin, args) => {
   db.store("team", teams)
   return 0
 })
-}

@@ -1,7 +1,6 @@
-import { world, system, Player } from "@minecraft/server"
-import { enumAdminRegistry } from "../../enumRegistry.js"
+import { Player } from "@minecraft/server"
+import { enumAdminRegistry } from "../../EnumRegistry.js"
 import * as db from "../../../utilities/DatabaseHandler.js"
-import { config } from "../../../config.js"
 import { messages } from "../../../messages.js"
 import "../../../utilities/messageSyntax.js"
 import "../../../utilities/updateDisplayTop.js"
@@ -9,14 +8,15 @@ import "../../../utilities/updateDisplayTop.js"
 enumAdminRegistry(messages.command.create, async (origin, args) => {
   const player = origin.sourceEntity
   if (!(player instanceof Player)) return 1
+  const setting = db.fetch("bedrockteams:setting")
   
-  if(!args) return player.sendMessage(messageSyntax(`/${config.commands.namespace}:teamadmin ${messages.command.create} ${messages.helpArg.admin.create}`))
+  if(!args) return player.sendMessage(messageSyntax(`/teamadmin ${messages.command.create} ${messages.helpArg.admin.create}`))
   let teams = db.fetch("team", true)
   
-  if(config.BedrockTeams.maxTeamLength < args.length) return player.sendMessage(messageSyntax(messages.create.maxLength))
-  if(config.BedrockTeams.minTeamLength > args.length) return player.sendMessage(messageSyntax(messages.create.minLength))
-  if(config.BedrockTeams.bannedChars.split('').some(char => args.includes(char)) || ![...args].every(char => config.BedrockTeams.allowedChars.includes(char))) return player.sendMessage(messageSyntax(messages.bannedChar))
-  if(config.BedrockTeams.blacklist.includes(args)) return player.sendMessage(messageSyntax(messages.create.banned))
+  if(setting.teams["maxTeamLength"] < args.length) return player.sendMessage(messageSyntax(messages.create.maxLength))
+  if(setting.teams["minTeamLength"] > args.length) return player.sendMessage(messageSyntax(messages.create.minLength))
+  if(setting.teams["bannedChars"].split('').some(char => args.includes(char)) || ![...args].every(char => setting.teams["allowedChars"].includes(char))) return player.sendMessage(messageSyntax(messages.bannedChar))
+  if(setting.teams["blacklist"].includes(args)) return player.sendMessage(messageSyntax(messages.create.banned))
   if(teams.some(team => team.name === args)) return player.sendMessage(messageSyntax(messages.create.exists))
   
   let teamGeneratedId;
@@ -30,7 +30,7 @@ enumAdminRegistry(messages.command.create, async (origin, args) => {
   teams.push({
     name: args.replace("/§[1234567890abcdefklmnori]/g", ""),
     id: teamGeneratedId,
-    color: config.BedrockTeams.defaultColor,
+    color: setting.teams["defaultColor"],
     tag: args.replace("/§[1234567890abcdefklmnori]/g", ""),
     description: "",
     inviteOnly: true,

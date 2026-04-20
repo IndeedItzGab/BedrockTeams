@@ -1,5 +1,4 @@
 import { world, system } from "@minecraft/server"
-import { config } from "../../config.js"
 import { messages } from "../../messages.js"
 import * as db from "../../utilities/DatabaseHandler.js"
 import "../../utilities/messageSyntax.js"
@@ -17,12 +16,13 @@ world.beforeEvents.chatSend.subscribe((event) => {
   
   if(player.hasTag("chat:team")) {
     let rank = player.isLeader() ? messages.prefix.owner : player.isAdmin() ? messages.prefix.admin : messages.prefix.default
+    const setting = db.fetch("bedrockteams:setting")
     team.members.concat(team.leader).forEach(member => {
       world.getPlayers().find(p => p.name.toLowerCase() === member.name.toLowerCase())?.sendMessage(messages.chat.syntax.replace("{0}", rank + player.name).replace("{1}", message))
     })
     world.getPlayers().filter(p => p.hasTag("bedrockteams:chatspy")).forEach(p => {
       // Admin chat spy
-      p.sendMessage(messages.spy.team.replace("{0}", config.BedrockTeams.chatName).replace("{1}", rank + player.name).replace("{2}", message))
+      p.sendMessage(messages.spy.team.replace("{0}", setting.teams["chatName"]).replace("{1}", rank + player.name).replace("{2}", message))
     })
   } else if(player.hasTag("chat:ally")) {
     const alliances = db.fetch("alliances", true)
@@ -33,7 +33,7 @@ world.beforeEvents.chatSend.subscribe((event) => {
     })
     world.getPlayers().filter(p => p.hasTag("bedrockteams:chatspy")).forEach(p => {
       // Admin chat spy
-      p.sendMessage(messages.spy.ally.replace("{0}", config.BedrockTeams.chatName).replace("{1}", rank + player.name).replace("{2}", message))
+      p.sendMessage(messages.spy.ally.replace("{0}", setting.teams["chatName"]).replace("{1}", rank + player.name).replace("{2}", message))
     })
     for(const d of teams) {
       if(d.name === team.name || !allyTeams.some(a => a.teams.includes(d.name))) continue;
@@ -42,7 +42,7 @@ world.beforeEvents.chatSend.subscribe((event) => {
       })
     }
   } else {
-    const color = !config.BedrockTeams.colorTeamName ? "" : team?.color
+    const color = !setting.teams["colorTeamName"] ? "" : team?.color
     world.sendMessage(`§i[§r§${color}${team?.name}§i]§r <${player.name}> ${message}`)
     system.run(() => system.sendScriptEvent("discordcc:sendChat", JSON.stringify({message: {content: message}, username: `[${team?.name}] ${player.name}`})))
   }

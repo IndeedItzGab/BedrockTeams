@@ -1,15 +1,15 @@
 import { world, system, Player } from "@minecraft/server"
-import { enumAdminRegistry } from "../../enumRegistry.js"
+import { enumAdminRegistry } from "../../EnumRegistry.js"
 import * as db from "../../../utilities/DatabaseHandler.js"
-import { config } from "../../../config.js"
 import { messages } from "../../../messages.js"
 import "../../../utilities/messageSyntax.js"
 
 enumAdminRegistry(messages.command.join, async (origin, firstArgs, secondArgs) => {
   const player = origin.sourceEntity
   if (!(player instanceof Player)) return 1
+  const setiing = db.fetch("bedrockteams:setting")
 
-  if(!firstArgs || !secondArgs) return player.sendMessage(messageSyntax(`/${config.commands.namespace}:teamadmin ${messages.command.join} ${messages.helpArg.admin.join}`))
+  if(!firstArgs || !secondArgs) return player.sendMessage(messageSyntax(`/teamadmin ${messages.command.join} ${messages.helpArg.admin.join}`))
 
 
   let teams = db.fetch("team", true)
@@ -20,7 +20,7 @@ enumAdminRegistry(messages.command.join, async (origin, firstArgs, secondArgs) =
 
   if(!specifiedTeam) return player.sendMessage(messageSyntax(messages.noTeam))
 
-  const perks = config.BedrockTeams.levels.filter(d => !d?.price || d.price <= specifiedTeam.score).reduce((acc, cur) => {
+  const perks = setting.teams["levels"].filter(d => !d?.price || d.price <= specifiedTeam.score).reduce((acc, cur) => {
     return (!acc || (cur.price > acc.price)) ? cur : acc;
   }, null)
 
@@ -37,7 +37,7 @@ enumAdminRegistry(messages.command.join, async (origin, firstArgs, secondArgs) =
     world.getPlayers().find(player => player.name.toLowerCase() === member.name)?.sendMessage(messageSyntax(messages.join.notify.replace("{0}", player.name)))
   })
 
-  const color = !config.BedrockTeams.colorTeamName ? config.BedrockTeams.defaulColor : specifiedTeam.color
+  const color = !setting.teams["colorTeamName"] ? setting.teams["defaulColor"] : specifiedTeam.color
   const teamTag = player?.getTags().find(tag => tag.includes("teamInvite:"))
 
   system.run(() => {
@@ -46,7 +46,7 @@ enumAdminRegistry(messages.command.join, async (origin, firstArgs, secondArgs) =
   })
   
   // Global Announcement
-  if(config.BedrockTeams.announceTeamJoin) {
+  if(setting.teams["announceTeamJoin"]) {
     world.getPlayers().forEach(p => {
       p.sendMessage(messageSyntax(messages.announce.join.replace("{0}", firstArgs.toLowerCase()).replace("{1}", specifiedTeam.name)))
     })

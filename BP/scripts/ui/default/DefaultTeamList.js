@@ -1,13 +1,13 @@
-import { ActionFormData, MessageFormData, ModalFormData} from "@minecraft/server-ui";
-import { world, system } from "@minecraft/server";
+import { ActionFormData, ModalFormData} from "@minecraft/server-ui";
+import { system } from "@minecraft/server";
 import * as db from "../../utilities/DatabaseHandler.js";
 import "../../utilities/messageSyntax.js";
 import { messages } from "../../messages.js";
-import { config } from "../../config.js";
-import "./teamHome.js";
+import { ui } from "../Handler.js"
 
-globalThis.teamListGUI = (player) => {
+export function DefaultTeamList(player) {
   const teams = db.fetch("team", true);
+  const setting = db.fetch("bedrockteams:setting")
 
   // Initial Declaration of the GUI
   const form = new ActionFormData()
@@ -56,10 +56,15 @@ globalThis.teamListGUI = (player) => {
         createGUI.show(player).then(res => {
           if(res.canceled) return;
           if(!res.formValues[0]) return player.sendMessage(messageSyntax("§4You must input a name for your team to create."))
+          if(setting.teams["maxTeamLength"] < res.formValues[0]) return player.sendMessage(messageSyntax(messages.create.maxLength))
+          if(setting.teams["minTeamLength"] > res.formValues[0]) return player.sendMessage(messageSyntax(messages.create.minLength))
+          if(setting.teams["bannedChars"].split('').some(char => res.formValues[0].includes(char)) || ![...res.formValues[0]].every(char => setting.teams["allowedChars"].includes(char))) return player.sendMessage(messageSyntax(messages.bannedChar))
+          if(setting.teams["blacklist"].includes(res.formValues[0])) return player.sendMessage(messageSyntax(messages.create.banned))
+          if(teams.some(team => team.name === res.formValues[0])) return player.sendMessage(messageSyntax(messages.create.exists))
           teams.push({
             name: res.formValues[0].replace("/§[1234567890abcdefklmnori]/g", ""),
             id: teamGeneratedId,
-            color: config.BedrockTeams.defaultColor,
+            color: setting.teams["defaultColor"],
             tag: res.formValues[0].replace("/§[1234567890abcdefklmnori]/g", ""),
             description: "",
             inviteOnly: true,
@@ -82,7 +87,7 @@ globalThis.teamListGUI = (player) => {
       }
 
       // Handle selected team from the list
-      const team = teams.find(t => t.id === listedTeams[res.selection - !player.hasTeam() ? 1 : 0]);
+      const team = teams.find(t => t.id === listedTeams[res.selection - (!player.hasTeam() ? 1 : 0)]);
       const memberInfo = team.members.find(m => m.name.toLowerCase() === player.name.toLowerCase());
       if(memberInfo?.rank === "default") {
         type = "member"; // If the player is an member of that selected team..
@@ -93,7 +98,7 @@ globalThis.teamListGUI = (player) => {
       } // else: type = "visitor"
 
       // Show the information about the selected team vai GUI
-      teamHomeGUI(player, team.id, type);
+      ui.DefaultTeamHome(player, team.id, type);
     })
   })
 }

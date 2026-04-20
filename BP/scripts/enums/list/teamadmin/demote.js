@@ -1,15 +1,15 @@
-import { world, system, Player } from "@minecraft/server"
-import { enumAdminRegistry } from "../../enumRegistry.js"
+import { world, Player } from "@minecraft/server"
+import { enumAdminRegistry } from "../../EnumRegistry.js"
 import * as db from "../../../utilities/DatabaseHandler.js"
-import { config } from "../../../config.js"
 import { messages } from "../../../messages.js"
 import "../../../utilities/messageSyntax.js"
 
 enumAdminRegistry(messages.command.demote, async (origin, args) => {
   const player = origin.sourceEntity
   if (!(player instanceof Player)) return 1
+  const setting = db.fetch("bedrockteams:setting")
 
-  if(!args) return player.sendMessage(messageSyntax(`/${config.commands.namespace}:teamadmin ${messages.command.demote} ${messages.helpArg.admin.demote}`))
+  if(!args) return player.sendMessage(messageSyntax(`/teamadmin ${messages.command.demote} ${messages.helpArg.admin.demote}`))
   
   const targetPlayer = world.getPlayers().find(player => player.name.toLowerCase() === args.toLowerCase())
 
@@ -20,7 +20,7 @@ enumAdminRegistry(messages.command.demote, async (origin, args) => {
   const playerExist = db.fetch("teamPlayerList", true).some(p => p.name?.toLowerCase() === args?.toLowerCase())
   
   if(!playerExist) return player.sendMessage(messageSyntax(messages.noPlayer))
-  let perks = config.BedrockTeams.levels.filter(d => !d?.price || d.price <= team?.score).reduce((acc, cur) => {
+  let perks = setting.teams["levels"].filter(d => !d?.price || d.price <= team?.score).reduce((acc, cur) => {
     return (!acc || (cur.price > acc.price)) ? cur : acc;
   }, null)
 

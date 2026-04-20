@@ -1,7 +1,6 @@
 import "./utilities/prototype/handler.js"
-import "./enums/handler.js"
-import "./commands/handler.js"
-import "./events/handler.js"
-import "./live/handler.js"
+import "./enums/Handler.js"
+import "./commands/Handler.js"
+import "./events/Handler.js"
 
 console.info("BedrockTeams has started.")

@@ -1,5 +1,4 @@
 import { Player } from "@minecraft/server"
-import { config } from "../../../config.js"
 import * as db from "../../DatabaseHandler.js"
  
  /**
@@ -7,8 +6,9 @@ import * as db from "../../DatabaseHandler.js"
  * @return {boolean} true if the player is crawling, false otherwise
  */
 Player.prototype.teamLevel = function (teamName) {
+  const setting = db.fetch("bedrockteams:setting")
   const teams = db.fetch("team", true)
   const team = teams.find(data => data.name === teamName) || teams.find(data => data.leader.some(d => d.name === this.name.toLowerCase()) || data?.members?.some(member => member.name === this?.name.toLowerCase()))
-  return config.BedrockTeams.levels
+  return setting.teams["levels"]
   .filter(d => !d?.price || d.price <= team.score).length
 };

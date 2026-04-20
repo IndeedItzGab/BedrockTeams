@@ -1,13 +1,8 @@
-import {
-  world,
-  system
-} from "@minecraft/server";
-import { registerCommand }  from "../commandRegistry.js"
-import * as db from "../../utilities/DatabaseHandler.js"
-import { enumFunctions, enumNames } from "../../enums/enumRegistry.js"
+import { registerCommand }  from "../CommandRegistry.js"
+import { enumFunctions, enumNames } from "../../enums/EnumRegistry.js"
 import { messages } from "../../messages.js"
+import { ui } from "../../ui/Handler.js"
 import "../../utilities/messageSyntax.js"
-import "../../gui/default/teamList.js"
 
 const commandInformation = {
   name: "team",
@@ -34,7 +29,7 @@ const commandInformation = {
 
 registerCommand(commandInformation, (origin, enumArgs, args, args2) => {
   try {
-    if(!enumArgs) return teamListGUI(origin.sourceEntity);
+    if(!enumArgs) return ui.DefaultTeamList(origin.sourceEntity);
     if(!enumNames.some(d => d === enumArgs)) return origin.sourceEntity.sendMessage(messageSyntax("§4That command does't exist."));
     enumFunctions[enumArgs](origin, args, args2);
   } catch (error) {

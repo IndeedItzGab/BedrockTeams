@@ -1,16 +1,23 @@
 import { world, system } from "@minecraft/server"
-import { enumRegistry } from "../../../enumRegistry.js"
+import { EnumRegistry } from "../../../EnumRegistry.js"
 import * as db from "../../../../utilities/DatabaseHandler.js"
-import { config } from "../../../../config.js"
 import { messages } from "../../../../messages.js"
 import "../../../../utilities/messageSyntax.js"
-const chatName = config.BedrockTeams.chatName
-const defaultColor = config.BedrockTeams.defaultColor
 
-enumRegistry(messages.command.promote, (origin, args) => {
+let cooldowns = new Map()
+EnumRegistry(messages.command.promote, (origin, args) => {
   const player = origin.sourceEntity
+  const setting = db.fetch("bedrockteams:setting")
 
-  if(!args) return player.sendMessage(messageSyntax(`/${config.commands.namespace}:team ${messages.command.promote} ${messages.helpArg.promote}`))
+  // Cooldown
+  const cooldown = cooldowns.get(player.id)
+  if(cooldown?.tick >= system.currentTick) {
+    return player.sendMessage(`§c${messages.CommandCooldown.replaceAll("{0}", (cooldown.tick - system.currentTick) / 20)}`)
+  } else {
+    cooldowns.set(player.id, {tick: system.currentTick + setting.commands["cooldown"]*20})
+  }
+
+  if(!args) return player.sendMessage(messageSyntax(`/team ${messages.command.promote} ${messages.helpArg.promote}`))
   let teams = db.fetch("team", true)
   const targetPlayer = world.getPlayers().find(player => player.name.toLowerCase() === args.toLowerCase())
   const playerExist = db.fetch("teamPlayerList", true).some(p => p.name.toLowerCase() === args.toLowerCase())
@@ -24,7 +31,7 @@ enumRegistry(messages.command.promote, (origin, args) => {
   const specifiedMember = team.members.find(m => m.name === args.toLowerCase())
 
   if(team.leader.some(l => l.name === args.toLowerCase())) return player.sendMessage(messageSyntax(messages.promote.max))
-  if(config.BedrockTeams.singleOwner && specifiedMember.rank === "admin") return player.sendMessage(messageSyntax(messages.setowner.use))
+  if(setting.teams["singleOwner"] && specifiedMember.rank === "admin") return player.sendMessage(messageSyntax(messages.setowner.use))
   if(specifiedMember.rank === "default" && player.teamPerks().maxAdmins < team.members.filter(m => m.rank === "admin").length + 1) return player.sendMessage(messageSyntax(messages.promote.maxAdmins))
   if(specifiedMember.rank === "admin" && player.teamPerks().maxOwners < team.leader.length + 1) return player.sendMessage(messageSyntax(messages.promote.maxOwners))
 

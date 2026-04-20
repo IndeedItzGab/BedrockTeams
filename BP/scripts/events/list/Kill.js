@@ -1,6 +1,5 @@
 import { world, system, Player } from "@minecraft/server"
 import * as db from "../../utilities/DatabaseHandler.js"
-import { config } from "../../config.js"
 import "../../utilities/updateDisplayTop.js"
 
 world.afterEvents.entityDie.subscribe((event) => {
@@ -10,6 +9,7 @@ world.afterEvents.entityDie.subscribe((event) => {
   const victim = event.deadEntity
   const deathTag = victim.getTags().find(d => d.includes("death:"))
   const killTag = suspect.getTags().find(d => d.includes("kill:"))
+  const setting = db.fetch("bedrockteams:setting")
   
   let teams = db.fetch("team", true)
   let suspectTeam = teams.find(d => d.name === suspect.hasTeam()?.name)
@@ -17,14 +17,14 @@ world.afterEvents.entityDie.subscribe((event) => {
   
   // Responsible for scoring
   if(suspectTeam?.name === victimTeam?.name) return; // Avoid score farming if both are in the same team
-  suspectTeam ? suspectTeam.score = Math.max(config.BedrockTeams.minScore, suspectTeam.score + config.BedrockTeams.events.kill.score) : null
-  victimTeam ? victimTeam.score = Math.max(config.BedrockTeams.minScore, victimTeam.score + config.BedrockTeams.events.death.score) : null
+  suspectTeam ? suspectTeam.score = Math.max(setting.teams["minScore"], suspectTeam.score + setting.teams["events"].kill.score) : null
+  victimTeam ? victimTeam.score = Math.max(setting.teams["minScore"], victimTeam.score + setting.teams["events"].death.score) : null
   
   // Check victim death time status if they have.
   if(deathTag) {
     // Spam Death-Detector
     if(parseInt(deathTag?.split(":")[2]) >= system.currentTick) {
-      victimTeam ? victimTeam.score = Math.max(config.BedrockTeams.minScore, victimTeam.score + config.BedrockTeams.events.death.spam) : null
+      victimTeam ? victimTeam.score = Math.max(setting.teams["minScore"], victimTeam.score + setting.teams["events"].death.spam) : null
     }
     
     system.run(() => {
@@ -41,7 +41,7 @@ world.afterEvents.entityDie.subscribe((event) => {
   if(killTag) {
     // Spam Kill-Detector
     if(parseInt(killTag.split(":")[2]) >= system.currentTick) {
-      suspectTeam ? suspectTeam.score = Math.max(config.BedrockTeams.minScore, suspectTeam.score + config.BedrockTeams.events.kill.spam) : null
+      suspectTeam ? suspectTeam.score = Math.max(setting.teams["minScore"], suspectTeam.score + setting.teams["events"].kill.spam) : null
     }
     
     system.run(() => {

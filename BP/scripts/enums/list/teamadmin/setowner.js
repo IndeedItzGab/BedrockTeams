@@ -1,15 +1,16 @@
-import { world, system, Player } from "@minecraft/server"
-import { enumAdminRegistry } from "../../enumRegistry.js"
+import { world, Player } from "@minecraft/server"
+import { enumAdminRegistry } from "../../EnumRegistry.js"
 import * as db from "../../../utilities/DatabaseHandler.js"
-import { config } from "../../../config.js"
 import { messages } from "../../../messages.js"
 import "../../../utilities/messageSyntax.js"
 
-if(config.BedrockTeams.singleOwner) {
+
   enumAdminRegistry(messages.command.setowner, async (origin, firstArgs) => {
     const player = origin.sourceEntity
     if (!(player instanceof Player)) return 1
-    if(!firstArgs) return player.sendMessage(messageSyntax(`/${config.commands.namespace}:teamadmin ${messages.command.setowner} ${messages.helpArg.admin.setowner}`))
+    const setting = db.fetch("bedrockteams:setting")
+    if(setting.teams["singleOwner"]) return player.sendMessage(messageSyntax(messages.singleOwnerOnlyCommand))
+    if(!firstArgs) return player.sendMessage(messageSyntax(`/teamadmin ${messages.command.setowner} ${messages.helpArg.admin.setowner}`))
 
     const teams = db.fetch("team", true)
     const team = teams.find(team => team.members.some(member => member.name.toLowerCase() === firstArgs.toLowerCase()) || team.leader.some(leader => leader.name.toLowerCase() === firstArgs.toLowerCase()))
@@ -38,4 +39,3 @@ if(config.BedrockTeams.singleOwner) {
 
     return 0
   })
-}

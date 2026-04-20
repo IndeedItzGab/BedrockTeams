@@ -1,11 +1,8 @@
-import { ActionFormData, MessageFormData, ModalFormData} from "@minecraft/server-ui";
+import { ActionFormData, ModalFormData} from "@minecraft/server-ui";
 import { world, system } from "@minecraft/server";
 import * as db from "../../utilities/DatabaseHandler.js";
 import { messages } from "../../messages.js";
-import { config } from "../../config.js";
-import "./teamDisband.js"
-import "./warpsList.js"
-import "./membersList.js"
+import { ui } from "../Handler.js"
 
 /*
 # Visitor (A player with no team)
@@ -45,8 +42,9 @@ import "./membersList.js"
 */
 
 
-globalThis.teamHomeGUI = (player, teamId, type) => {
+export function DefaultTeamHome(player,teamId,type) {
   const teams = db.fetch("team", true);
+  const setting = db.fetch("bedrockteams:setting")
   const team = teams.find(t => t.id === teamId);
 
   if(!team) return;
@@ -78,7 +76,7 @@ ${allyList.length > 0 ? "Allies: " + allyList.join(", ") : ''}`)
     if(allyList.includes(player.isLeader().name)) {
       form.button("Neutral", "textures/ui/dark_minus");
     } else {
-      form.button("Ally", "textures/ui/color_plus");
+      form.button("Ally (Unavailable)", "textures/ui/color_plus");
     }
   }
   type === "member" || type === "admin" || type === "owner" ? form.button("Home", "textures/ui/store_home_icon") : null;
@@ -89,12 +87,12 @@ ${allyList.length > 0 ? "Allies: " + allyList.join(", ") : ''}`)
 
   // Functionalities
   form.show(player).then(async (res) => {
-    if(res.canceled) return;
+    if(res.canceled) return ui.DefaultTeamList(player);
     switch(type) {
       case "visitor":
         switch(res.selection) {
           case 0:
-            membersListGUI(player, team.id, type)
+            ui.DefaultMemberList(player, team.id, type)
             break;
           case 1:
             if(!player.hasTeam()) {
@@ -113,14 +111,14 @@ ${allyList.length > 0 ? "Allies: " + allyList.join(", ") : ''}`)
                 world.getPlayers().find(player => player.name.toLowerCase() === member.name)?.sendMessage(messageSyntax(messages.join.notify.replace("{0}", player.name)))
               })
             
-              const color = !config.BedrockTeams.colorTeamName ? config.BedrockTeams.defaulColor : team.color
+              const color = !setting.teams["colorTeamName"] ? setting.teams["defaulColor"] : team.color
               system.run(() => {
                 player.nameTag = `§${color}${team.tag}§r ${player.name}`
                 teamTag ? player?.removeTag(teamTag) : null
               })
               
               // Global Announcement
-              if(config.BedrockTeams.announceTeamJoin) {
+              if(setting.teams["announceTeamJoin"]) {
                 world.getPlayers().forEach(p => {
                   p.sendMessage(messageSyntax(messages.announce.join.replace("{0}", player.name).replace("{1}", team.name)))
                 })
@@ -143,13 +141,13 @@ ${allyList.length > 0 ? "Allies: " + allyList.join(", ") : ''}`)
       case "member":
         switch(res.selection) {
           case 0:
-            membersListGUI(player, team.id, type);
+            ui.DefaultMemberList(player, team.id, type);
             break;
           case 1:
-            home(player, team);
+            ui.home(player, team);
             break;
           case 2:
-            warpsListGUI(player, type);
+            ui.DefaultWarpsList(player, type);
             break;
           case 3:
             leave(player);
@@ -159,16 +157,16 @@ ${allyList.length > 0 ? "Allies: " + allyList.join(", ") : ''}`)
       case "admin":
         switch(res.selection) {
           case 0:
-            teamSettingGUI(player, teams); // Unfinished
+            ui.DefaultTeamSetting(player, type); // Unfinished
             break;
           case 1:
-            membersListGUI(player, team.id, type);
+            ui.DefaultMemberList(player, team.id, type);
             break;
           case 2:
             home(player, team);
             break;
           case 3:
-            warpsListGUI(player, type);
+            ui.DefaultWarpsList(player, type);
             break;
           case 4:
             leave(player);
@@ -178,19 +176,19 @@ ${allyList.length > 0 ? "Allies: " + allyList.join(", ") : ''}`)
       case "owner":
         switch(res.selection) {
           case 0:
-            teamSettingGUI(player, teams); // Unfinished GUI
+            ui.DefaultTeamSetting(player, type); // Unfinished GUI
             break;
           case 1:
-            membersListGUI(player, team.id, type);
+            ui.DefaultMemberList(player, team.id, type);
             break; 
           case 2:
             home(player, team);
             break;
           case 3:
-            warpsListGUI(player, type);
+            ui.DefaultWarpsList(player, type);
             break;
           case 4:
-            teamDisbandGUI(player);
+            ui.DefaultTeamDisband(player);
             break;
           case 5:
             leave(player);
@@ -226,7 +224,7 @@ async function leave(player) {
   })
 
   // Global Announcement
-  if(config.BedrockTeams.announceTeamLeave) {
+  if(setting.teams["announceTeamLeave"]) {
     world.getPlayers().forEach(p => {
       p.sendMessage(messageSyntax(messages.announce.leave.replace("{0}", player.name).replace("{1}", team.name)));
     })

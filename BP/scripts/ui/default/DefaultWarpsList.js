@@ -2,7 +2,7 @@ import { ActionFormData, MessageFormData, ModalFormData} from "@minecraft/server
 import { world, system } from "@minecraft/server"
 import * as db from "../../utilities/DatabaseHandler.js"
 import { messages } from "../../messages.js";
-import { config } from "../../config.js";
+import { ui } from "../Handler.js"
 import "../../utilities/messageSyntax.js"
 
 /*
@@ -13,13 +13,12 @@ Admin/Owner
 - Deletion
 */
 
-globalThis.warpsListGUI = (player, type) => {
+export function DefaultWarpsList(player,type) {
   const teams = db.fetch("team", true);
   const team = teams.find(t => t.name === player.hasTeam().name);
 
   const form = new ActionFormData()
   .title("Warps")
-  console.info(type)
   type === "member" || type === "visitor" ? null : form.button("Create") ;
   
   for(const warp of team.warp) {
@@ -27,7 +26,7 @@ globalThis.warpsListGUI = (player, type) => {
   }
 
   form.show(player).then(res => {
-    if(res.canceled) return;
+    if(res.canceled) return ui.DefaultTeamHome(player, team.id, type);
     if(res.selection === 0) {
       if(type === "member") return;
       const warpCreateForm = new ModalFormData()
@@ -81,6 +80,7 @@ globalThis.warpsListGUI = (player, type) => {
 }
 
 function teleportEntry(player, warp, type) {
+  const setting = db.fetch("bedrockteams:setting")
   if(warp.password && type !== "owner") {
     // If there's a password
     const form = new ModalFormData()
@@ -94,7 +94,7 @@ function teleportEntry(player, warp, type) {
       system.run(() => {
         const dimension = world.getDimension(warp.dimension)
         const teleport = player.tryTeleport({x: warp.x, y: warp.y, z: warp.z}, {dimension})
-        if(!teleport) return player.sendMessage(`${config.BedrockTeams.chatName} §4The location of that warp could not be found`)
+        if(!teleport) return player.sendMessage(`${setting.teams["chatName"]} §4The location of that warp could not be found`)
       })
       player.sendMessage(messageSyntax(messages.warp.success))
     })
@@ -103,7 +103,7 @@ function teleportEntry(player, warp, type) {
     system.run(() => {
       const dimension = world.getDimension(warp.dimension)
       const teleport = player.tryTeleport({x: warp.x, y: warp.y, z: warp.z}, {dimension})
-      if(!teleport) return player.sendMessage(`${config.BedrockTeams.chatName} §4The location of that warp could not be found`)
+      if(!teleport) return player.sendMessage(`${setting.teams["chatName"]} §4The location of that warp could not be found`)
     })
     player.sendMessage(messageSyntax(messages.warp.success))
   }

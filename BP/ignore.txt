@@ -21,3 +21,50 @@ BedrockTeams V1.1.4
 
 BedrockTeams V1.1.4
 - Implementation of user interface for administrators that can be shown by executing `/teamadmin` or `/teama` only.
+
+BedrockTeams V1.1.7
+- ban
+- delhome
+- delwarp
+- invite
+- kick
+- pvp
+- sethome
+- setwarp
+- unban
+
+- allychat
+- chat
+- create
+- home
+- info
+- join
+- leave
+- list
+- rank
+- top
+- warp
+
+- ally
+- color
+- demote
+- description
+- disband
+- neutral
+- open
+- promote
+- setowner
+- tag
+
+- COMMMANDS DONE
+- EVENTS DONE
+- UTILITIES DONE
+
+- user interface left
+
+BedrockTeams V1.1.7
+- In-game configuration vai user interface. Therefore, the file configuration is now removed.
+- Added slash commands' cooldown
+- Some adjustment with the user interface.
+- Fixed issue where wrong team were selected on the user interface (reported by @starwarguy)
+- Fixed issue where a team could be created regardless of limitation through user interface.

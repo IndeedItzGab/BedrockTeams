@@ -1,13 +1,23 @@
 import { world, system } from "@minecraft/server"
-import { enumRegistry } from "../../../enumRegistry.js"
+import { EnumRegistry } from "../../../EnumRegistry.js"
 import * as db from "../../../../utilities/DatabaseHandler.js"
-import { config } from "../../../../config.js"
+
 import { messages } from "../../../../messages.js"
 import "../../../../utilities/messageSyntax.js"
 
-enumRegistry(messages.command.leave, async (origin, args) => {
+let cooldowns = new Map()
+EnumRegistry(messages.command.leave, async (origin, args) => {
   const player = origin.sourceEntity
   const teams = db.fetch("team", true)
+  const setting = db.fetch("bedrockteams:setting")
+
+  // Cooldown
+  const cooldown = cooldowns.get(player.id)
+  if(cooldown?.tick >= system.currentTick) {
+    return player.sendMessage(`§c${messages.CommandCooldown.replaceAll("{0}", (cooldown.tick - system.currentTick) / 20)}`)
+  } else {
+    cooldowns.set(player.id, {tick: system.currentTick + setting.commands["cooldown"]*20})
+  }
   
   if(!player.hasTeam()) return player.sendMessagr(messageSyntax(messages.inTeam))
   let team = teams.find(team => team.name === player.hasTeam().name)
@@ -24,7 +34,7 @@ enumRegistry(messages.command.leave, async (origin, args) => {
   })
   
   // Global Announcement
-  if(config.BedrockTeams.announceTeamLeave) {
+  if(setting.teams["announceTeamLeave"]) {
     world.getPlayers().forEach(p => {
       p.sendMessage(messageSyntax(messages.announce.leave.replace("{0}", player.name).replace("{1}", specifiedTeam.name)))
     })

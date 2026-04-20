@@ -1,8 +1,3 @@
-import {
-  system
-} from "@minecraft/server";
-import { config } from "../config.js"
-
 export let enumFunctions = {}
 export let enumAdminFunctions = {}
 export let enumAdminNames = []
@@ -13,7 +8,7 @@ export function enumAdminRegistry(enumName, func) {
   enumAdminNames.push(enumName)
 }
 
-export function enumRegistry(enumName, func) {
+export function EnumRegistry(enumName, func) {
   enumFunctions[enumName] = func
   enumNames.push(enumName)
 }

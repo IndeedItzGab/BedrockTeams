@@ -1,11 +1,12 @@
-import { ActionFormData, MessageFormData, ModalFormData} from "@minecraft/server-ui"
+import { ActionFormData } from "@minecraft/server-ui"
 import { world, system } from "@minecraft/server"
 import * as db from "../../utilities/DatabaseHandler.js"
 import { messages } from "../../messages.js"
-import { config } from "../../config"
+import { ui } from "../Handler.js"
 import "../../utilities/messageSyntax.js"
+import { DefaultWarpsList } from "./DefaultWarpsList.js"
 
-globalThis.membersListGUI = (player, teamId, type) => {
+export function DefaultMemberList(player,teamId,type) {
   const teams = db.fetch("team", true)
   const team = teams.find(t => t.id === teamId)
   const form = new ActionFormData()
@@ -34,16 +35,16 @@ globalThis.membersListGUI = (player, teamId, type) => {
   }
 
   form.show(player).then(res => {
-    if(res.canceled) return;
-    memberInfoGUI(player, membersList[res.selection], type)
+    if(res.canceled) return ui.DefaultTeamHome(player, team.id, type);
+    SubMemberInfo(player, membersList[res.selection], type)
   })
 
 }
 
-function memberInfoGUI(player, targetName, type) {
-  console.info(type)
+function SubMemberInfo(player, targetName, type) {
   const teams = db.fetch("team", true)
   const team = teams.find(t => t.name === player.hasTeam().name)
+  const setting = db.fetch("bedrockteams:setting")
   const form = new ActionFormData()
   .title(targetName)
   if(type === "owner") {
@@ -56,7 +57,7 @@ function memberInfoGUI(player, targetName, type) {
   }
 
   form.show(player).then(res => {
-    if(res.canceled) return;
+    if(res.canceled) return DefaultWarpsList(player, team.id, type);
     const targetPlayer = world.getPlayers().find(player => player.name.toLowerCase() === targetName.toLowerCase())
     const specifiedMember = team.members.find(m => m.name === targetName.toLowerCase())
           
@@ -64,7 +65,7 @@ function memberInfoGUI(player, targetName, type) {
       switch(res.selection) {
         case 0: // PROMOTE
           if(team.leader.some(l => l.name === args.toLowerCase())) return player.sendMessage(messageSyntax(messages.promote.max))
-          if(config.BedrockTeams.singleOwner && specifiedMember.rank === "admin") return player.sendMessage(messageSyntax(messages.setowner.use))
+          if(setting.teams["singleOwner"] && specifiedMember.rank === "admin") return player.sendMessage(messageSyntax(messages.setowner.use))
           if(specifiedMember.rank === "default" && player.teamPerks().maxAdmins < team.members.filter(m => m.rank === "admin").length + 1) return player.sendMessage(messageSyntax(messages.promote.maxAdmins))
           if(specifiedMember.rank === "admin" && player.teamPerks().maxOwners < team.leader.length + 1) return player.sendMessage(messageSyntax(messages.promote.maxOwners))
         

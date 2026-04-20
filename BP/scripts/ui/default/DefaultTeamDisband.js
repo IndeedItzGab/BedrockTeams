@@ -1,11 +1,11 @@
-import { ActionFormData, MessageFormData, ModalFormData} from "@minecraft/server-ui"
+import { MessageFormData } from "@minecraft/server-ui"
 import { world, system } from "@minecraft/server"
 import * as db from "../../utilities/DatabaseHandler.js"
-import { config } from "../../config.js"
 import { messages } from "../../messages.js"
 import "../../utilities/messageSyntax.js"
+import { ui } from "../Handler.js"
 
-globalThis.teamDisbandGUI = (player) => {
+export function DefaultTeamDisband(player) {
   const form = new MessageFormData()
   .title("Disband the team")
   .body("Are you sure you want to disband the team?")
@@ -13,9 +13,10 @@ globalThis.teamDisbandGUI = (player) => {
   .button2("Yes")
 
   form.show(player).then(async (res) => {
-    if(res.canceled || res.selection === 0) return;
+    if(res.canceled || res.selection === 0) return ui.DefaultTeamHome(player, player.hasTeam().id, "owner");
 
     let teams = db.fetch("team", true)
+    const setting = db.fetch("bedrockteams:setting")
     await db.store("team", teams.filter(t => t.name !== player.hasTeam().name))
     updateDisplayTop()
     system.run(async () => {
@@ -27,7 +28,7 @@ globalThis.teamDisbandGUI = (player) => {
       })
       
       // Global Announcement
-      if(config.BedrockTeams.announceTeamDisband) {
+      if(setting.teams["announceTeamDisband"]) {
         world.getPlayers().forEach(p => {
           p.sendMessage(messageSyntax(messages.announce.disband.replace("{0}", team.name)))
         })

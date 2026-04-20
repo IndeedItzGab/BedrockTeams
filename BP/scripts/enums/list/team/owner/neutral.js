@@ -1,17 +1,25 @@
 import { world, system } from "@minecraft/server"
-import { enumRegistry } from "../../../enumRegistry.js"
+import { EnumRegistry } from "../../../EnumRegistry.js"
 import * as db from "../../../../utilities/DatabaseHandler.js"
-import { config } from "../../../../config.js"
 import { messages } from "../../../../messages.js"
 import "../../../../utilities/messageSyntax.js"
 
-enumRegistry(messages.command.neutral, (origin, args) => {
+let cooldowns = new Map()
+EnumRegistry(messages.command.neutral, (origin, args) => {
   const player = origin.sourceEntity
   if(!player.hasTeam()) return player.sendMessage(messageSyntax(messages.inTeam))
   if(!player.isLeader()) return player.sendMessage(messageSyntax(messages.description.noPerm))
-  
-  if(!args) return player.sendMessage(`/${config.commands.namespace}:team ${messages.command.neutral} ${messages.helpArg.neutral}`)
-  
+  if(!args) return player.sendMessage(`/team ${messages.command.neutral} ${messages.helpArg.neutral}`)
+  const setting = db.fetch("bedrockteams:setting")
+
+  // Cooldown
+  const cooldown = cooldowns.get(player.id)
+  if(cooldown?.tick >= system.currentTick) {
+    return player.sendMessage(`§c${messages.CommandCooldown.replaceAll("{0}", (cooldown.tick - system.currentTick) / 20)}`)
+  } else {
+    cooldowns.set(player.id, {tick: system.currentTick + setting.commands["cooldown"]*20})
+  }
+    
   let teams = db.fetch("team", true)
   let alliances = db.fetch("alliances", true)
   let allyReqData = db.fetch("allyReq", true)

@@ -1,7 +1,6 @@
 import { world, system, Player } from "@minecraft/server"
-import { enumAdminRegistry } from "../../enumRegistry.js"
+import { enumAdminRegistry } from "../../EnumRegistry.js"
 import * as db from "../../../utilities/DatabaseHandler.js"
-import { config } from "../../../config.js"
 import { messages } from "../../../messages.js"
 import "../../../utilities/messageSyntax.js"
 import "../../../utilities/updateDisplayTop.js"
@@ -9,8 +8,9 @@ import "../../../utilities/updateDisplayTop.js"
 enumAdminRegistry(messages.command.disband, async (origin, firstArgs) => {
   const player = origin.sourceEntity
   if(!(player instanceof Player)) return;
+  const setting = db.fetch("bedrockteams:setting")
 
-  if(!firstArgs) return player.sendMessage(messageSyntax(`/${config.commands.namespace}:teamadmin ${messages.command.disband} ${messages.helpArg.admin.disband}`))
+  if(!firstArgs) return player.sendMessage(messageSyntax(`/teamadmin ${messages.command.disband} ${messages.helpArg.admin.disband}`))
   const teams = db.fetch("team", true)
   const team = teams.find(team => team.name.toLowerCase() === firstArgs.toLowerCase())
   if(!team) return player.sendMessage(messageSyntax(messages.noTeam))
@@ -21,7 +21,7 @@ enumAdminRegistry(messages.command.disband, async (origin, firstArgs) => {
   })
 
   // Global Announcement
-  if(config.BedrockTeams.announceTeamDisband) {
+  if(setting.teams["announceTeamDisband"]) {
     world.getPlayers().forEach(p => {
       p.sendMessage(messageSyntax(messages.announce.disband.replace("{0}", team.name)))
     })

@@ -1,7 +1,7 @@
-import { config } from "./config.js"
+
 
 export const messages = {
-  
+  singleOwnerOnlyCommand: "§4This command is not available.",
   invalidArg: '§4Invalid Arguments, help',
   inTeam: '§4You must be in a team to do that',
   internalError: '§4Something went wrong while executing that command, please report it to the developer.',

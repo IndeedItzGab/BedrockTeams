@@ -1,7 +1,6 @@
-import { world, system, Player } from "@minecraft/server"
-import { enumAdminRegistry } from "../../enumRegistry.js"
+import { world, Player } from "@minecraft/server"
+import { enumAdminRegistry } from "../../EnumRegistry.js"
 import * as db from "../../../utilities/DatabaseHandler.js"
-import { config } from "../../../config.js"
 import { messages } from "../../../messages.js"
 import "../../../utilities/messageSyntax.js"
 
@@ -9,7 +8,7 @@ enumAdminRegistry(messages.command.promote, async (origin, args) => {
   const player = origin.sourceEntity
   if (!(player instanceof Player)) return 1
 
-  if(!args) return player.sendMessage(messageSyntax(`/${config.commands.namespace}:teamadmin ${messages.command.promote} ${messages.helpArg.admin.promote}`))
+  if(!args) return player.sendMessage(messageSyntax(`/teamadmin ${messages.command.promote} ${messages.helpArg.admin.promote}`))
 
   const targetPlayer = world.getPlayers().find(player => player.name.toLowerCase() === args.toLowerCase())
 
@@ -19,10 +18,10 @@ enumAdminRegistry(messages.command.promote, async (origin, args) => {
   const playerExist = db.fetch("teamPlayerList", true).some(p => p.name?.toLowerCase() === args?.toLowerCase())
   
   if(!playerExist) return player.sendMessage(messageSyntax(messages.noPlayer))
-  let perks = config.BedrockTeams.levels.filter(d => !d?.price || d.price <= team.score).reduce((acc, cur) => {
+  let perks = setting.teams["levels"].filter(d => !d?.price || d.price <= team.score).reduce((acc, cur) => {
     return (!acc || (cur.price > acc.price)) ? cur : acc;
   }, null)
-  if(config.BedrockTeams.singleOwner && specifiedMember.rank === "admin") return player.sendMessage(messageSyntax(messages.admin.promote.owner))
+  if(setting.teams["singleOwner"] && specifiedMember.rank === "admin") return player.sendMessage(messageSyntax(messages.admin.promote.owner))
   if(specifiedMember.rank === "default" && perks?.maxAdmins <= team.members.filter(m => m.rank === "admin").length) return player.sendMessage(messageSyntax(messages.admin.promote.maxAdmins))
   if(specifiedMember.rank === "admin" && perks?.maxOwners <= team.leader.length) return player.sendMessage(messageSyntax(messages.admin.promote.maxOwners))
   if(team.leader.some(m => m.name === specifiedMember.name)) return player.sendMessage(messageSyntax(messages.admin.promote.max))

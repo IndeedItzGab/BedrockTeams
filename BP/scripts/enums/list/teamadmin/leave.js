@@ -9,6 +9,7 @@ enumAdminRegistry(messages.command.leave, async (origin, firstArgs) => {
   if (!(player instanceof Player)) return 1
   if(!firstArgs) return player.sendMessage(messageSyntax(`/teamadmin ${messages.command.leave} ${messages.helpArg.admin.leave}`))
 
+  const setiing = db.fetch("bedrockteams:setting")
   const teams = db.fetch("team", true)
   const team = teams.find(team => team.members.some(member => member.name.toLowerCase() === firstArgs.toLowerCase()) || team.leader.some(leader => leader.name.toLowerCase() === firstArgs.toLowerCase()))
   const targetPlayer = world.getPlayers().find(p => p.name.toLowerCase() === firstArgs.toLowerCase())

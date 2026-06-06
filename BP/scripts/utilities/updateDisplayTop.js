@@ -4,7 +4,7 @@ import { messages } from "../messages.js"
 
 globalThis.updateDisplayTop = () => {
   const setting = db.fetch("bedrockteams:setting")
-  if(setting.teams["displayTopTeams"]) {
+  if(setting?.teams["displayTopTeams"]) {
     system.run(async () => {   
       let objectiveData = await world.scoreboard.getObjective("bedrockteams:displayTop")
       objectiveData ? await world.scoreboard.removeObjective("bedrockteams:displayTop") : null

@@ -8,11 +8,13 @@ world.beforeEvents.chatSend.subscribe((event) => {
   const teams = db.fetch("team", true)
   const team = player.hasTeam()
   const message = event.message
+  const setting = db.fetch("bedrockteams:setting")
   
   if(!team) {
     if(player.hasTag("chat:team")) return player.removeTag("chat:team")
     return;
   } 
+
   
   if(player.hasTag("chat:team")) {
     let rank = player.isLeader() ? messages.prefix.owner : player.isAdmin() ? messages.prefix.admin : messages.prefix.default
@@ -42,9 +44,9 @@ world.beforeEvents.chatSend.subscribe((event) => {
       })
     }
   } else {
-    const color = !setting.teams["colorTeamName"] ? "" : team?.color
+    const color = !setting?.teams["colorTeamName"] ? "" : team?.color
     world.sendMessage(`§i[§r§${color}${team?.name}§i]§r <${player.name}> ${message}`)
-    system.run(() => system.sendScriptEvent("discordcc:sendChat", JSON.stringify({message: {content: message}, username: `[${team?.name}] ${player.name}`})))
+    system.run(() => system.sendScriptEvent("discordcc:webhookSend", JSON.stringify({content: message, username: `[${team?.name}] ${player.name}`, avatar_url: "https://raw.githubusercontent.com/IndeedItzGab/DiscordCC/refs/heads/main/docs/images/steve.jpg"})))
   }
   event.cancel = true
 })

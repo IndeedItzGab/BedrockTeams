@@ -68,3 +68,9 @@ BedrockTeams V1.1.7
 - Some adjustment with the user interface.
 - Fixed issue where wrong team were selected on the user interface (reported by @starwarguy)
 - Fixed issue where a team could be created regardless of limitation through user interface.
+
+BedrockTeams V1.1.8
+- Added support to the latest DiscordCC.
+- Fixed some issues where some features are not working due to missing variable.
+- New package icon
+- Updated Copyright license

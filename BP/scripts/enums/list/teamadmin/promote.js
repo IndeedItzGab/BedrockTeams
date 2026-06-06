@@ -12,6 +12,7 @@ enumAdminRegistry(messages.command.promote, async (origin, args) => {
 
   const targetPlayer = world.getPlayers().find(player => player.name.toLowerCase() === args.toLowerCase())
 
+  const setiing = db.fetch("bedrockteams:setting")
   let teams = db.fetch("team", true);
   let team = teams.find(t => t.members.some(m => m.name === args.toLowerCase())) || teams.find(t => t.leader.some(l => l.name === args.toLowerCase()))
   let specifiedMember = team?.members.find(m => m.name === args.toLowerCase())

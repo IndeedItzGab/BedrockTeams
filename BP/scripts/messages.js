@@ -22,7 +22,7 @@ export const messages = {
     header: "§l§bTOP TEAMS",
     body: "§{0}{1} §7({2})"
   },
-  cooldown: { // ALL OF THESE ARE NOT IMPLEMENTED!
+  cooldown: { 
     wait: '§4You need to wait another {0} seconds before running that!',
   },
   cost: { // ALL OF THESE ARE NOT IMPLEMENTED!

@@ -2,8 +2,5 @@ name: BedrockTeams
 version: V1.1.8
 status: STABLE
 message: |
-  # BedrockTeams V1.1.8
-  - Added support to the latest [DiscordCC](https://www.curseforge.com/minecraft-bedrock/scripts/discordcc).
-  - Fixed some issues where some features are not working due to missing variable.
-  - New package icon
-  - Updated Copyright license
+  # BedrockTeams V1.1.81
+  - Fixed minor issue where commands return an error message after using it quickly.

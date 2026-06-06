@@ -12,7 +12,7 @@ EnumRegistry(messages.command.invite, (origin, args) => {
   // Cooldown
   const cooldown = cooldowns.get(player.id)
   if(cooldown?.tick >= system.currentTick) {
-    return player.sendMessage(`§c${messages.CommandCooldown.replaceAll("{0}", (cooldown.tick - system.currentTick) / 20)}`)
+    return player.sendMessage(`§c${messages.cooldown.wait.replaceAll("{0}", (cooldown.tick - system.currentTick) / 20)}`)
   } else {
     cooldowns.set(player.id, {tick: system.currentTick + setting.commands["cooldown"]*20})
   }

@@ -1,6 +1,7 @@
 name: BedrockTeams
-version: V1.1.8
+version: V1.1.9
 status: STABLE
 message: |
-  # BedrockTeams V1.1.81
-  - Fixed minor issue where commands return an error message after using it quickly.
+  # BedrockTeams V1.1.9
+  - Removed command cooldown for **/team chat**, **/team allychat**, **/team disband**
+  - Added [EssentialCC](<https://www.curseforge.com/minecraft-bedrock/scripts/essentialcc>) ranking/role system compatibility support

@@ -1,5 +1,6 @@
 import {
-  system
+  system,
+  world
 } from "@minecraft/server";
 
 import { enumNames, enumAdminNames } from "../enums/EnumRegistry.js"

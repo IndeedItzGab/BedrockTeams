@@ -4,20 +4,13 @@ import * as db from "../../../../utilities/DatabaseHandler.js"
 import { messages } from "../../../../messages.js"
 import "../../../../utilities/messageSyntax.js"
 import "../../../../utilities/updateDisplayTop.js"
+import { TagHandler } from "../../../../utilities/TagHandler.js"
 
-let cooldowns = new Map()
 EnumRegistry(messages.command.disband, async (origin, args) => {
   const player = origin.sourceEntity
   let teams = db.fetch("team", true)
   const setting = db.fetch("bedrockteams:setting")
 
-  // Cooldown
-  const cooldown = cooldowns.get(player.id)
-  if(cooldown?.tick >= system.currentTick) {
-    return player.sendMessage(`§c${messages.cooldown.wait.replaceAll("{0}", (cooldown.tick - system.currentTick) / 20)}`)
-  } else {
-    cooldowns.set(player.id, {tick: system.currentTick + setting.commands["cooldown"]*20})
-  }
   
 
   if(!player.hasTeam()) return player.sendMessage(messageSyntax(messages.inTeam))
@@ -31,10 +24,11 @@ EnumRegistry(messages.command.disband, async (origin, args) => {
       player.nameTag = player.name
       player.removeTag(`deleteTeamQuery`)
       const team = teams.find(d => d.leader.some(l => l.name === player.name.toLowerCase()))
-      team.members.concat(team.leader).forEach(member => {
+
+      for(const member of team.members.concat(team.leader)) {
         const p = world.getPlayers().find(p => p.name.toLowerCase() === member.name.toLowerCase())
-        p ? p.nameTag = p.name : null
-      })
+        TagHandler.remove(p?.id)
+      }
       
       // Global Announcement
       if(setting.teams["announceTeamDisband"]) {

@@ -2,6 +2,7 @@ import { system } from "@minecraft/server"
 import { EnumRegistry } from "../../../EnumRegistry.js"
 import * as db from "../../../../utilities/DatabaseHandler.js"
 import { messages } from "../../../../messages.js"
+import { TagHandler } from "../../../../utilities/TagHandler.js"
 import "../../../../utilities/messageSyntax.js"
 import "../../../../utilities/updateDisplayTop.js"
 
@@ -56,11 +57,8 @@ EnumRegistry(messages.command.create, async (origin, args) => {
     banned: [],
     members: []
   })
-  
-  system.run(() => {
-    player.nameTag = `§${setting.teams["defaultColor"]}${args.replace("/§[1234567890abcdefklmnori]/g", "")}§r ${player.name}`
-  })
-  
+
+  TagHandler.add(player.id, `§${setting.teams["defaultColor"]}${args.replace("/§[1234567890abcdefklmnori]/g", "")}§r`)
   player.sendMessage(messageSyntax(messages.create.success))
   await db.store("team", teams)
   updateDisplayTop()

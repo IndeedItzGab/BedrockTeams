@@ -2,11 +2,10 @@ import { world, system } from "@minecraft/server"
 import { EnumRegistry } from "../../../EnumRegistry.js"
 import * as db from "../../../../utilities/DatabaseHandler.js"
 import { messages } from "../../../../messages.js"
-import { TagHandler } from "../../../../utilities/TagHandler.js"
 import "../../../../utilities/messageSyntax.js"
 
 let cooldowns = new Map()
-EnumRegistry(messages.command.ban, async (origin, args) => {
+EnumRegistry(messages.command.claim, async (origin, args) => {
   const player = origin.sourceEntity
   const setting = db.fetch("bedrockteams:setting")
 
@@ -18,29 +17,44 @@ EnumRegistry(messages.command.ban, async (origin, args) => {
     cooldowns.set(player.id, {tick: system.currentTick + setting.commands["cooldown"]*20})
   }
 
-  if(!args) return player.sendMessage(messageSyntax(`/team ${messages.command.ban} ${messages.helpArg.ban}`))
-  const targetPlayer = world.getPlayers().find(player => player.name?.toLowerCase() === args?.toLowerCase())
   const teams = db.fetch("team", true)
-  const playerExist = db.fetch("teamPlayerList", true).some(p => p.name?.toLowerCase() === args?.toLowerCase())
 
   if(!player.hasTeam()) return player.sendMessage(messageSyntax(messages.inTeam))
   if(!player.isAdmin()) return player.sendMessage(messageSyntax(messages.needAdmin))
-  if(player.hasTeam()?.banned.some(member => member.name === args?.toLowerCase())) return player.sendMessage(messageSyntax(messages.ban.already))
-  if(!playerExist && !targetPlayer) return player.sendMessage(messageSyntax(messages.noPlayer))
-  if(playerExist && !player.hasTeam().members.some(member => member.name === args?.toLowerCase())) return player.sendMessage(messageSyntax(messages.needSameTeam))
 
   let team = teams.find(team => team.name === player.hasTeam().name)
   if(team.members.concat(team.leader).some(l => l.name === args.toLowerCase() && (!l.rank || l.rank === "admin"))) return player.sendMessage(messageSyntax(messages.ban.noPerm))
 
+  // Listing a claim
+  system.sendScriptEvent("landlocker:claimlist", JSON.stringify({
+    d: {
+      name: team.name // Group name of the claim list
+    }
+   }))
 
-  team.members = team.members.filter(member => member.name !== args?.toLowerCase())
-  team.banned.push({
-    name: args?.toLowerCase()
-  })
+  // Deleting a claim
+  system.sendScriptEvent("landlocker:abandonclaim", JSON.stringify({
+    d: {
+      x: player.location.x,
+      z: player.location.z
+    }
+  }))
+
+  // Claiming a claim
+  system.sendScriptEvent("landlocker:claim", JSON.stringify({
+    d: {
+      radius: Math.min(4, args ?? 4)
+    }
+  }))
   
-  
-  TagHandler.remove(targetPlayer.id)
-  targetPlayer?.sendMessage(messageSyntax(messages.ban.notify.replace("{0}", player.hasTeam().name)))
+  system.sendScriptEvent("landlocker:claimexplosion", JSON.stringify({
+    d: {
+      enable: true,
+      location: {
+        
+      }
+    }
+  }))
   player.sendMessage(messageSyntax(messages.ban.success))
   await db.store("team", teams)
   return 0

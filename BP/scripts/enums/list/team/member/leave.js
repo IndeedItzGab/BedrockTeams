@@ -1,7 +1,7 @@
 import { world, system } from "@minecraft/server"
 import { EnumRegistry } from "../../../EnumRegistry.js"
 import * as db from "../../../../utilities/DatabaseHandler.js"
-
+import { TagHandler } from "../../../../utilities/TagHandler.js"
 import { messages } from "../../../../messages.js"
 import "../../../../utilities/messageSyntax.js"
 
@@ -28,18 +28,16 @@ EnumRegistry(messages.command.leave, async (origin, args) => {
   } else {
     team.members = team.members.filter(member => member.name !== player.name.toLowerCase())
   }
-  
-  system.run(() => {
-    player.nameTag = player.name
-  })
-  
+
+
   // Global Announcement
   if(setting.teams["announceTeamLeave"]) {
     world.getPlayers().forEach(p => {
       p.sendMessage(messageSyntax(messages.announce.leave.replace("{0}", player.name).replace("{1}", specifiedTeam.name)))
     })
   }
-  
+
+  TagHandler.remove(player.id)
   player.sendMessage(messageSyntax(messages.leave.success))
   await db.store("team", teams)
   return 0

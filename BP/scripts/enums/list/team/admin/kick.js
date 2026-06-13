@@ -2,6 +2,7 @@ import { world, system } from "@minecraft/server"
 import { EnumRegistry } from "../../../EnumRegistry.js"
 import * as db from "../../../../utilities/DatabaseHandler.js"
 import { messages } from "../../../../messages.js"
+import { TagHandler } from "../../../../utilities/TagHandler.js"
 import "../../../../utilities/messageSyntax.js"
 
 let cooldowns = new Map()
@@ -32,10 +33,7 @@ EnumRegistry(messages.command.kick, async (origin, args) => {
   
   team.members = team.members.filter(member => member.name !== args.toLowerCase())
   
-  system.run(() => {
-    targetPlayer && (targetPlayer.nameTag = targetPlayer.name);
-  })
-  
+  TagHandler.remove(targetPlayer.id)
   targetPlayer?.sendMessage(messageSyntax(messages.kick.notify.replace("{0}", team.name)))
   player.sendMessage(messageSyntax(messages.kick.success))
   await db.store("team", teams)

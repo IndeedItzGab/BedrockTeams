@@ -9,44 +9,50 @@ world.beforeEvents.chatSend.subscribe((event) => {
   const team = player.hasTeam()
   const message = event.message
   const setting = db.fetch("bedrockteams:setting")
-  
-  if(!team) {
-    if(player.hasTag("chat:team")) return player.removeTag("chat:team")
-    return;
-  } 
 
-  
-  if(player.hasTag("chat:team")) {
-    let rank = player.isLeader() ? messages.prefix.owner : player.isAdmin() ? messages.prefix.admin : messages.prefix.default
-    const setting = db.fetch("bedrockteams:setting")
-    team.members.concat(team.leader).forEach(member => {
-      world.getPlayers().find(p => p.name.toLowerCase() === member.name.toLowerCase())?.sendMessage(messages.chat.syntax.replace("{0}", rank + player.name).replace("{1}", message))
-    })
-    world.getPlayers().filter(p => p.hasTag("bedrockteams:chatspy")).forEach(p => {
-      // Admin chat spy
-      p.sendMessage(messages.spy.team.replace("{0}", setting.teams["chatName"]).replace("{1}", rank + player.name).replace("{2}", message))
-    })
-  } else if(player.hasTag("chat:ally")) {
-    const alliances = db.fetch("alliances", true)
-    const allyTeams = alliances.filter(a => a.teams.includes(team.name))
-    let rank = player.isLeader() ? messages.prefix.owner : player.isAdmin() ? messages.prefix.admin : messages.prefix.default
-    team.members.concat(team.leader).forEach(member => {
-      world.getPlayers().find(p => p.name.toLowerCase() === member.name)?.sendMessage(messages.allychat.syntax.replace("{0}", team.name).replace("{1}", rank + player.name).replace("{2}", message))
-    })
-    world.getPlayers().filter(p => p.hasTag("bedrockteams:chatspy")).forEach(p => {
-      // Admin chat spy
-      p.sendMessage(messages.spy.ally.replace("{0}", setting.teams["chatName"]).replace("{1}", rank + player.name).replace("{2}", message))
-    })
-    for(const d of teams) {
-      if(d.name === team.name || !allyTeams.some(a => a.teams.includes(d.name))) continue;
-      d.members.concat(d.leader).forEach(m => {
-        world.getPlayers().find(p => p.name.toLowerCase() === m.name.toLowerCase())?.sendMessage(messages.allychat.syntax.replace("{0}", team.name).replace("{1}", rank + player.name).replace("{2}", message))
-      })
+  if(!team) {
+    player.setDynamicProperty("bedrockteams:chatMode", null)
+    return;
+  }
+
+  const chatMode = player.getDynamicProperty("bedrockteams:chatMode")
+  const rank = player.isLeader() ? messages.prefix.owner : player.isAdmin() ? messages.prefix.admin : messages.prefix.default
+  switch(chatMode) {
+    case "team": {
+      for(const member of team.members.concat(team.leader)) {
+        world.getPlayers().find(p => p.name.toLowerCase() === member.name.toLowerCase())?.sendMessage(messages.chat.syntax.replace("{0}", rank + player.name).replace("{1}", message))
+      }
+
+      for(const admin of world.getPlayers().filter(p => p.getDynamicProperty("bedrockteams:chatspy"))) {
+        admin.sendMessage(messages.spy.team.replace("{0}", setting.teams["chatName"]).replace("{1}", rank + player.name).replace("{2}", message))
+      }
+      break;
     }
-  } else {
-    const color = !setting?.teams["colorTeamName"] ? "" : team?.color
-    world.sendMessage(`§i[§r§${color}${team?.name}§i]§r <${player.name}> ${message}`)
-    system.run(() => system.sendScriptEvent("discordcc:webhookSend", JSON.stringify({content: message, username: `[${team?.name}] ${player.name}`, avatar_url: "https://raw.githubusercontent.com/IndeedItzGab/DiscordCC/refs/heads/main/docs/images/steve.jpg"})))
+    case "ally": {
+      const alliances = db.fetch("alliances", true)
+      const allyTeams = alliances.filter(a => a.teams.includes(team.name))
+
+      for(const member of team.members.concat(team.leader)) {
+        world.getPlayers().find(p => p.name.toLowerCase() === member.name)?.sendMessage(messages.allychat.syntax.replace("{0}", team.name).replace("{1}", rank + player.name).replace("{2}", message))
+      }
+
+      for(const admin of world.getPlayers().filter(p => p.getDynamicProperty("bedrockteams:chatspy"))) {
+        admin.sendMessage(messages.spy.ally.replace("{0}", setting.teams["chatName"]).replace("{1}", rank + player.name).replace("{2}", message))
+      }
+
+      for(const d of teams) {
+        if(d.name === team.name || !allyTeams.some(a => a.teams.includes(d.name))) continue;
+        for(const member of d.members.concat(d.leader)) {
+          world.getPlayers().find(p => p.name.toLowerCase() === member.name.toLowerCase())?.sendMessage(messages.allychat.syntax.replace("{0}", team.name).replace("{1}", rank + player.name).replace("{2}", message))
+        }
+      }
+      break;
+    }
+    default: {
+      const color = !setting?.teams["colorTeamName"] ? "" : team?.color
+      world.sendMessage(`§i[§r§${color}${team?.name}§i]§r <${player.chatNamePrefix}${player.name}§r> ${message}`) // Added EssentialCC ranking system
+      system.run(() => system.sendScriptEvent("discordcc:webhookSend", JSON.stringify({content: message, username: `[${team?.name}] ${player.name}`, avatar_url: "https://raw.githubusercontent.com/IndeedItzGab/DiscordCC/refs/heads/main/docs/images/steve.jpg"})))
+    }
   }
   event.cancel = true
 })

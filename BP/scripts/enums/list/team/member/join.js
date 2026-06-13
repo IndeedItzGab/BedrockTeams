@@ -2,6 +2,7 @@ import { world, system } from "@minecraft/server"
 import { EnumRegistry } from "../../../EnumRegistry.js"
 import * as db from "../../../../utilities/DatabaseHandler.js"
 import { messages } from "../../../../messages.js"
+import { TagHandler } from "../../../../utilities/TagHandler.js"
 import "../../../../utilities/messageSyntax.js"
 
 let cooldowns = new Map()
@@ -38,7 +39,6 @@ EnumRegistry(messages.command.join, async (origin, args) => {
 
   const color = !setting.teams["colorTeamName"] ? setting.teams["defaulColor"] : specifiedTeam.color
   system.run(() => {
-    player.nameTag = `§${color}${specifiedTeam.tag}§r ${player.name}`
     teamTag ? player?.removeTag(teamTag) : null
   })
   
@@ -48,7 +48,8 @@ EnumRegistry(messages.command.join, async (origin, args) => {
       p.sendMessage(messageSyntax(messages.announce.join.replace("{0}", player.name).replace("{1}", specifiedTeam.name)))
     })
   }
-  
+
+  TagHandler.add(player.id, `§${color}${specifiedTeam.tag}§r`)
   player.sendMessage(messageSyntax(messages.join.success))
   await db.store("team", teams)
   return 0

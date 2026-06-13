@@ -74,3 +74,8 @@ BedrockTeams V1.1.8
 - Fixed some issues where some features are not working due to missing variable.
 - New package icon
 - Updated Copyright license
+
+- Removed command cooldown for `/team chat`, `/team allychat`, `/team disband`
+- Added [EssentialCC](<https://www.curseforge.com/minecraft-bedrock/scripts/essentialcc>) ranking/role system compatibility support
+
+- Implemented team claiming with [LandLocker](<>) as dependency. Suggested from [here](<>)

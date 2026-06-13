@@ -5,44 +5,35 @@ import "../../../../utilities/chatColor.js"
 import { messages } from "../../../../messages.js"
 import "../../../../utilities/messageSyntax.js"
 
-let cooldowns = new Map()
 EnumRegistry(messages.command.chat, (origin, args) => {
   const player = origin.sourceEntity
   let teams = db.fetch("team", true)
   const setting = db.fetch("bedrockteams:setting")
-
-  // Cooldown
-  const cooldown = cooldowns.get(player.id)
-  if(cooldown?.tick >= system.currentTick) {
-    return player.sendMessage(`§c${messages.cooldown.wait.replaceAll("{0}", (cooldown.tick - system.currentTick) / 20)}`)
-  } else {
-    cooldowns.set(player.id, {tick: system.currentTick + setting.commands["cooldown"]*20})
-  }
   
   if(!player.hasTeam()) return player.sendMessage(messageSyntax(messages.inTeam))
   
   let team = teams.find(team => team.name === player.hasTeam().name)
   if(!args) {
     if(!setting.teams["allowToggleTeamChat"]) return player.sendMessage(`/team ${messages.command.chat} ${messages.helpArg.chat}`)
-    const tag = player.hasTag("chat:team")
-    system.run(() => {
-      if(tag) {
-        player.removeTag("chat:team")
-      } else {
-        player.removeTag("chat:ally")
-        player.addTag("chat:team")
-      }
-    })
-    player.sendMessage(messageSyntax(tag ? messages.chat.disabled : messages.chat.enabled));
+    const mode = player.getDynamicProperty("bedrockteams:chatMode") === "team"
+
+    if(mode) {
+      player.setDynamicProperty("bedrockteams:chatMode", null)
+    } else {
+      player.setDynamicProperty("bedrockteams:chatMode", "team")
+    }
+
+    player.sendMessage(messageSyntax(mode ? messages.chat.disabled : messages.chat.enabled));
   } else {
     let rank = player.isLeader() ? messages.prefix.owner : player.isAdmin() ? messages.prefix.admin : messages.prefix.default
-    team.members.concat(team.leader).forEach(member => {
-      world.getPlayers().find(p => p.name.toLowerCase() === member.name)?.sendMessage(messages.chat.syntax.replace("{0}", rank + player.name).replace("{1}", args))
-    })
-    world.getPlayers().filter(p => p.hasTag("bedrockteams:chatspy")).forEach(p => {
-      // Admin chat spy
-      p.sendMessage(messages.spy.team.replace("{0}", setting.teams["chatName"]).replace("{1}", rank + player.name).replace("{2}", args))
-    })
+    
+    for(const member of team.members.concat(team.leader)) {
+      world.getPlayers().find(p => p.name.toLowerCase() === member.name.toLowerCase())?.sendMessage(messages.chat.syntax.replace("{0}", rank + player.name).replace("{1}", args))
+    }
+
+    for(const admin of world.getPlayers().filter(p => p.getDynamicProperty("bedrockteams:chatspy"))) {
+      admin.sendMessage(messages.spy.team.replace("{0}", setting.teams["chatName"]).replace("{1}", rank + player.name).replace("{2}", args))
+    }
   }
   
   return 0
